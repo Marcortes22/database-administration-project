@@ -14,7 +14,7 @@ export default function Page() {
               placeholder="Usuario"
             />
             <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-              <UserSvg className="w-5 h-5" />
+              <UserSvg className="w-7 h-7" />
             </div>
           </div>
 
@@ -26,7 +26,7 @@ export default function Page() {
               placeholder="Contraseña"
             />
             <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-              <PasswordSvg className="w-5 h-5" />
+              <PasswordSvg className="w-7 h-7" />
             </div>
           </div>
           <input
