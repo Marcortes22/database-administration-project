@@ -15,9 +15,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="../public/Assets/elephand.png" />
-      </head>
       <body>
         <SessionAuthProvider>{children}</SessionAuthProvider>
       </body>
