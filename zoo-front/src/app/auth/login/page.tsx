@@ -1,17 +1,30 @@
+'use client';
 import UserSvg from '@/Assets/Icons/user.svg';
 import PasswordSvg from '@/Assets/Icons/password.svg';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useLogin from '@/Hooks/Login/useLogin';
 
+// interface FormFields {
+//   username: string;
+//   password: string;
+// }
 export default function Page() {
+  const { onSubmit, setPassword, setUsername, username, password } = useLogin();
+
   return (
     <>
       <div className="bg-black p-3 opacity-75 rounded-lg text-stone-50">
-        <form className="flex flex-col gap-5">
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
           <div className="relative">
             <input
+              onChange={(e) => setUsername(e.target.value)}
               className="text-black pl-10 pr-4 py-2 border rounded-lg"
               type="text"
               name="username"
               placeholder="Usuario"
+              value={username}
             />
             <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
               <UserSvg className="w-7 h-7" />
@@ -20,10 +33,12 @@ export default function Page() {
 
           <div className="relative">
             <input
+              onChange={(e) => setPassword(e.target.value)}
               className="text-black pl-10 pr-4 py-2 border rounded-lg"
               type="password"
               name="password"
               placeholder="Contraseña"
+              value={password}
             />
             <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
               <PasswordSvg className="w-7 h-7" />
