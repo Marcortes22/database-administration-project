@@ -41,7 +41,7 @@ export default function useLogin() {
         },
       });
 
-      router.push('/');
+      router.push('/dashboard');
     }
   }
   return {
