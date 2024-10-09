@@ -116,7 +116,8 @@ Filegrowth= 8MB
 )to filegroup Auditorias
 go
 --FIN FileGroup
-
+use ZooMA
+go
 
 -- Creación de la tabla EstadoSalud
 CREATE TABLE EstadoSalud (
@@ -241,7 +242,7 @@ CREATE TABLE HabitacionEstadoHabitacion (
     IdHabitacion INT NOT NULL,
     IdEstadoHabitacion INT NOT NULL,
     CONSTRAINT FK_HabitacionEstadoHabitacion_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion),
-    CONSTRAINT FK_HabitacionEstadoHabitacion_IdEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) REFERENCES EstadoHabitación (IdEstadoHabitación)
+    CONSTRAINT FK_HabitacionEstadoHabitacion_IdEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) REFERENCES EstadoHabitacion (IdEstadoHabitacion)
 );
 
 -- Creación de la tabla MantenimientoHabitacion
