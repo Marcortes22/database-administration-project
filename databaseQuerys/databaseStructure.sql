@@ -338,23 +338,30 @@ CREATE TABLE VentaEntrada (
     IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     fechaventa DATE NOT NULL,
     horaventa TIME NOT NULL,
-    IdZoo INT NOT NULL,
+    IdEmpleado INT NOT NULL,
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
-    CONSTRAINT FK_VentaEntrada_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
+    CONSTRAINT FK_VentaEntrada_Empleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
     CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
 );
 
+CREATE TABLE Entrada(
+    IdEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    precio FLOAT NOT NULL,
+    descripcion VARCHAR(255) NOT NULL,
+    IdTipoEntrada INT NOT NULL,
+    CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada)
+)
+
 -- Creación de la tabla DetalleVenta
 CREATE TABLE DetalleVenta (
     IdDetalleVenta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    IdVentaEntrada INT NOT NULL,
-    IdTipoEntrada INT NOT NULL,
+    IdEntrada INT NOT NULL,
     Cantidad INT NOT NULL,
-    CONSTRAINT FK_DetalleVenta_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada),
-    CONSTRAINT FK_DetalleVenta_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada)
+    CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) REFERENCES Entrada (IdEntrada),
 );
+
 
 -- Creación de la tabla CalificacionVisita
 CREATE TABLE CalificacionVisita (
