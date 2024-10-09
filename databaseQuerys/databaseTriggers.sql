@@ -1,4 +1,4 @@
---Trigger
+--Parte 5: Trigger
 USE ZooMA
 GO
 
@@ -9,42 +9,42 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'ZOO';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'ZOO';
 
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad FROM inserted)
-       AND NOT EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad FROM deleted)
+    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM inserted)
+       AND NOT EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad, @User, GETDATE()
+        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @User, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad FROM inserted)
-       AND EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad FROM deleted)
+    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM inserted)
+       AND EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad, @User, GETDATE()
+        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @User, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad FROM deleted)
-       AND NOT EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad FROM inserted)
+    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM deleted)
+       AND NOT EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, Disponibilidad, @User, GETDATE()
+        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @User, GETDATE()
         FROM deleted;
     END
 END
@@ -60,9 +60,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Habitacion';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Habitacion';
 
     SET @User = SYSTEM_USER;
 
@@ -112,42 +112,42 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Animales';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Animales';
 
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo FROM inserted)
-       AND NOT EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo FROM deleted)
+    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM inserted)
+       AND NOT EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @User, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo FROM inserted)
-       AND EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo FROM deleted)
+    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM inserted)
+       AND EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @User, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo FROM deleted)
-       AND NOT EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo FROM inserted)
+    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM deleted)
+       AND NOT EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @User, GETDATE()
         FROM deleted;
     END
 END
@@ -164,9 +164,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Especies';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Especies';
 
     SET @User = SYSTEM_USER;
 
@@ -216,9 +216,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'EstadoSalud';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'EstadoSalud';
 
     SET @User = SYSTEM_USER;
 
@@ -268,9 +268,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Dieta';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Dieta';
 
     SET @User = SYSTEM_USER;
 
@@ -320,9 +320,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'TipoHabitacion';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'TipoHabitacion';
 
     SET @User = SYSTEM_USER;
 
@@ -361,107 +361,6 @@ BEGIN
 END
 GO
 
-USE ZooMA
-GO
-
-CREATE TRIGGER trg_Audit_Alimentos
-ON Alimentos
-AFTER INSERT, UPDATE, DELETE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Alimentos';
-
-    SET @User = SYSTEM_USER;
-
-    -- INSERT
-    IF EXISTS (SELECT IdAlimentos, NombreAli FROM inserted)
-       AND NOT EXISTS (SELECT IdAlimentos, NombreAli FROM deleted)
-    BEGIN
-        SET @Operacion = 'INSERT';
-
-        INSERT INTO Audit_Alimentos (NombreTabla, Operacion, IdAlimentos, NombreAli, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAlimentos, NombreAli, @User, GETDATE()
-        FROM inserted;
-    END
-
-    -- UPDATE
-    IF EXISTS (SELECT IdAlimentos, NombreAli FROM inserted)
-       AND EXISTS (SELECT IdAlimentos, NombreAli FROM deleted)
-    BEGIN
-        SET @Operacion = 'UPDATE';
-
-        INSERT INTO Audit_Alimentos (NombreTabla, Operacion, IdAlimentos, NombreAli, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAlimentos, NombreAli, @User, GETDATE()
-        FROM inserted;
-    END
-
-    -- DELETE
-    IF EXISTS (SELECT IdAlimentos, NombreAli FROM deleted)
-       AND NOT EXISTS (SELECT IdAlimentos, NombreAli FROM inserted)
-    BEGIN
-        SET @Operacion = 'DELETE';
-
-        INSERT INTO Audit_Alimentos (NombreTabla, Operacion, IdAlimentos, NombreAli, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAlimentos, NombreAli, @User, GETDATE()
-        FROM deleted;
-    END
-END
-GO
-
-USE ZooMA
-GO
-
-CREATE TRIGGER trg_Audit_DietaAlimentos
-ON DietaAlimentos
-AFTER INSERT, UPDATE, DELETE
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'DietaAlimentos';
-
-    SET @User = SYSTEM_USER;
-
-    -- INSERT
-    IF EXISTS (SELECT IdDietaAlimentos, IdDieta, IdAlimentos FROM inserted)
-       AND NOT EXISTS (SELECT IdDietaAlimentos, IdDieta, IdAlimentos FROM deleted)
-    BEGIN
-        SET @Operacion = 'INSERT';
-
-        INSERT INTO Audit_DietaAlimentos (NombreTabla, Operacion, IdDietaAlimentos, IdDieta, IdAlimentos, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdDietaAlimentos, IdDieta, IdAlimentos, @User, GETDATE()
-        FROM inserted;
-    END
-
-    -- UPDATE
-    IF EXISTS (SELECT IdDietaAlimentos, IdDieta, IdAlimentos FROM inserted)
-       AND EXISTS (SELECT IdDietaAlimentos, IdDieta, IdAlimentos FROM deleted)
-    BEGIN
-        SET @Operacion = 'UPDATE';
-
-        INSERT INTO Audit_DietaAlimentos (NombreTabla, Operacion, IdDietaAlimentos, IdDieta, IdAlimentos, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdDietaAlimentos, IdDieta, IdAlimentos, @User, GETDATE()
-        FROM inserted;
-    END
-
-    -- DELETE
-    IF EXISTS (SELECT IdDietaAlimentos, IdDieta, IdAlimentos FROM deleted)
-       AND NOT EXISTS (SELECT IdDietaAlimentos, IdDieta, IdAlimentos FROM inserted)
-    BEGIN
-        SET @Operacion = 'DELETE';
-
-        INSERT INTO Audit_DietaAlimentos (NombreTabla, Operacion, IdDietaAlimentos, IdDieta, IdAlimentos, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdDietaAlimentos, IdDieta, IdAlimentos, @User, GETDATE()
-        FROM deleted;
-    END
-END
-GO
 
 USE ZooMA
 GO
@@ -473,9 +372,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Visitantes';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Visitantes';
 
     SET @User = SYSTEM_USER;
 
@@ -485,8 +384,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, Disponibilidad, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, disponibilidad, @User, GETDATE()
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @User, GETDATE()
         FROM inserted;
     END
 
@@ -496,8 +395,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, Disponibilidad, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, disponibilidad, @User, GETDATE()
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @User, GETDATE()
         FROM inserted;
     END
 
@@ -507,8 +406,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, Disponibilidad, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, disponibilidad, @User, GETDATE()
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @User, GETDATE()
         FROM deleted;
     END
 END
@@ -525,42 +424,42 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'TipoEntrada';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'TipoEntrada';
 
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, decripcionEnt, Precio FROM inserted)
-       AND NOT EXISTS (SELECT IdTipoEntrada, nombreEnt, decripcionEnt, Precio FROM deleted)
+    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM inserted)
+       AND NOT EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, DescripcionEnt, Precio, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, decripcionEnt, Precio, @User, GETDATE()
+        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @User, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, decripcionEnt, Precio FROM inserted)
-       AND EXISTS (SELECT IdTipoEntrada, nombreEnt, decripcionEnt, Precio FROM deleted)
+    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM inserted)
+       AND EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, DescripcionEnt, Precio, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, decripcionEnt, Precio, @User, GETDATE()
+        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @User, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, decripcionEnt, Precio FROM deleted)
-       AND NOT EXISTS (SELECT IdTipoEntrada, nombreEnt, decripcionEnt, Precio FROM inserted)
+    IF EXISTS (SELECT IdTipoEntrada, nombreEnt,Precio FROM deleted)
+       AND NOT EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, DescripcionEnt, Precio, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, decripcionEnt, Precio, @User, GETDATE()
+        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @User, GETDATE()
         FROM deleted;
     END
 END
@@ -576,9 +475,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'EstadoHabitacion';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'EstadoHabitacion';
 
     SET @User = SYSTEM_USER;
 
@@ -627,9 +526,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Empleado';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Empleado';
 
     SET @User = SYSTEM_USER;
 
@@ -678,9 +577,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Puesto';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Puesto';
 
     SET @User = SYSTEM_USER;
 
@@ -730,9 +629,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Tareas';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Tareas';
 
     SET @User = SYSTEM_USER;
 
@@ -781,9 +680,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'EstadoTarea';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'EstadoTarea';
 
     SET @User = SYSTEM_USER;
 
@@ -833,46 +732,39 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'VentaEntrada';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128) = SYSTEM_USER;
+    DECLARE @TableName VARCHAR(100) = 'VentaEntrada';
 
-    SET @User = SYSTEM_USER;
-
-    -- INSERT
-    IF EXISTS (SELECT IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago FROM inserted)
-       AND NOT EXISTS (SELECT IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago FROM deleted)
-    BEGIN
-        SET @Operacion = 'INSERT';
-
-        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, @User, GETDATE()
-        FROM inserted;
-    END
-
-    -- UPDATE
-    IF EXISTS (SELECT IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago FROM inserted)
-       AND EXISTS (SELECT IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago FROM deleted)
+    IF EXISTS (SELECT * FROM inserted) AND EXISTS (SELECT * FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
+    END
+    ELSE IF EXISTS (SELECT * FROM inserted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+    END
+    ELSE IF EXISTS (SELECT * FROM deleted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+    END
 
+    IF @Operacion IN ('INSERT', 'UPDATE')
+    BEGIN
         INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
         SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, @User, GETDATE()
         FROM inserted;
     END
 
-    -- DELETE
-    IF EXISTS (SELECT IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago FROM deleted)
-       AND NOT EXISTS (SELECT IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago FROM inserted)
+    IF @Operacion = 'DELETE'
     BEGIN
-        SET @Operacion = 'DELETE';
-
         INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
         SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, @User, GETDATE()
         FROM deleted;
     END
 END
 GO
+
 
 USE ZooMA
 GO
@@ -884,9 +776,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'MetodoPago';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'MetodoPago';
 
     SET @User = SYSTEM_USER;
 
@@ -937,9 +829,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'CalificacionVisita';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'CalificacionVisita';
 
     SET @User = SYSTEM_USER;
 
@@ -989,9 +881,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Rol';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Rol';
 
     SET @User = SYSTEM_USER;
 
@@ -1041,9 +933,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Operacion NVARCHAR(10);
-    DECLARE @User NVARCHAR(128);
-    DECLARE @TableName NVARCHAR(100) = 'Usuario';
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Usuario';
 
     SET @User = SYSTEM_USER;
 
