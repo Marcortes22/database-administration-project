@@ -2,7 +2,10 @@
 
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Services;
+
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddNewtonsoftJson(x =>
  x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-
+builder.Services.AddDbContext<ZooMaContext>(options =>
+            options.UseSqlServer("Data Source=localhost;Initial Catalog=ZooMA;Integrated Security=True;TrustServerCertificate=True;"));
 builder.Services.AddCors(options => {
     options.AddPolicy("ReactApp", policyBuilder =>
     {
