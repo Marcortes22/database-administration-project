@@ -825,6 +825,481 @@ END
 GO
 --FIN SP Insert--
 
+--Parte 8: SP Consultar tablas
+
+--Buscar todas las habitaciones
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_HABITACIONES
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        
+        IF NOT EXISTS (SELECT 1 FROM Habitacion)
+        BEGIN
+            RAISERROR ('No hay habitaciones registradas', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT * FROM Habitacion;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+--Buscar Habitacion por Id
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_HABITACION_POR_ID (
+    @IdHabitacion INT
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@IdHabitacion IS NULL OR @IdHabitacion <= 0)
+        BEGIN
+            RAISERROR ('El ID de la habitación debe ser un valor positivo y no nulo', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+            RAISERROR ('La habitación con el Id especificado no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT * FROM Habitacion WHERE IdHabitacion = @IdHabitacion;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+ --Buscar El tipoHabitacion por Nombre
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_TIPOS_HABITACION_POR_NOMBRE (
+    @NombreTH VARCHAR(20)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@NombreTH IS NULL OR @NombreTH = '')
+        BEGIN
+            RAISERROR ('El nombre de la habitación no puede ser nulo o vacío', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+			NombreTH AS 'Nombre Tipo de Habitación'
+		FROM 
+			TipoHabitacion 
+		WHERE 
+			NombreTH LIKE '%' + @NombreTH + '%';
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+--Buscar Dieta por nombre
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_DIETAS_POR_NOMBRE (
+    @NombreDiet VARCHAR(20)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@NombreDiet IS NULL OR @NombreDiet = '')
+        BEGIN
+            RAISERROR ('El nombre de la dieta no puede ser nulo o vacío', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT  
+            NombreDiet AS 'Nombre de la Dieta'
+        FROM 
+            Dieta 
+        WHERE 
+            NombreDiet LIKE '%' + @NombreDiet + '%';
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+--Buscar visitante por Id o por Nombre
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_VISITANTES_POR_ID_O_NOMBRE (
+    @IdVisitantes INT = NULL,
+    @NombreVist VARCHAR(20) = NULL,
+    @Apellido1Vist VARCHAR(20) = NULL,
+    @Apellido2Vist VARCHAR(20) = NULL
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@IdVisitantes IS NULL AND 
+            (@NombreVist IS NULL OR @NombreVist = '') AND 
+            (@Apellido1Vist IS NULL OR @Apellido1Vist = ''))
+        BEGIN
+            RAISERROR ('Debes proporcionar un ID de visitante o al menos un nombre y apellidos', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+            IdVisitantes AS 'Código Visitante', 
+            nombreVist AS 'Nombre del Visitante'
+        FROM 
+            Visitantes 
+        WHERE 
+            (@IdVisitantes IS NULL OR IdVisitantes = @IdVisitantes) AND
+            (@NombreVist IS NULL OR nombreVist LIKE '%' + @NombreVist + '%')
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+--Buscar especie por Nombre
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_ESPECIES_POR_NOMBRE (
+    @NombreEsp VARCHAR(20)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@NombreEsp IS NULL OR @NombreEsp = '')
+        BEGIN
+            RAISERROR ('El nombre de la especie no puede ser nulo o vacío', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+            NombreEsp AS 'Nombre de la Especie'
+        FROM 
+            Especies 
+        WHERE 
+            NombreEsp LIKE '%' + @NombreEsp + '%';
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+
+--Buscar Animal por Nombre, Especie, Habitación o estado salud
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_ANIMALES_POR_NOMBRE (
+    @NombreAnimal VARCHAR(20)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@NombreAnimal IS NULL OR LTRIM(RTRIM(@NombreAnimal)) = '')
+        BEGIN
+            RAISERROR ('El nombre del animal no puede estar vacío o nulo', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Animales WHERE NombreAni = @NombreAnimal)
+        BEGIN
+            RAISERROR ('No existe ningún animal con el nombre especificado', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+            A.NombreAni AS 'Nombre Animal', 
+            E.NombreEsp AS 'Especie', 
+            H.NombreHab AS 'Nombre de la Habitación', 
+            ES.estadoSalud AS 'Estado de Salud'
+        FROM Animales A
+        INNER JOIN Especies E ON A.IdEspecie = E.IdEspecie
+        INNER JOIN Habitacion H ON A.IdHabitacion = H.IdHabitacion
+        INNER JOIN EstadoSalud ES ON A.IdEstadoSalud = ES.IdEstadoSalud
+        WHERE A.NombreAni = @NombreAnimal;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+--Buscar todos los animales
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_ANIMALES
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF NOT EXISTS (SELECT 1 FROM Animales)
+        BEGIN
+            RAISERROR ('No hay animales registrados', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT * FROM Animales;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+--Buscar Zoo por Nombre o Id
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_ZOO_POR_ID_O_NOMBRE (
+    @IdZoo INT = NULL,
+    @NombreZoo VARCHAR(20) = NULL
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@IdZoo IS NULL AND (LTRIM(RTRIM(@NombreZoo)) = '' OR @NombreZoo IS NULL))
+        BEGIN
+            RAISERROR ('Debes proporcionar un ID de zoológico o al menos un nombre', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+            IdZoo AS 'Código Zoológico', 
+            NombreZoo AS 'Nombre del Zoológico'
+        FROM 
+            ZOO
+        WHERE 
+            (@IdZoo IS NULL OR IdZoo = @IdZoo) AND
+            (@NombreZoo IS NULL OR NombreZoo LIKE '%' + @NombreZoo + '%');
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+
+--Buscar EstadoHabitación por Id
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_ESTADO_HABITACION_POR_ID (
+    @IdEstadoHabitacion INT
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@IdEstadoHabitacion IS NULL OR @IdEstadoHabitacion <= 0)
+        BEGIN
+            RAISERROR ('El ID del estado de habitación debe ser un valor positivo y no nulo', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        BEGIN
+            RAISERROR ('El estado de habitación con el Id especificado no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT * FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+ 
+ --Buscar empleado por Id
+ USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_EMPLEADO_POR_ID (
+    @IdEmpleado INT = NULL
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@IdEmpleado IS NULL OR @IdEmpleado <= 0)
+        BEGIN
+            RAISERROR ('El ID del empleado debe ser un valor positivo y no nulo', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+        BEGIN
+            RAISERROR ('El empleado con el ID especificado no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+            e.IdEmpleado AS 'ID Empleado',
+            e.Nombre AS 'Nombre',
+            e.Apellido1 AS 'Apellido 1',
+            e.Apellido2 AS 'Apellido 2',
+            p.Nombre AS 'Puesto'
+        FROM 
+            Empleado e
+        JOIN 
+            Puesto p ON e.IdPuesto = p.IdPuesto
+        WHERE 
+            e.IdEmpleado = @IdEmpleado;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+
+--Buscar puesto por Id
+USE ZooMA
+GO
+CREATE PROCEDURE SP_BUSCAR_PUESTO_POR_NOMBRE (
+    @NombrePuesto VARCHAR(20)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@NombrePuesto IS NULL OR LTRIM(RTRIM(@NombrePuesto)) = '')
+        BEGIN
+            RAISERROR ('El nombre del puesto no puede ser nulo o vacío', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT 
+            IdPuesto AS 'Id Puesto',
+            Nombre AS 'Nombre',
+            Salario AS 'Salario',
+            DescripcionTareas AS 'Descripción de Tareas'
+        FROM 
+            Puesto 
+        WHERE 
+            Nombre LIKE '%' + @NombrePuesto + '%';
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+    END CATCH
+END;
+GO
+--FIN SP Consultar tablas--
+
+	    
 --parte 9: SP Actualizar
 USE ZooMA
 GO
