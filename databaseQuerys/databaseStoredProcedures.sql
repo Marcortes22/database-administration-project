@@ -14,14 +14,14 @@ BEGIN
 
         IF (@NombreHab = '' OR @Direccion = '' OR @Capacidad = '' OR @IdTipoHabitacion IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         
         IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
         BEGIN
-            PRINT 'El tipo de habitación no existe';
+            RAISERROR ('El tipo de habitación no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -30,7 +30,7 @@ BEGIN
         VALUES (@NombreHab, @Direccion, @Capacidad, @IdTipoHabitacion);
         
         COMMIT TRANSACTION;
-        PRINT 'Habitación registrada correctamente: ' + @NombreHab;
+        SELECT 'Habitación registrada correctamente: ' + @NombreHab AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -38,7 +38,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -59,21 +59,21 @@ BEGIN
 
         IF (@Nombre = '' OR @Apellido1 = '' OR @Apellido2 = '' OR @IdPuesto IS NULL OR @IdZoo IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         
         IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = @IdZoo)
         BEGIN
-            PRINT 'El zoológico no existe';
+			RAISERROR ('El zoológico no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         
         IF NOT EXISTS (SELECT 1 FROM Puesto WHERE IdPuesto = @IdPuesto)
         BEGIN
-            PRINT 'El puesto no existe';
+			RAISERROR ('El puesto no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -83,7 +83,7 @@ BEGIN
 
         IF EXISTS (SELECT 1 FROM Empleado WHERE Nombre = @Nombre AND Apellido1 = @Apellido1 AND Apellido2 = @Apellido2)
         BEGIN
-            PRINT 'El empleado ya existe';
+			RAISERROR ('El empleado ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -92,7 +92,7 @@ BEGIN
         VALUES (@Nombre, @Apellido1, @Apellido2, @IdPuesto, @IdZoo);
         
         COMMIT TRANSACTION;
-        PRINT 'Empleado registrado correctamente: ' + @Nombre + ' ' + @Apellido1 + ' ' + @Apellido2;
+        SELECT 'Empleado registrado correctamente: ' + @Nombre + ' ' + @Apellido1 + ' ' + @Apellido2 AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -100,7 +100,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -123,38 +123,38 @@ BEGIN
 
         IF (@NombreAni = '' OR @EdadAni IS NULL OR @IdDieta IS NULL OR @IdHabitacion IS NULL OR @IdEspecie IS NULL OR @IdEstadoSalud IS NULL OR @IdZoo IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = @IdZoo)
         BEGIN
-            PRINT 'El Zoológico no existe';
+			RAISERROR ('El Zoológico no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         IF NOT EXISTS (SELECT 1 FROM Dieta WHERE IdDieta = @IdDieta)
         BEGIN
-            PRINT 'La Dieta no existe';
+			RAISERROR ('La Dieta no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdHabitacion)
         BEGIN
-            PRINT 'La Habitación no existe';
+			RAISERROR ('La Habitación no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         IF NOT EXISTS (SELECT 1 FROM Especies WHERE IdEspecie = @IdEspecie)
         BEGIN
-            PRINT 'La Especie no existe';
+			RAISERROR ('La Especie no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         IF NOT EXISTS (SELECT 1 FROM EstadoSalud WHERE IdEstadoSalud = @IdEstadoSalud)
         BEGIN
-            PRINT 'El Estado de Salud no existe';
+			RAISERROR ('El Estado de Salud no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -163,7 +163,7 @@ BEGIN
         VALUES (@NombreAni, @EdadAni, @IdDieta, @IdHabitacion, @IdEspecie, @IdEstadoSalud, @IdZoo);
 
         COMMIT TRANSACTION;
-        PRINT 'Animal registrado correctamente: ' + @NombreAni;
+        SELECT 'Animal registrado correctamente: ' + @NombreAni AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -171,7 +171,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -189,14 +189,14 @@ BEGIN
 
         IF (@NombreDiet = '' OR @DescripcionDiet = '')
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM Dieta WHERE NombreDiet = @NombreDiet)
         BEGIN
-            PRINT 'La dieta ya existe';
+			RAISERROR ('La dieta ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -205,7 +205,7 @@ BEGIN
         VALUES (@NombreDiet, @DescripcionDiet);
 
         COMMIT TRANSACTION;
-        PRINT 'Dieta registrada correctamente: ' + @NombreDiet;
+        SELECT 'Dieta registrada correctamente: ' + @NombreDiet AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -213,7 +213,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -230,14 +230,14 @@ BEGIN
 
         IF (@estadoSalud = '')
         BEGIN
-            PRINT 'No se puede ingresar un estado de salud vacío';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM EstadoSalud WHERE estadoSalud = @estadoSalud)
         BEGIN
-            PRINT 'El estado de salud ya existe';
+			RAISERROR ('El estado de salud ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -246,7 +246,7 @@ BEGIN
         VALUES (@estadoSalud);
 
         COMMIT TRANSACTION;
-        PRINT 'Estado de salud registrado correctamente: ' + @estadoSalud;
+        SELECT 'Estado de salud registrado correctamente: ' + @estadoSalud AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -254,7 +254,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -271,14 +271,14 @@ BEGIN
 
         IF (@NombreEsp = '')
         BEGIN
-            PRINT 'No se puede ingresar un nombre de especie vacío';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM Especies WHERE NombreEsp = @NombreEsp)
         BEGIN
-            PRINT 'La especie ya existe';
+			RAISERROR ('La especie ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -287,7 +287,7 @@ BEGIN
         VALUES (@NombreEsp);
 
         COMMIT TRANSACTION;
-        PRINT 'Especie registrada correctamente: ' + @NombreEsp;
+        SELECT 'Especie registrada correctamente: ' + @NombreEsp AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -295,7 +295,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -314,14 +314,14 @@ BEGIN
 
         IF (@NombreVist = '' OR @Apell1Vist = '' OR @Apell2Vist = '')
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM Visitantes WHERE nombreVist = @NombreVist AND apell1Vist = @Apell1Vist AND apell2Vist = @Apell2Vist)
         BEGIN
-            PRINT 'El visitante ya existe';
+            RAISERROR ('El visitante ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -330,7 +330,7 @@ BEGIN
         VALUES (@NombreVist, @Apell1Vist, @Apell2Vist);
 
         COMMIT TRANSACTION;
-        PRINT 'Visitante registrado correctamente: ' + @NombreVist + ' ' + @Apell1Vist + ' ' + @Apell2Vist;
+        SELECT 'Visitante registrado correctamente: ' + @NombreVist + ' ' + @Apell1Vist + ' ' + @Apell2Vist AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -338,7 +338,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -357,14 +357,14 @@ BEGIN
 
         IF (@Estado = '' OR @Descripcion = '' OR @Fecha IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF (@Fecha > GETDATE())
         BEGIN
-            PRINT 'La fecha no puede ser futura';
+            RAISERROR ('La fecha no puede ser futura', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -373,7 +373,7 @@ BEGIN
         VALUES (@Estado, @Descripcion, @Fecha);
 
         COMMIT TRANSACTION;
-        PRINT 'Estado de habitación registrado correctamente: ' + @Estado + ', Descripción: ' + @Descripcion + ', Fecha: ' + CAST(@Fecha AS VARCHAR);
+        SELECT 'Estado de habitación registrado correctamente: ' + @Estado + ', Descripción: ' + @Descripcion + ', Fecha: ' + CAST(@Fecha AS VARCHAR) AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -381,7 +381,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -400,21 +400,21 @@ BEGIN
 
         IF (@Nombre = '' OR @DescripcionTareas = '' OR @Salario IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF (@Salario < 0)
         BEGIN
-            PRINT 'El salario no puede ser negativo';
+			RAISERROR ('El salario no puede ser negativo', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM Puesto WHERE Nombre = @Nombre)
         BEGIN
-            PRINT 'El puesto ya existe';
+            RAISERROR ('El puesto ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -423,7 +423,7 @@ BEGIN
         VALUES (@Nombre, @Salario, @DescripcionTareas);
 
         COMMIT TRANSACTION;
-        PRINT 'Puesto registrado correctamente: ' + @Nombre + ', Salario: ' + CAST(@Salario AS VARCHAR) + ', Descripción: ' + @DescripcionTareas;
+        SELECT 'Puesto registrado correctamente: ' + @Nombre + ', Salario: ' + CAST(@Salario AS VARCHAR) + ', Descripción: ' + @DescripcionTareas AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -431,10 +431,11 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
+
 
 USE ZooMA
 GO
@@ -448,14 +449,14 @@ BEGIN
 
         IF (@NombreTH = '')
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM TipoHabitacion WHERE NombreTH = @NombreTH)
         BEGIN
-            PRINT 'El tipo de habitación ya existe';
+            RAISERROR ('El tipo de habitación ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -464,7 +465,7 @@ BEGIN
         VALUES (@NombreTH);
 
         COMMIT TRANSACTION;
-        PRINT 'Tipo de Habitación registrado correctamente: ' + @NombreTH;
+        SELECT 'Tipo de Habitación registrado correctamente: ' + @NombreTH AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -472,7 +473,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -491,14 +492,14 @@ BEGIN
 
         IF (@NombreZoo = '' OR @Direccion = '' OR @DescripcionZoo = '')
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM ZOO WHERE NombreZoo = @NombreZoo)
         BEGIN
-            PRINT 'El Zoológico Ya Existe';
+            RAISERROR ('El zoológico ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -507,7 +508,7 @@ BEGIN
         VALUES (@NombreZoo, @Direccion, @DescripcionZoo);
 
         COMMIT TRANSACTION;
-        PRINT 'Zoológico registrado correctamente: ' + @NombreZoo;
+        SELECT 'Zoológico registrado correctamente: ' + @NombreZoo AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -515,7 +516,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -534,21 +535,21 @@ BEGIN
 
         IF (@Nombre = '' OR @Descripcion = '' OR @IdEmpleado IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
         BEGIN
-            PRINT 'El empleado no existe';
+            RAISERROR ('El empleado no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM Tareas WHERE Nombre = @Nombre AND IdEmpleado = @IdEmpleado)
         BEGIN
-            PRINT 'La tarea ya existe para este empleado';
+            RAISERROR ('La tarea ya existe para este empleado', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -557,7 +558,7 @@ BEGIN
         VALUES (@Nombre, @Descripcion, @IdEmpleado);
 
         COMMIT TRANSACTION;
-        PRINT 'Tarea registrada correctamente: ' + @Nombre;
+        SELECT 'Tarea registrada correctamente: ' + @Nombre AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -565,7 +566,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -585,14 +586,14 @@ BEGIN
 
         IF (@Nota IS NULL OR @SugerenciaMejora = '' OR @Fecha IS NULL OR @IdVisitantes IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
         BEGIN
-            PRINT 'El visitante no existe';
+            RAISERROR ('El visitante no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -601,8 +602,8 @@ BEGIN
         VALUES (@Nota, @SugerenciaMejora, @Fecha, @IdVisitantes);
 
         COMMIT TRANSACTION;
-        PRINT 'Calificación de visita registrada correctamente. Nota: ' + CAST(@Nota AS VARCHAR)
-              + ', Sugerencia: ' + @SugerenciaMejora;
+        SELECT 'Calificación de visita registrada correctamente. Nota: ' + CAST(@Nota AS VARCHAR)
+              + ', Sugerencia: ' + @SugerenciaMejora AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -610,7 +611,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -629,14 +630,14 @@ BEGIN
 
         IF (@NombreEnt = '' OR @Precio IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM TipoEntrada WHERE nombreEnt = @NombreEnt)
         BEGIN
-            PRINT 'El tipo de entrada ya existe';
+            RAISERROR ('El tipo de entrada ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -645,8 +646,8 @@ BEGIN
         VALUES (@NombreEnt, @Precio);
 
         COMMIT TRANSACTION;
-        PRINT 'Tipo de entrada registrado correctamente. Nombre: ' + @NombreEnt
-              + ', Precio: ' + CAST(@Precio AS VARCHAR);
+        SELECT 'Tipo de entrada registrado correctamente. Nombre: ' + @NombreEnt
+              + ', Precio: ' + CAST(@Precio AS VARCHAR) AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -654,7 +655,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -671,14 +672,14 @@ BEGIN
 
         IF (@nombre = '')
         BEGIN
-            PRINT 'El nombre del rol no puede estar en blanco';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF EXISTS (SELECT 1 FROM Rol WHERE nombre = @nombre)
         BEGIN
-            PRINT 'El rol ya existe';
+            RAISERROR ('El rol ya existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -687,7 +688,7 @@ BEGIN
         VALUES (@nombre);
         
         COMMIT TRANSACTION;
-        PRINT 'Rol registrado correctamente: ' + @nombre;
+        SELECT 'Rol registrado correctamente: ' + @nombre AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -695,7 +696,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
@@ -714,21 +715,21 @@ BEGIN
 
         IF (@Contraseña = '' OR @IdEmpleado IS NULL OR @IdRol IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco o nulos';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
         BEGIN
-            PRINT 'El empleado no existe';
+            RAISERROR ('El empleado no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM Rol WHERE IdRol = @IdRol)
         BEGIN
-            PRINT 'El rol no existe';
+            RAISERROR ('El rol no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -741,7 +742,7 @@ BEGIN
 
         IF EXISTS (SELECT 1 FROM RolUsario WHERE IdUsuario = @IdUsuario AND IdRol = @IdRol)
         BEGIN
-            PRINT 'El usuario ya tiene este rol asignado';
+            RAISERROR ('El usuario ya tiene este rol asignado', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -750,7 +751,7 @@ BEGIN
         VALUES (@IdUsuario, @IdRol);
 
         COMMIT TRANSACTION;
-        PRINT 'Usuario registrado y rol asignado correctamente';
+        SELECT 'Usuario registrado y rol asignado correctamente' AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
@@ -758,7 +759,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END
@@ -780,28 +781,28 @@ BEGIN
 
         IF (@fechaventa IS NULL OR @horaventa IS NULL OR @IdZoo IS NULL OR @IdVisitantes IS NULL OR @IdMetodoPago IS NULL)
         BEGIN
-            PRINT 'No se pueden ingresar campos en blanco o nulos';
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = @IdZoo)
         BEGIN
-            PRINT 'El zoológico no existe';
+            RAISERROR ('El zoológico no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
         BEGIN
-            PRINT 'El visitante no existe';
+            RAISERROR ('El visitante no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
         IF NOT EXISTS (SELECT 1 FROM MetodoPago WHERE IdMetodoPago = @IdMetodoPago)
         BEGIN
-            PRINT 'El método de pago no existe';
+            RAISERROR ('El método de pago no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
@@ -810,7 +811,7 @@ BEGIN
         VALUES (@fechaventa, @horaventa, @IdZoo, @IdVisitantes, @IdMetodoPago);
         
         COMMIT TRANSACTION;
-        PRINT 'Venta de entrada registrada correctamente: ' + CONVERT(VARCHAR(10), @fechaventa) + ' a las ' + CONVERT(VARCHAR(8), @horaventa);
+         SELECT 'Venta de entrada registrada correctamente para la fecha ' + CONVERT(VARCHAR(10), @fechaventa) + ' a las ' + CONVERT(VARCHAR(8), @horaventa) AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -818,11 +819,11 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        PRINT 'Ha ocurrido un error: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END
 GO
---FIN SP Insert
+--FIN SP Insert--
 
 --parte 9: SP Actualizar
 USE ZooMA
@@ -835,13 +836,13 @@ AS
 BEGIN
     IF(@IdEstadoSalud IS NULL OR @IdEstadoSalud = 0 OR @EstadoSalud = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM EstadoSalud WHERE IdEstadoSalud = @IdEstadoSalud)
     BEGIN
-        PRINT 'El estado de salud no existe';
+        RAISERROR ('El estado de salud no existe', 16, 1);
         RETURN;
     END
 
@@ -855,7 +856,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del estado de salud actualizado correctamente';
+        SELECT 'Registro del estado de salud actualizado correctamente'  AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -865,9 +866,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el estado de salud: ' + @ErrorMessage;
-
-        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -883,13 +882,13 @@ BEGIN
 
     IF(@IdEspecie IS NULL OR @IdEspecie = 0 OR @NombreEsp = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Especies WHERE IdEspecie = @IdEspecie)
     BEGIN
-        PRINT 'La especie no existe';
+        RAISERROR ('La especie no existe', 16, 1);
         RETURN;
     END
 
@@ -903,7 +902,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la especie actualizado correctamente';
+        SELECT 'Registro de la especie actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -913,7 +912,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar la especie: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -930,13 +929,13 @@ AS
 BEGIN
     IF(@IdDieta IS NULL OR @IdDieta = 0 OR @NombreDiet = '' OR @DescripcionDiet = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Dieta WHERE IdDieta = @IdDieta)
     BEGIN
-        PRINT 'La dieta no existe';
+        RAISERROR ('La dieta no existe', 16, 1);
         RETURN;
     END
 
@@ -951,7 +950,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la dieta actualizado correctamente';
+        SELECT 'Registro de la dieta actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -961,7 +960,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar la dieta: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -978,13 +977,13 @@ BEGIN
 
     IF (@IdTipoHabitacion IS NULL OR @IdTipoHabitacion = 0 OR @NombreTH = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
     BEGIN
-        PRINT 'El tipo de habitación no existe';
+        RAISERROR ('El tipo de habitación no existe', 16, 1);
         RETURN;
     END
 
@@ -998,7 +997,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del tipo de habitación actualizado correctamente';
+        SELECT 'Registro del tipo de habitación actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1008,7 +1007,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el registro del tipo de habitación: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1025,13 +1024,13 @@ AS
 BEGIN
     IF(@IdZoo IS NULL OR @IdZoo = 0 OR @NombreZoo = '' OR @Direccion = '' OR @DescripcionZoo = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = @IdZoo)
     BEGIN
-        PRINT 'El zoo no existe';
+        RAISERROR ('El zoo no existe', 16, 1);
         RETURN;
     END
 
@@ -1047,7 +1046,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del zoo actualizado correctamente';
+        SELECT 'Registro del zoo actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1057,7 +1056,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el registro del zoo: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1076,13 +1075,13 @@ AS
 BEGIN
     IF(@IdHabitacion IS NULL OR @IdHabitacion = 0 OR @NombreHab = '' OR @Direccion = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
     BEGIN
-        PRINT 'La habitación no existe';
+        RAISERROR ('La habitación no existe', 16, 1);
         RETURN;
     END
 
@@ -1098,7 +1097,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la habitación actualizado correctamente';
+        SELECT 'Registro de la habitación actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1108,7 +1107,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar la habitación: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1127,13 +1126,13 @@ BEGIN
 
     IF(@IdVisitantes IS NULL OR @IdVisitantes = 0 OR @nombreVist = '' OR @apell1Vist = '' OR @apell2Vist = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
     BEGIN
-        PRINT 'El visitante no existe';
+        RAISERROR ('El visitante no existe', 16, 1);
         RETURN;
     END
 
@@ -1148,7 +1147,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del visitante actualizado correctamente';
+        SELECT 'Registro del visitante actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1158,7 +1157,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el visitante: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1178,33 +1177,52 @@ CREATE PROCEDURE SP_EDITAR_Animales (
 )
 AS
 BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF(@IdAnimal IS NULL OR @NombreAni = '' OR @EdadAni IS NULL OR @IdDieta IS NULL OR 
-       @IdHabitacion IS NULL OR @IdEspecie IS NULL OR @IdEstadoSalud IS NULL OR @IdZoo IS NULL)
-    BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
-        RETURN;
-    END
+        -- Validación de campos en blanco
+        IF(@IdAnimal IS NULL OR @NombreAni = '' OR @EdadAni IS NULL OR @IdDieta IS NULL OR 
+           @IdHabitacion IS NULL OR @IdEspecie IS NULL OR @IdEstadoSalud IS NULL OR @IdZoo IS NULL)
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimal)
-    BEGIN
-        PRINT 'El animal no existe';
-        RETURN;
-    END
+        -- Verificación de existencia del animal
+        IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimal)
+        BEGIN
+            RAISERROR ('El animal no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    UPDATE Animales
-    SET NombreAni = @NombreAni,
-        EdadAni = @EdadAni,
-        IdDieta = @IdDieta,
-        IdHabitacion = @IdHabitacion,
-        IdEspecie = @IdEspecie,
-        IdEstadoSalud = @IdEstadoSalud,
-        IdZoo = @IdZoo
-    WHERE IdAnimales = @IdAnimal;
+        -- Actualización de datos del animal
+        UPDATE Animales
+        SET NombreAni = @NombreAni,
+            EdadAni = @EdadAni,
+            IdDieta = @IdDieta,
+            IdHabitacion = @IdHabitacion,
+            IdEspecie = @IdEspecie,
+            IdEstadoSalud = @IdEstadoSalud,
+            IdZoo = @IdZoo
+        WHERE IdAnimales = @IdAnimal;
 
-    PRINT 'Datos del animal actualizados correctamente';
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'Datos del animal actualizados correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
+
 
 USE ZooMA
 GO
@@ -1219,13 +1237,13 @@ BEGIN
 
     IF (@IdEstadoHabitacion IS NULL OR @IdEstadoHabitacion = 0 OR @Estado = '' OR @Descripcion = '' OR @Fecha IS NULL)
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
     BEGIN
-        PRINT 'El estado de habitación no existe';
+        RAISERROR ('El estado de habitación no existe', 16, 1);
         RETURN;
     END
 
@@ -1240,7 +1258,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del estado de la habitación actualizado correctamente';
+        SELECT 'Registro del estado de la habitación actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
@@ -1249,7 +1267,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el estado de la habitación: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1267,13 +1285,13 @@ BEGIN
 
     IF (@IdPuesto IS NULL OR @IdPuesto = 0 OR @Nombre = '' OR @Salario IS NULL OR @DescripcionTareas = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Puesto WHERE IdPuesto = @IdPuesto)
     BEGIN
-        PRINT 'El puesto no existe';
+        RAISERROR ('El puesto no existe', 16, 1);
         RETURN;
     END
 
@@ -1289,7 +1307,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del puesto actualizado correctamente';
+        SELECT 'Registro del puesto actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1299,7 +1317,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el puesto: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1319,13 +1337,13 @@ AS
 BEGIN
     IF(@IdEmpleado IS NULL OR @IdEmpleado = 0 OR @Nombre = '' OR @Apellido1 = '' OR @Apellido2 = '' OR @IdPuesto IS NULL OR @IdZoo IS NULL)
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
     BEGIN
-        PRINT 'El empleado no existe';
+        RAISERROR ('El empleado no existe', 16, 1);
         RETURN;
     END
 
@@ -1343,7 +1361,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del empleado actualizado correctamente';
+        SELECT 'Registro del empleado actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1353,7 +1371,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el empleado: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1372,19 +1390,19 @@ BEGIN
 
     IF (@IdTareas IS NULL OR @IdTareas = 0 OR @Nombre = '' OR @Descripcion = '' OR @IdEmpleado IS NULL)
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Tareas WHERE IdTareas = @IdTareas)
     BEGIN
-        PRINT 'La tarea no existe';
+        RAISERROR ('La tarea no existe', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
     BEGIN
-        PRINT 'El empleado no existe';
+        RAISERROR ('El empleado no existe', 16, 1);
         RETURN;
     END
 
@@ -1399,7 +1417,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la tarea actualizado correctamente';
+        SELECT 'Registro de la tarea actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1409,7 +1427,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar la tarea: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1426,13 +1444,13 @@ BEGIN
 
     IF(@IdUsuario IS NULL OR @IdUsuario = 0 OR @Contraseña = '' OR @IdEmpleado IS NULL)
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Usuario WHERE IdUsuario = @IdUsuario)
     BEGIN
-        PRINT 'El usuario no existe';
+        RAISERROR ('El usuario no existe', 16, 1);
         RETURN;
     END
 
@@ -1446,7 +1464,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del usuario actualizado correctamente';
+        SELECT 'Registro del usuario actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1456,7 +1474,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el usuario: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1473,13 +1491,13 @@ BEGIN
 
     IF(@IdRol IS NULL OR @IdRol = 0 OR @nombre = '')
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Rol WHERE IdRol = @IdRol)
     BEGIN
-        PRINT 'El rol no existe';
+        RAISERROR ('El rol no existe', 16, 1);
         RETURN;
     END
 
@@ -1492,7 +1510,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del rol actualizado correctamente';
+        SELECT 'Registro del rol actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1502,7 +1520,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el rol: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1521,13 +1539,13 @@ AS
 BEGIN
     IF(@IdTipoEntrada IS NULL OR @IdTipoEntrada = 0 OR @nombreEnt = '' OR @descripcionEnt = '' OR @Precio IS NULL)
     BEGIN
-        PRINT 'No se pueden ingresar campos en blanco o inválidos';
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM TipoEntrada WHERE IdTipoEntrada = @IdTipoEntrada)
     BEGIN
-        PRINT 'El tipo de entrada no existe';
+        RAISERROR ('El tipo de entrada no existe', 16, 1);
         RETURN;
     END
 
@@ -1537,13 +1555,12 @@ BEGIN
 
         UPDATE TipoEntrada
         SET nombreEnt = @nombreEnt,
-            descripcionEnt = @descripcionEnt,
             Precio = @Precio
         WHERE IdTipoEntrada = @IdTipoEntrada;
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del tipo de entrada actualizado correctamente';
+        SELECT 'Registro del tipo de entrada actualizado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
@@ -1552,7 +1569,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al actualizar el tipo de entrada: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1570,13 +1587,13 @@ BEGIN
 
     IF(@IdEstadoSalud IS NULL OR @IdEstadoSalud = 0)
     BEGIN
-        PRINT 'El ID del estado de salud no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID del estado de salud no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM EstadoSalud WHERE IdEstadoSalud = @IdEstadoSalud)
     BEGIN
-        PRINT 'El estado de salud no existe';
+        RAISERROR ('El estado de salud no existe', 16, 1);
         RETURN;
     END
 
@@ -1589,7 +1606,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del estado de salud eliminado correctamente';
+        SELECT 'Registro del estado de salud eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1599,7 +1616,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar el estado de salud: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1615,13 +1632,13 @@ BEGIN
 
     IF(@IdEspecie IS NULL OR @IdEspecie = 0)
     BEGIN
-        PRINT 'El ID de la especie no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID de la especie no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Especies WHERE IdEspecie = @IdEspecie)
     BEGIN
-        PRINT 'La especie no existe';
+        RAISERROR ('La especie no existe', 16, 1);
         RETURN;
     END
 
@@ -1634,7 +1651,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la especie eliminado correctamente';
+        SELECT 'Registro de la especie eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1644,7 +1661,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar la especie: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1659,13 +1676,13 @@ AS
 BEGIN
     IF(@IdDieta IS NULL OR @IdDieta = 0)
     BEGIN
-        PRINT 'El ID de la dieta no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID de la dieta no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Dieta WHERE IdDieta = @IdDieta)
     BEGIN
-        PRINT 'La dieta no existe';
+        RAISERROR ('La dieta no existe', 16, 1);
         RETURN;
     END
 
@@ -1678,7 +1695,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la dieta eliminado correctamente';
+        SELECT 'Registro de la dieta eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1688,7 +1705,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar la dieta: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -1703,13 +1720,13 @@ AS
 BEGIN
     IF (@IdTipoHabitacion IS NULL OR @IdTipoHabitacion = 0)
     BEGIN
-        PRINT 'El ID del tipo de habitación no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID del tipo de habitación no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
     BEGIN
-        PRINT 'El tipo de habitación no existe';
+        RAISERROR ('El tipo de habitación no existe', 16, 1);
         RETURN;
     END
 
@@ -1722,7 +1739,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del tipo de habitación eliminado correctamente';
+        SELECT 'Registro del tipo de habitación eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1732,7 +1749,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar el tipo de habitación: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1747,13 +1764,13 @@ BEGIN
 
     IF (@IdZoo IS NULL OR @IdZoo = 0)
     BEGIN
-        PRINT 'El ID del zoo no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID del zoo no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = @IdZoo)
     BEGIN
-        PRINT 'El zoo no existe';
+        RAISERROR ('El zoo no existe', 16, 1);
         RETURN;
     END
 
@@ -1766,7 +1783,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del zoo eliminado correctamente';
+        SELECT 'Registro del zoo eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1776,7 +1793,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar el registro del zoo: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1791,13 +1808,13 @@ BEGIN
 
     IF(@IdHabitacion IS NULL OR @IdHabitacion = 0)
     BEGIN
-        PRINT 'El ID de la habitación no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID de la habitación no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
     BEGIN
-        PRINT 'La habitación no existe';
+        RAISERROR ('La habitación no existe', 16, 1);
         RETURN;
     END
 
@@ -1810,7 +1827,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro de la habitación eliminado correctamente';
+        SELECT 'Registro de la habitación eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1822,7 +1839,7 @@ BEGIN
 
         PRINT 'Error al eliminar la habitación: ' + @ErrorMessage;
 
-        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1836,13 +1853,13 @@ AS
 BEGIN
     IF(@IdVisitantes IS NULL OR @IdVisitantes = 0)
     BEGIN
-        PRINT 'El ID del visitante no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID del visitante no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
     BEGIN
-        PRINT 'El visitante no existe';
+        RAISERROR ('El visitante no existe', 16, 1);
         RETURN;
     END
 
@@ -1855,7 +1872,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del visitante eliminado correctamente';
+        SELECT 'Registro del visitante eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1867,7 +1884,7 @@ BEGIN
 
         PRINT 'Error al eliminar el visitante: ' + @ErrorMessage;
 
-        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
 END;
 GO
@@ -1879,25 +1896,44 @@ CREATE PROCEDURE SP_ELIMINAR_Animales (
 )
 AS
 BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF(@IdAnimal IS NULL OR @IdAnimal = 0)
-    BEGIN
-        PRINT 'El ID del animal no puede ser un campo vacío o ser cero';
-        RETURN;
-    END
+        -- Validación del ID del animal
+        IF(@IdAnimal IS NULL OR @IdAnimal = 0)
+        BEGIN
+            RAISERROR ('El ID del animal no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimal)
-    BEGIN
-        PRINT 'El animal no existe';
-        RETURN;
-    END
+        -- Verificación de existencia del animal
+        IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimal)
+        BEGIN
+            RAISERROR ('El animal no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    DELETE FROM Animales
-    WHERE IdAnimales = @IdAnimal;
+        -- Eliminación del registro del animal
+        DELETE FROM Animales
+        WHERE IdAnimales = @IdAnimal;
 
-    PRINT 'El registro del animal ha sido eliminado correctamente';
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'El registro del animal ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
+
 
 USE ZooMA
 GO
@@ -1906,24 +1942,44 @@ CREATE PROCEDURE SP_ELIMINAR_ESTADOHABITACION (
 )
 AS
 BEGIN
-    IF (@IdEstadoHabitacion IS NULL OR @IdEstadoHabitacion = 0)
-    BEGIN
-        PRINT 'El ID del estado de la habitación no puede ser un campo vacío o ser cero';
-        RETURN;
-    END
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
-    BEGIN
-        PRINT 'El estado de habitación no existe';
-        RETURN;
-    END
+        -- Validación del ID del estado de la habitación
+        IF (@IdEstadoHabitacion IS NULL OR @IdEstadoHabitacion = 0)
+        BEGIN
+            RAISERROR ('El ID del estado de la habitación no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    DELETE FROM EstadoHabitacion
-    WHERE IdEstadoHabitacion = @IdEstadoHabitacion;
+        -- Verificación de existencia del estado de habitación
+        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        BEGIN
+            RAISERROR ('El estado de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    PRINT 'El registro del estado de la habitación ha sido eliminado correctamente';
+        -- Eliminación del registro del estado de la habitación
+        DELETE FROM EstadoHabitacion
+        WHERE IdEstadoHabitacion = @IdEstadoHabitacion;
+
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'El registro del estado de la habitación ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
+
 
 USE ZooMA
 GO
@@ -1932,25 +1988,44 @@ CREATE PROCEDURE SP_ELIMINAR_PUESTO (
 )
 AS
 BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF (@IdPuesto IS NULL OR @IdPuesto = 0)
-    BEGIN
-        PRINT 'El ID del puesto no puede ser un campo vacío o ser cero';
-        RETURN;
-    END
+        -- Validación del ID del puesto
+        IF (@IdPuesto IS NULL OR @IdPuesto = 0)
+        BEGIN
+            RAISERROR ('El ID del puesto no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    IF NOT EXISTS (SELECT 1 FROM Puesto WHERE IdPuesto = @IdPuesto)
-    BEGIN
-        PRINT 'El puesto no existe';
-        RETURN;
-    END
+        -- Verificación de existencia del puesto
+        IF NOT EXISTS (SELECT 1 FROM Puesto WHERE IdPuesto = @IdPuesto)
+        BEGIN
+            RAISERROR ('El puesto no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    DELETE FROM Puesto
-    WHERE IdPuesto = @IdPuesto;
+        -- Eliminación del registro del puesto
+        DELETE FROM Puesto
+        WHERE IdPuesto = @IdPuesto;
 
-    PRINT 'El registro del puesto ha sido eliminado correctamente';
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'El registro del puesto ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
+
 
 USE ZooMA
 GO
@@ -1962,13 +2037,13 @@ BEGIN
 
     IF(@IdEmpleado IS NULL OR @IdEmpleado = 0)
     BEGIN
-        PRINT 'El ID del empleado no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID del empleado no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
     BEGIN
-        PRINT 'El empleado no existe';
+        RAISERROR ('El empleado no existe', 16, 1);
         RETURN;
     END
 
@@ -1981,7 +2056,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del empleado eliminado correctamente';
+        SELECT 'Registro del empleado eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
 
@@ -1991,7 +2066,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar el empleado: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -2004,22 +2079,41 @@ CREATE PROCEDURE SP_ELIMINAR_Tareas (
 )
 AS
 BEGIN
-    IF (@IdTareas IS NULL OR @IdTareas = 0)
-    BEGIN
-        PRINT 'El ID de la tarea no puede ser un campo vacío o ser cero';
-        RETURN;
-    END
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF NOT EXISTS (SELECT 1 FROM Tareas WHERE IdTareas = @IdTareas)
-    BEGIN
-        PRINT 'La tarea no existe';
-        RETURN;
-    END
+        -- Validación del ID de la tarea
+        IF (@IdTareas IS NULL OR @IdTareas = 0)
+        BEGIN
+            RAISERROR ('El ID de la tarea no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    DELETE FROM Tareas
-    WHERE IdTareas = @IdTareas;
+        -- Verificación de existencia de la tarea
+        IF NOT EXISTS (SELECT 1 FROM Tareas WHERE IdTareas = @IdTareas)
+        BEGIN
+            RAISERROR ('La tarea no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    PRINT 'El registro de la tarea ha sido eliminado correctamente';
+        -- Eliminación del registro de la tarea
+        DELETE FROM Tareas
+        WHERE IdTareas = @IdTareas;
+
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'El registro de la tarea ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
 
@@ -2030,25 +2124,44 @@ CREATE PROCEDURE SP_ELIMINAR_Usuario (
 )
 AS
 BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF(@IdUsuario IS NULL OR @IdUsuario = 0)
-    BEGIN
-        PRINT 'El ID del usuario no puede ser un campo vacío o ser cero';
-        RETURN;
-    END
+        -- Validación del ID del usuario
+        IF(@IdUsuario IS NULL OR @IdUsuario = 0)
+        BEGIN
+            RAISERROR ('El ID del usuario no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    IF NOT EXISTS (SELECT 1 FROM Usuario WHERE IdUsuario = @IdUsuario)
-    BEGIN
-        PRINT 'El usuario no existe';
-        RETURN;
-    END
+        -- Verificación de existencia del usuario
+        IF NOT EXISTS (SELECT 1 FROM Usuario WHERE IdUsuario = @IdUsuario)
+        BEGIN
+            RAISERROR ('El usuario no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    DELETE FROM Usuario
-    WHERE IdUsuario = @IdUsuario;
+        -- Eliminación del registro del usuario
+        DELETE FROM Usuario
+        WHERE IdUsuario = @IdUsuario;
 
-    PRINT 'El registro del usuario ha sido eliminado correctamente';
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'El registro del usuario ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
+
 
 USE ZooMA
 GO
@@ -2057,23 +2170,41 @@ CREATE PROCEDURE SP_ELIMINAR_Rol (
 )
 AS
 BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
-    IF(@IdRol IS NULL OR @IdRol = 0)
-    BEGIN
-        PRINT 'El ID del rol no puede ser un campo vacío o ser cero';
-        RETURN;
-    END
+        -- Validación del ID del rol
+        IF(@IdRol IS NULL OR @IdRol = 0)
+        BEGIN
+            RAISERROR ('El ID del rol no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    IF NOT EXISTS (SELECT 1 FROM Rol WHERE IdRol = @IdRol)
-    BEGIN
-        PRINT 'El rol no existe';
-        RETURN;
-    END
+        -- Verificación de existencia del rol
+        IF NOT EXISTS (SELECT 1 FROM Rol WHERE IdRol = @IdRol)
+        BEGIN
+            RAISERROR ('El rol no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
 
-    DELETE FROM Rol
-    WHERE IdRol = @IdRol;
+        -- Eliminación del registro del rol
+        DELETE FROM Rol
+        WHERE IdRol = @IdRol;
 
-    PRINT 'El registro del rol ha sido eliminado correctamente';
+        -- Confirmación de éxito
+        COMMIT TRANSACTION;
+        SELECT 'El registro del rol ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        -- Manejo de errores
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
 END;
 GO
 
@@ -2087,13 +2218,13 @@ AS
 BEGIN
     IF(@IdTipoEntrada IS NULL OR @IdTipoEntrada = 0)
     BEGIN
-        PRINT 'El ID del tipo de entrada no puede ser un campo vacío o ser cero';
+        RAISERROR ('El ID del tipo de entrada no puede ser un campo vacío o ser cero', 16, 1);
         RETURN;
     END
 
     IF NOT EXISTS (SELECT 1 FROM TipoEntrada WHERE IdTipoEntrada = @IdTipoEntrada)
     BEGIN
-        PRINT 'El tipo de entrada no existe';
+        RAISERROR ('El tipo de entrada no existe', 16, 1);
         RETURN;
     END
 
@@ -2105,7 +2236,7 @@ BEGIN
 
         COMMIT TRANSACTION;
 
-        PRINT 'Registro del tipo de entrada eliminado correctamente';
+        SELECT 'Registro del tipo de entrada eliminado correctamente' AS 'Mensaje de Confirmación';
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
@@ -2114,7 +2245,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        PRINT 'Error al eliminar el tipo de entrada: ' + @ErrorMessage;
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
 
     END CATCH
 END;
@@ -2135,7 +2266,6 @@ BEGIN
         NombreZoo AS [Nombre del Zoológico],
         Direccion AS [Dirección del Zoológico],
         DescripcionZoo AS [Descripción del Zoológico],
-        Disponibilidad AS [Disponibilidad],
         RealizadoPor AS [Responsable],
         FechaDeEjecucion AS [Fecha de Ejecución]
     FROM Audit_ZOO
@@ -2222,7 +2352,7 @@ GO
 
 USE ZooMA
 GO
-CREATE TABLE Audit_TipoHabitacion (
+CREATE TABLE Audit_Tipo_Habitacion (
     IdAudit INT PRIMARY KEY IDENTITY(1,1),
     NombreTabla VARCHAR(100),
     Operacion VARCHAR(10),
@@ -2245,7 +2375,6 @@ BEGIN
         NombreVist AS [Nombre del Visitante],
         Apell1Vist AS [Primer Apellido],
         Apell2Vist AS [Segundo Apellido],
-        Disponibilidad AS [Disponibilidad],
         RealizadoPor AS [Responsable],
         FechaDeEjecucion AS [Fecha de Ejecución]
     FROM Audit_Visitantes
@@ -2471,6 +2600,5 @@ BEGIN
     ORDER BY IdAudit;
 END;
 GO
-
 --FIN SP MOSTRAR AUDIT
 --file to create stored procedures
