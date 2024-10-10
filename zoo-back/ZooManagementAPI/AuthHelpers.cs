@@ -2,7 +2,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Enitities;
 using System.Data;
 
 namespace ZooManagementAPI

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class AuditCalificacionVisitum
 {
@@ -11,7 +11,7 @@ public partial class AuditCalificacionVisitum
 
     public string? Operacion { get; set; }
 
-    public long? IdCalificacionVisita { get; set; }
+    public int? IdCalificacionVisita { get; set; }
 
     public double? Nota { get; set; }
 

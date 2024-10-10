@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class AuditVisitante
 {
@@ -16,10 +16,6 @@ public partial class AuditVisitante
     public string? NombreVist { get; set; }
 
     public string? Apell1Vist { get; set; }
-
-    public string? Apell2Vist { get; set; }
-
-    public bool? Disponibilidad { get; set; }
 
     public string? RealizadoPor { get; set; }
 

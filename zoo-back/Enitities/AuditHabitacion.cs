@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class AuditHabitacion
 {
@@ -17,7 +17,7 @@ public partial class AuditHabitacion
 
     public string? Direccion { get; set; }
 
-    public bool? Capacidad { get; set; }
+    public int? Capacidad { get; set; }
 
     public int? IdTipoHabitacion { get; set; }
 

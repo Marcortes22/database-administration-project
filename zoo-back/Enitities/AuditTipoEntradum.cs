@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class AuditTipoEntradum
 {
@@ -14,8 +14,6 @@ public partial class AuditTipoEntradum
     public int? IdTipoEntrada { get; set; }
 
     public string? NombreEnt { get; set; }
-
-    public string? DescripcionEnt { get; set; }
 
     public decimal? Precio { get; set; }
 

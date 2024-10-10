@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class AuditZoo
 {
@@ -18,8 +18,6 @@ public partial class AuditZoo
     public string? Direccion { get; set; }
 
     public string? DescripcionZoo { get; set; }
-
-    public bool? Disponibilidad { get; set; }
 
     public string? RealizadoPor { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Enitities;
+using Entities;
 
 namespace Services;
 
@@ -18,13 +18,9 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<Animale> Animales { get; set; }
 
-    public virtual DbSet<AuditAlimento> AuditAlimentos { get; set; }
-
     public virtual DbSet<AuditAnimale> AuditAnimales { get; set; }
 
     public virtual DbSet<AuditCalificacionVisitum> AuditCalificacionVisita { get; set; }
-
-    public virtual DbSet<AuditDietaAlimento> AuditDietaAlimentos { get; set; }
 
     public virtual DbSet<AuditDietum> AuditDieta { get; set; }
 
@@ -60,11 +56,17 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<AuditZoo> AuditZoos { get; set; }
 
+    public virtual DbSet<CalificacionVisitum> CalificacionVisita { get; set; }
+
+    public virtual DbSet<ControlAnimal> ControlAnimals { get; set; }
+
     public virtual DbSet<DetalleVentum> DetalleVenta { get; set; }
 
     public virtual DbSet<Dietum> Dieta { get; set; }
 
     public virtual DbSet<Empleado> Empleados { get; set; }
+
+    public virtual DbSet<Entradum> Entrada { get; set; }
 
     public virtual DbSet<Especy> Especies { get; set; }
 
@@ -82,6 +84,8 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<MantenimientoHabitacion> MantenimientoHabitacions { get; set; }
 
+    public virtual DbSet<MetodoPago> MetodoPagos { get; set; }
+
     public virtual DbSet<Puesto> Puestos { get; set; }
 
     public virtual DbSet<Rol> Rols { get; set; }
@@ -92,11 +96,13 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<TareasEstadosTarea> TareasEstadosTareas { get; set; }
 
+    public virtual DbSet<TipoEntradum> TipoEntrada { get; set; }
+
     public virtual DbSet<TipoHabitacion> TipoHabitacions { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    public virtual DbSet<Venta> Ventas { get; set; }
+    public virtual DbSet<VentaEntradum> VentaEntrada { get; set; }
 
     public virtual DbSet<Visitante> Visitantes { get; set; }
 
@@ -110,11 +116,10 @@ public partial class ZooMaContext : DbContext
     {
         modelBuilder.Entity<Animale>(entity =>
         {
-            entity.HasKey(e => e.IdAnimales).HasName("PK__Animales__D29EC56E0616C9AA");
+            entity.HasKey(e => e.IdAnimales).HasName("PK__Animales__D29EC56E284FEE1F");
 
-            entity.Property(e => e.IdZoo).HasDefaultValue(1);
             entity.Property(e => e.NombreAni)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdDietaNavigation).WithMany(p => p.Animales)
@@ -122,8 +127,8 @@ public partial class ZooMaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Animales_IdDieta");
 
-            entity.HasOne(d => d.IdEspeciesNavigation).WithMany(p => p.Animales)
-                .HasForeignKey(d => d.IdEspecies)
+            entity.HasOne(d => d.IdEspecieNavigation).WithMany(p => p.Animales)
+                .HasForeignKey(d => d.IdEspecie)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Animales_IdEspecies");
 
@@ -139,51 +144,36 @@ public partial class ZooMaContext : DbContext
 
             entity.HasOne(d => d.IdZooNavigation).WithMany(p => p.Animales)
                 .HasForeignKey(d => d.IdZoo)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Animales_IdZoo");
-        });
-
-        modelBuilder.Entity<AuditAlimento>(entity =>
-        {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Al__C87E13DD00979936");
-
-            entity.ToTable("Audit_Alimentos");
-
-            entity.Property(e => e.FechaDeEjecucion)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.NombreAli)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
         });
 
         modelBuilder.Entity<AuditAnimale>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_An__C87E13DD62C1B40A");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_An__C87E13DDBD3D1BD7");
 
             entity.ToTable("Audit_Animales");
 
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.IdZoo).HasDefaultValue(1);
             entity.Property(e => e.NombreAni)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.NombreTabla)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Operacion)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditCalificacionVisitum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DD89003A93");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DDBFB4B6E8");
 
             entity.ToTable("Audit_CalificacionVisita");
 
@@ -191,31 +181,23 @@ public partial class ZooMaContext : DbContext
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.SugerenciaMejora)
                 .HasMaxLength(255)
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<AuditDietaAlimento>(entity =>
-        {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Di__C87E13DD4815BC28");
-
-            entity.ToTable("Audit_DietaAlimentos");
-
-            entity.Property(e => e.FechaDeEjecucion)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
-        });
-
         modelBuilder.Entity<AuditDietum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Di__C87E13DD40B73DF3");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Di__C87E13DDBDF2CD2F");
 
             entity.ToTable("Audit_Dieta");
 
@@ -226,40 +208,51 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.NombreDiet)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditEmpleado>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Em__C87E13DD79C29F78");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Em__C87E13DDD589E1A0");
 
             entity.ToTable("Audit_Empleado");
 
             entity.Property(e => e.Apellido1)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Apellido2)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.IdZoo).HasDefaultValue(1);
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditEspecy>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD12A60376");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DDF8C6EA2C");
 
             entity.ToTable("Audit_Especies");
 
@@ -267,20 +260,22 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.NombreEsp)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.NombreTabla)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Operacion)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditEstadoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD0C1A1C00");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD2B4C034C");
 
             entity.ToTable("Audit_EstadoHabitacion");
 
@@ -293,14 +288,20 @@ public partial class ZooMaContext : DbContext
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditEstadoSalud>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD66929AAF");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD9A00BD57");
 
             entity.ToTable("Audit_EstadoSalud");
 
@@ -310,14 +311,20 @@ public partial class ZooMaContext : DbContext
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditEstadoTarea>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DDCEAD4B03");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD0B353C93");
 
             entity.ToTable("Audit_EstadoTarea");
 
@@ -325,36 +332,48 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ha__C87E13DDD844C02E");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ha__C87E13DD374BA508");
 
             entity.ToTable("Audit_Habitacion");
 
             entity.Property(e => e.Direccion)
-                .HasMaxLength(255)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.NombreHab)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditMetodoPago>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Me__C87E13DDC30379D2");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Me__C87E13DDDED8921A");
 
             entity.ToTable("Audit_MetodoPago");
 
@@ -364,14 +383,20 @@ public partial class ZooMaContext : DbContext
             entity.Property(e => e.MetodoPago)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditPuesto>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Pu__C87E13DD860CC688");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Pu__C87E13DDD76E4BCB");
 
             entity.ToTable("Audit_Puesto");
 
@@ -382,16 +407,22 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditRol>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ro__C87E13DD9EC576BB");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ro__C87E13DD0611A8FF");
 
             entity.ToTable("Audit_Rol");
 
@@ -399,16 +430,22 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditTarea>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ta__C87E13DDED53E039");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ta__C87E13DDF9432CD2");
 
             entity.ToTable("Audit_Tareas");
 
@@ -419,72 +456,93 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditTipoEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DDF126A8B4");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DDE9D73A5E");
 
             entity.ToTable("Audit_TipoEntrada");
 
-            entity.Property(e => e.DescripcionEnt)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.NombreEnt)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
             entity.Property(e => e.Precio).HasColumnType("money");
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditTipoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DDFEEE2F27");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DDB95A973D");
 
             entity.ToTable("Audit_TipoHabitacion");
 
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.NombreTh)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("NombreTH");
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditUsuario>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Us__C87E13DD675040D6");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Us__C87E13DDB4FF5947");
 
             entity.ToTable("Audit_Usuario");
 
             entity.Property(e => e.Contraseña)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditVentaEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ve__C87E13DDA30CA907");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ve__C87E13DDFC481901");
 
             entity.ToTable("Audit_VentaEntrada");
 
@@ -493,37 +551,46 @@ public partial class ZooMaContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Fechaventa).HasColumnName("fechaventa");
             entity.Property(e => e.Horaventa).HasColumnName("horaventa");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditVisitante>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Vi__C87E13DDA2A6EC09");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Vi__C87E13DD87C96DE2");
 
             entity.ToTable("Audit_Visitantes");
 
             entity.Property(e => e.Apell1Vist)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Apell2Vist)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.NombreTabla).HasMaxLength(100);
-            entity.Property(e => e.NombreVist)
-                .HasMaxLength(255)
+            entity.Property(e => e.NombreTabla)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.Operacion).HasMaxLength(10);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.NombreVist)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Operacion)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<AuditZoo>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_ZO__C87E13DD412EB4FF");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_ZO__C87E13DD9E9CE879");
 
             entity.ToTable("Audit_ZOO");
 
@@ -531,66 +598,92 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Direccion)
-                .HasMaxLength(255)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.FechaDeEjecucion)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.IdZoo).HasDefaultValue(1);
             entity.Property(e => e.NombreTabla)
-                .HasMaxLength(100)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.NombreZoo)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Operacion)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.RealizadoPor).HasMaxLength(128);
+            entity.Property(e => e.RealizadoPor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<CalificacionVisitum>(entity =>
+        {
+            entity.HasKey(e => e.IdCalificacionVisita).HasName("PK__Califica__815EB052D9EA8753");
+
+            entity.Property(e => e.Fecha).HasColumnName("fecha");
+            entity.Property(e => e.SugerenciaMejora)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdVisitantesNavigation).WithMany(p => p.CalificacionVisita)
+                .HasForeignKey(d => d.IdVisitantes)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CalificacionVisita_IdVisitantes");
+        });
+
+        modelBuilder.Entity<ControlAnimal>(entity =>
+        {
+            entity.HasKey(e => e.IdControl).HasName("PK__ControlA__2537521F3A7FC409");
+
+            entity.ToTable("ControlAnimal");
+
+            entity.Property(e => e.Reporte)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdAnimalesNavigation).WithMany(p => p.ControlAnimals)
+                .HasForeignKey(d => d.IdAnimales)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ControlAnimal_IdAnimales");
         });
 
         modelBuilder.Entity<DetalleVentum>(entity =>
         {
-            entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__AAA5CEC2B11774CF");
+            entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__AAA5CEC2E77CA12A");
 
-            entity.HasOne(d => d.IdAnimalesNavigation).WithMany(p => p.DetalleVenta)
-                .HasForeignKey(d => d.IdAnimales)
+            entity.HasOne(d => d.IdEntradaNavigation).WithMany(p => p.DetalleVenta)
+                .HasForeignKey(d => d.IdEntrada)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DetalleVenta_IdAnimales");
-
-            entity.HasOne(d => d.IdVentaNavigation).WithMany(p => p.DetalleVenta)
-                .HasForeignKey(d => d.IdVenta)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DetalleVenta_IdVenta");
+                .HasConstraintName("FK_DetalleVenta_IdEntrada");
         });
 
         modelBuilder.Entity<Dietum>(entity =>
         {
-            entity.HasKey(e => e.IdDieta).HasName("PK__Dieta__5F4BB815D8AA3D18");
+            entity.HasKey(e => e.IdDieta).HasName("PK__Dieta__5F4BB8155963B255");
 
             entity.Property(e => e.DescripcionDiet)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.NombreDiet)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Empleado>(entity =>
         {
-            entity.HasKey(e => e.IdEmpleado).HasName("PK__Empleado__CE6D8B9E7380539D");
+            entity.HasKey(e => e.IdEmpleado).HasName("PK__Empleado__CE6D8B9E4E52B974");
 
             entity.ToTable("Empleado");
 
             entity.Property(e => e.Apellido1)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Apellido2)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.IdZoo).HasDefaultValue(1);
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdPuestoNavigation).WithMany(p => p.Empleados)
@@ -600,21 +693,36 @@ public partial class ZooMaContext : DbContext
 
             entity.HasOne(d => d.IdZooNavigation).WithMany(p => p.Empleados)
                 .HasForeignKey(d => d.IdZoo)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Empleado_IdZoo");
+        });
+
+        modelBuilder.Entity<Entradum>(entity =>
+        {
+            entity.HasKey(e => e.IdEntrada).HasName("PK__Entrada__BB164DEAA9AD4741");
+
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdTipoEntradaNavigation).WithMany(p => p.Entrada)
+                .HasForeignKey(d => d.IdTipoEntrada)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Entrada_IdTipoEntrada");
         });
 
         modelBuilder.Entity<Especy>(entity =>
         {
-            entity.HasKey(e => e.IdEspecie).HasName("PK__Especies__08BEEA3EEB8D8549");
+            entity.HasKey(e => e.IdEspecie).HasName("PK__Especies__08BEEA3EDB399452");
 
             entity.Property(e => e.NombreEsp)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<EstadoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdEstadoHabitacion).HasName("PK__EstadoHa__EBF610CE75B0BE0F");
+            entity.HasKey(e => e.IdEstadoHabitacion).HasName("PK__EstadoHa__EBF610CE2210CEE2");
 
             entity.ToTable("EstadoHabitacion");
 
@@ -623,14 +731,14 @@ public partial class ZooMaContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("descripcion");
             entity.Property(e => e.Estado)
-                .HasMaxLength(255)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("estado");
         });
 
         modelBuilder.Entity<EstadoSalud>(entity =>
         {
-            entity.HasKey(e => e.IdEstadoSalud).HasName("PK__EstadoSa__01EAFF254CECE58F");
+            entity.HasKey(e => e.IdEstadoSalud).HasName("PK__EstadoSa__01EAFF25133CCC23");
 
             entity.ToTable("EstadoSalud");
 
@@ -642,26 +750,26 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<EstadoTarea>(entity =>
         {
-            entity.HasKey(e => e.IdEstadoTarea).HasName("PK__EstadoTa__09BBFBF4BED0AC88");
+            entity.HasKey(e => e.IdEstadoTarea).HasName("PK__EstadoTa__09BBFBF484832146");
 
             entity.ToTable("EstadoTarea");
 
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Habitacion>(entity =>
         {
-            entity.HasKey(e => e.IdHabitacion).HasName("PK__Habitaci__8BBBF901BF18834B");
+            entity.HasKey(e => e.IdHabitacion).HasName("PK__Habitaci__8BBBF90105047327");
 
             entity.ToTable("Habitacion");
 
             entity.Property(e => e.Direccion)
-                .HasMaxLength(255)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.NombreHab)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacions)
@@ -672,7 +780,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<HabitacionEstadoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdHabitacionEstadoHabitacion).HasName("PK__Habitaci__7E4231BB17811845");
+            entity.HasKey(e => e.IdHabitacionEstadoHabitacion).HasName("PK__Habitaci__7E4231BB17E72E2A");
 
             entity.ToTable("HabitacionEstadoHabitacion");
 
@@ -689,7 +797,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<HistorialMovimiento>(entity =>
         {
-            entity.HasKey(e => e.IdHistorialMovimientos).HasName("PK__Historia__DB40A18DC698A4EA");
+            entity.HasKey(e => e.IdHistorialMovimientos).HasName("PK__Historia__DB40A18D615BAF8C");
 
             entity.Property(e => e.Motivo)
                 .HasMaxLength(255)
@@ -703,7 +811,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<MantenimientoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdMantenimientoHabitacion).HasName("PK__Mantenim__C724A79C66D5F993");
+            entity.HasKey(e => e.IdMantenimientoHabitacion).HasName("PK__Mantenim__C724A79C0FBB8AB1");
 
             entity.ToTable("MantenimientoHabitacion");
 
@@ -718,9 +826,21 @@ public partial class ZooMaContext : DbContext
                 .HasConstraintName("FK_MantenimientoHabitacion_IdHabitacion");
         });
 
+        modelBuilder.Entity<MetodoPago>(entity =>
+        {
+            entity.HasKey(e => e.IdMetodoPago).HasName("PK__MetodoPa__6F49A9BEDCCB7CA1");
+
+            entity.ToTable("MetodoPago");
+
+            entity.Property(e => e.Metodopago1)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("metodopago");
+        });
+
         modelBuilder.Entity<Puesto>(entity =>
         {
-            entity.HasKey(e => e.IdPuesto).HasName("PK__Puesto__ADAC6B9CCDC4785D");
+            entity.HasKey(e => e.IdPuesto).HasName("PK__Puesto__ADAC6B9C0F124A84");
 
             entity.ToTable("Puesto");
 
@@ -728,48 +848,48 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.IdRol).HasName("PK__Rol__2A49584CA11DB2EF");
+            entity.HasKey(e => e.IdRol).HasName("PK__Rol__2A49584C3715BBDD");
 
             entity.ToTable("Rol");
 
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
         });
 
         modelBuilder.Entity<RolUsario>(entity =>
         {
-            entity.HasKey(e => e.IdRolUsario).HasName("PK__RolUsari__F11979EA41CDC187");
+            entity.HasKey(e => e.IdRolUsario).HasName("PK__RolUsari__F11979EA6DC568B1");
 
             entity.ToTable("RolUsario");
-
-            entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.RolUsarios)
-                .HasForeignKey(d => d.IdEmpleado)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RolUsario_IdEmpleado");
 
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.RolUsarios)
                 .HasForeignKey(d => d.IdRol)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RolUsario_IdRol");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.RolUsarios)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RolUsario_IdUsuario");
         });
 
         modelBuilder.Entity<Tarea>(entity =>
         {
-            entity.HasKey(e => e.IdTareas).HasName("PK__Tareas__61D0EF21D628C580");
+            entity.HasKey(e => e.IdTareas).HasName("PK__Tareas__61D0EF21CCEBA542");
 
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Tareas)
@@ -780,7 +900,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<TareasEstadosTarea>(entity =>
         {
-            entity.HasKey(e => e.IdTareasEstadosTareas).HasName("PK__TareasEs__71C977B54DBAC1FD");
+            entity.HasKey(e => e.IdTareasEstadosTareas).HasName("PK__TareasEs__71C977B579E0C268");
 
             entity.HasOne(d => d.IdEstadoTareaNavigation).WithMany(p => p.TareasEstadosTareas)
                 .HasForeignKey(d => d.IdEstadoTarea)
@@ -793,26 +913,36 @@ public partial class ZooMaContext : DbContext
                 .HasConstraintName("FK_TareasEstadosTareas_IdTareas");
         });
 
+        modelBuilder.Entity<TipoEntradum>(entity =>
+        {
+            entity.HasKey(e => e.IdTipoEntrada).HasName("PK__TipoEntr__00A2A1DEEC7A7309");
+
+            entity.Property(e => e.NombreEnt)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Precio).HasColumnType("money");
+        });
+
         modelBuilder.Entity<TipoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdTipoHabitacion).HasName("PK__TipoHabi__AB75E87C022C20D0");
+            entity.HasKey(e => e.IdTipoHabitacion).HasName("PK__TipoHabi__AB75E87C6060CAE0");
 
             entity.ToTable("TipoHabitacion");
 
             entity.Property(e => e.NombreTh)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("NombreTH");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF97C64A6F60");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF977CE4767D");
 
             entity.ToTable("Usuario");
 
             entity.Property(e => e.Contraseña)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Usuarios)
@@ -821,39 +951,50 @@ public partial class ZooMaContext : DbContext
                 .HasConstraintName("FK_Usuario_IdEmpleado");
         });
 
-        modelBuilder.Entity<Venta>(entity =>
+        modelBuilder.Entity<VentaEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdVenta).HasName("PK__Ventas__BC1240BDBEC045BE");
+            entity.HasKey(e => e.IdVentaEntrada).HasName("PK__VentaEnt__5D1C3EAAC42757A3");
 
-            entity.HasOne(d => d.IdVisitanteNavigation).WithMany(p => p.Venta)
-                .HasForeignKey(d => d.IdVisitante)
+            entity.Property(e => e.Fechaventa).HasColumnName("fechaventa");
+            entity.Property(e => e.Horaventa).HasColumnName("horaventa");
+
+            entity.HasOne(d => d.IdMetodoPagoNavigation).WithMany(p => p.VentaEntrada)
+                .HasForeignKey(d => d.IdMetodoPago)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Ventas_IdVisitante");
+                .HasConstraintName("FK_VentaEntrada_IdMetodoPago");
+
+            entity.HasOne(d => d.IdVisitantesNavigation).WithMany(p => p.VentaEntrada)
+                .HasForeignKey(d => d.IdVisitantes)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VentaEntrada_IdVisitantes");
+
+            entity.HasOne(d => d.IdZooNavigation).WithMany(p => p.VentaEntrada)
+                .HasForeignKey(d => d.IdZoo)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_VentaEntrada_IdZoo");
         });
 
         modelBuilder.Entity<Visitante>(entity =>
         {
-            entity.HasKey(e => e.IdVisitante).HasName("PK__Visitant__696F3E9F7F31A267");
+            entity.HasKey(e => e.IdVisitantes).HasName("PK__Visitant__AB57AD456C294C37");
 
-            entity.ToTable("Visitante");
-
-            entity.Property(e => e.Apellido1)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Apellido2)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Tipo)
-                .HasMaxLength(255)
-                .IsUnicode(false);
+            entity.Property(e => e.Apell1Vist)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("apell1Vist");
+            entity.Property(e => e.Apell2Vist)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("apell2Vist");
+            entity.Property(e => e.NombreVist)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("nombreVist");
         });
 
         modelBuilder.Entity<Zoo>(entity =>
         {
-            entity.HasKey(e => e.IdZoo).HasName("PK__ZOO__283998DB4675896C");
+            entity.HasKey(e => e.IdZoo).HasName("PK__ZOO__283998DB31F7FFC3");
 
             entity.ToTable("ZOO");
 
@@ -861,10 +1002,10 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Direccion)
-                .HasMaxLength(255)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.NombreZoo)
-                .HasMaxLength(255)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 

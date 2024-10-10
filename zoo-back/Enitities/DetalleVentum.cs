@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class DetalleVentum
 {
     public int IdDetalleVenta { get; set; }
 
-    public int IdVenta { get; set; }
+    public int IdEntrada { get; set; }
 
-    public int IdAnimales { get; set; }
+    public int Cantidad { get; set; }
 
-    public double Precio { get; set; }
-
-    public virtual Animale IdAnimalesNavigation { get; set; } = null!;
-
-    public virtual Venta IdVentaNavigation { get; set; } = null!;
+    public virtual Entradum IdEntradaNavigation { get; set; } = null!;
 }

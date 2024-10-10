@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
-
+namespace Entities;
 public partial class Puesto
 {
     public int IdPuesto { get; set; }

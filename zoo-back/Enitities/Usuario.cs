@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class Usuario
 {
@@ -12,4 +12,6 @@ public partial class Usuario
     public int IdEmpleado { get; set; }
 
     public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
+
+    public virtual ICollection<RolUsario> RolUsarios { get; set; } = new List<RolUsario>();
 }

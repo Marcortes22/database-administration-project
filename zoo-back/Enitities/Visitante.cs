@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class Visitante
 {
-    public int IdVisitante { get; set; }
+    public int IdVisitantes { get; set; }
 
-    public string Nombre { get; set; } = null!;
+    public string NombreVist { get; set; } = null!;
 
-    public string Apellido1 { get; set; } = null!;
+    public string Apell1Vist { get; set; } = null!;
 
-    public string Apellido2 { get; set; } = null!;
+    public string Apell2Vist { get; set; } = null!;
 
-    public string Tipo { get; set; } = null!;
+    public virtual ICollection<CalificacionVisitum> CalificacionVisita { get; set; } = new List<CalificacionVisitum>();
 
-    public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();
+    public virtual ICollection<VentaEntradum> VentaEntrada { get; set; } = new List<VentaEntradum>();
 }

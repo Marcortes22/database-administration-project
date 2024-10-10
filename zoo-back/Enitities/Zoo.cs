@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
+namespace Entities;
 
 public partial class Zoo
 {
@@ -16,4 +16,6 @@ public partial class Zoo
     public virtual ICollection<Animale> Animales { get; set; } = new List<Animale>();
 
     public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
+
+    public virtual ICollection<VentaEntradum> VentaEntrada { get; set; } = new List<VentaEntradum>();
 }

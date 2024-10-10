@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Services;
-
+namespace Entities;
 public partial class Tarea
 {
     public int IdTareas { get; set; }
