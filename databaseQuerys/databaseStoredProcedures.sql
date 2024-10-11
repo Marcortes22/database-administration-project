@@ -1,6 +1,9 @@
 --Parte 7: SP Insert
 USE ZooMA
 GO
+IF OBJECT_ID('SP_INGRESAR_HABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_HABITACION;
+GO
 CREATE PROCEDURE SP_INGRESAR_HABITACION(
     @NombreHab VARCHAR(20),
     @Direccion VARCHAR(255),
@@ -38,12 +41,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_EMPLEADO', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_EMPLEADO;
 GO
 CREATE PROCEDURE SP_INGRESAR_EMPLEADO(
     @Nombre VARCHAR(20),
@@ -100,12 +106,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_ANIMAL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_ANIMAL;
 GO
 CREATE PROCEDURE SP_INGRESAR_ANIMAL(
     @NombreAni VARCHAR(20),
@@ -171,12 +180,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_DIETA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_DIETA;
 GO
 CREATE PROCEDURE SP_INGRESAR_DIETA(
     @NombreDiet VARCHAR(20),
@@ -254,12 +266,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_ESPECIE', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_ESPECIE;
 GO
 CREATE PROCEDURE SP_INGRESAR_ESPECIE(
     @NombreEsp VARCHAR(20)
@@ -295,12 +310,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_VISITANTE', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_VISITANTE;
 GO
 CREATE PROCEDURE SP_INGRESAR_VISITANTE(
     @NombreVist VARCHAR(20),
@@ -338,7 +356,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
@@ -388,6 +406,9 @@ GO
 
 USE ZooMA
 GO
+IF OBJECT_ID('SP_INGRESAR_PUESTO', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_PUESTO;
+GO
 CREATE PROCEDURE SP_INGRESAR_PUESTO(
     @Nombre VARCHAR(20),
     @Salario FLOAT,
@@ -431,13 +452,16 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_TIPOHABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_TIPOHABITACION;
 GO
 CREATE PROCEDURE SP_INGRESAR_TIPOHABITACION(
     @NombreTH VARCHAR(255)
@@ -473,12 +497,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_ZOO', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_ZOO;
 GO
 CREATE PROCEDURE SP_INGRESAR_ZOO(
     @NombreZoo VARCHAR(20),
@@ -516,12 +543,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_TAREA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_TAREA;
 GO
 CREATE PROCEDURE SP_INGRESAR_TAREA(
     @Nombre VARCHAR(20),
@@ -566,12 +596,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_CALIFICACION_VISITA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_CALIFICACION_VISITA;
 GO
 CREATE PROCEDURE SP_INGRESAR_CALIFICACION_VISITA(
     @Nota INT,
@@ -611,13 +644,16 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_TIPO_ENTRADA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_TIPO_ENTRADA;
 GO
 CREATE PROCEDURE SP_INGRESAR_TIPO_ENTRADA(
     @NombreEnt VARCHAR(20),
@@ -655,12 +691,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_ROL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_ROL;
 GO
 CREATE PROCEDURE SP_INGRESAR_ROL(
     @nombre VARCHAR(20)
@@ -696,12 +735,15 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_USUARIO_ROL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_USUARIO_ROL;
 GO
 CREATE PROCEDURE SP_INGRESAR_USUARIO_ROL(
     @Contraseña VARCHAR(255),
@@ -759,13 +801,16 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_VENTA_ENTRADA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_VENTA_ENTRADA;
 GO
 CREATE PROCEDURE SP_INGRESAR_VENTA_ENTRADA (
     @fechaventa DATE,
@@ -819,11 +864,12 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
 --FIN SP Insert--
+
 
 --Parte 8: SP Consultar tablas
 
@@ -852,7 +898,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -891,7 +937,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -927,7 +973,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -964,7 +1010,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1008,7 +1054,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1045,7 +1091,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1094,7 +1140,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1124,7 +1170,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1163,7 +1209,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1203,7 +1249,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1253,7 +1299,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -1293,15 +1339,17 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: %s', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
 --FIN SP Consultar tablas--
 
-	    
 --parte 9: SP Actualizar
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_EstadoSalud', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_EstadoSalud;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_EstadoSalud (
     @IdEstadoSalud INT,
@@ -1341,12 +1389,15 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Especie', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Especie;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Especie (
     @IdEspecie INT,
@@ -1387,13 +1438,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Dieta', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Dieta;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Dieta (
     @IdDieta INT,
@@ -1435,13 +1489,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_TIPOHABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_TIPOHABITACION;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_TIPOHABITACION (
     @IdTipoHabitacion INT,
@@ -1482,12 +1539,15 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Zoo', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Zoo;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Zoo (
     @IdZoo INT,
@@ -1531,13 +1591,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Habitacion', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Habitacion;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Habitacion (
     @IdHabitacion INT,
@@ -1582,13 +1645,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Visitante', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Visitante;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Visitante (
     @IdVisitantes INT,
@@ -1632,13 +1698,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_EDITAR_Animales', 'P') IS NOT NULL
+   DROP PROCEDURE SP_EDITAR_Animales;
 GO
 CREATE PROCEDURE SP_EDITAR_Animales (
     @IdAnimal INT,
@@ -1693,13 +1762,16 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
 
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_EDITAR_ESTADOHABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_EDITAR_ESTADOHABITACION;
 GO
 CREATE PROCEDURE SP_EDITAR_ESTADOHABITACION (
     @IdEstadoHabitacion INT,
@@ -1742,12 +1814,15 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_PUESTO', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_PUESTO;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_PUESTO (
     @IdPuesto INT,
@@ -1792,13 +1867,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Empleado', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Empleado;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Empleado (
     @IdEmpleado INT,
@@ -1846,13 +1924,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Tareas', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Tareas;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Tareas (
     @IdTareas INT,
@@ -1902,12 +1983,15 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Usuario', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Usuario;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Usuario (
     @IdUsuario INT,
@@ -1949,13 +2033,16 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_Rol', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_Rol;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_Rol (
     @IdRol INT,
@@ -1995,7 +2082,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
@@ -2003,6 +2090,9 @@ GO
 
 
 USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_TipoEntrada', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_TipoEntrada;
 GO
 CREATE PROCEDURE SP_ACTUALIZAR_TipoEntrada (
     @IdTipoEntrada INT,
@@ -2044,7 +2134,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
@@ -2091,7 +2181,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
@@ -2136,7 +2226,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
@@ -2180,7 +2270,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
@@ -2224,7 +2314,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2268,7 +2358,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2314,7 +2404,7 @@ BEGIN
 
         PRINT 'Error al eliminar la habitación: ' + @ErrorMessage;
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2359,7 +2449,7 @@ BEGIN
 
         PRINT 'Error al eliminar el visitante: ' + @ErrorMessage;
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2404,7 +2494,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2450,7 +2540,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2496,7 +2586,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2541,7 +2631,7 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
@@ -2587,7 +2677,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2632,7 +2722,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2678,7 +2768,7 @@ BEGIN
         ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END;
 GO
@@ -2720,360 +2810,9 @@ BEGIN
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
 
     END CATCH
 END;
 GO
 --FIN SP Eliminar
-
----Parte 11: SP mostrar registro Auditoria
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_ZOO
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdZoo AS [ID del Zoológico],
-        NombreZoo AS [Nombre del Zoológico],
-        Direccion AS [Dirección del Zoológico],
-        DescripcionZoo AS [Descripción del Zoológico],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_ZOO
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Habitacion
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdHabitacion AS [ID de la Habitación],
-        NombreHab AS [Nombre de la Habitación],
-        Direccion AS [Dirección de la Habitación],
-        Capacidad AS [Capacidad],
-        IdTipoHabitacion AS [ID del Tipo de Habitación],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Habitacion
-    ORDER BY IdAudit;
-END;
-GO
-
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Especies
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdEspecie AS [ID de la Especie],
-        NombreEsp AS [Nombre de la Especie],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Especies
-    ORDER BY IdAudit;
-END;
-GO
-
-USE	ZooMA
-GO
-CREATE PROCEDURE SP_Audit_EstadoSalud
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdEstadoSalud AS [ID del Estado de Salud],
-        EstadoSalud AS [Estado de Salud],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_EstadoSalud
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Dieta
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdDieta AS [ID de la Dieta],
-        NombreDiet AS [Nombre de la Dieta],
-        DescripcionDiet AS [Descripción de la Dieta],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Dieta
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE TABLE Audit_Tipo_Habitacion (
-    IdAudit INT PRIMARY KEY IDENTITY(1,1),
-    NombreTabla VARCHAR(100),
-    Operacion VARCHAR(10),
-    IdTipoHabitacion INT,
-    NombreTH VARCHAR(255),
-    RealizadoPor VARCHAR(128),
-    FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Visitantes
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdVisitantes AS [ID de Visitante],
-        NombreVist AS [Nombre del Visitante],
-        Apell1Vist AS [Primer Apellido],
-        Apell2Vist AS [Segundo Apellido],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Visitantes
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_TipoEntrada
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdTipoEntrada AS [ID de Tipo de Entrada],
-        NombreEnt AS [Nombre de Entrada],
-        Precio AS [Precio],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_TipoEntrada
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_EstadoHabitacion
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdEstadoHabitacion AS [ID de Estado de Habitación],
-        Estado AS [Estado],
-        Descripcion AS [Descripción],
-        Fecha AS [Fecha],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_EstadoHabitacion
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Empleado
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdEmpleado AS [ID de Empleado],
-        Nombre AS [Nombre],
-        Apellido1 AS [Primer Apellido],
-        Apellido2 AS [Segundo Apellido],
-        IdPuesto AS [ID de Puesto],
-        IdZoo AS [ID de Zoo],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Empleado
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Puesto
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdPuesto AS [ID de Puesto],
-        Nombre AS [Nombre],
-        Salario AS [Salario],
-        DescripcionTareas AS [Descripción de Tareas],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Puesto
-    ORDER BY IdAudit;
-END;
-GO
-
-
-uSE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Tareas
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdTareas AS [ID de Tareas],
-        Nombre AS [Nombre],
-        Descripcion AS [Descripción],
-        IdEmpleado AS [ID de Empleado],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Tareas
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_EstadoTarea
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdEstadoTarea AS [ID de Estado de Tarea],
-        Nombre AS [Nombre],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_EstadoTarea
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_VentaEntrada
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdVentaEntrada AS [ID de Venta de Entrada],
-        fechaventa AS [Fecha de Venta],
-        horaventa AS [Hora de Venta],
-        IdEmpleado AS [ID de Empleado],
-        IdVisitantes AS [ID de Visitantes],
-        IdMetodoPago AS [ID de Método de Pago],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_VentaEntrada
-    ORDER BY IdAudit;
-END;
-GO
-
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_MetodoPago
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdMetodoPago AS [ID de Método de Pago],
-        MetodoPago AS [Método de Pago],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_MetodoPago
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_CalificacionVisita
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdCalificacionVisita AS [ID de Calificación de Visita],
-        Nota AS [Nota],
-        SugerenciaMejora AS [Sugerencia de Mejora],
-        fecha AS [Fecha],
-        IdVisitantes AS [ID de Visitante],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_CalificacionVisita
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Rol
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdRol AS [ID de Rol],
-        Nombre AS [Nombre de Rol],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Rol
-    ORDER BY IdAudit;
-END;
-GO
-
-USE ZooMA
-GO
-CREATE PROCEDURE SP_Audit_Usuario
-AS
-BEGIN
-    SELECT 
-        IdAudit AS [Identificador de Auditoría],
-        NombreTabla AS [Nombre de la tabla],
-        Operacion AS [Operación],
-        IdUsuario AS [ID de Usuario],
-        Contraseña AS [Contraseña],
-        IdEmpleado AS [ID de Empleado],
-        RealizadoPor AS [Responsable],
-        FechaDeEjecucion AS [Fecha de Ejecución]
-    FROM Audit_Usuario
-    ORDER BY IdAudit;
-END;
-GO
---FIN SP MOSTRAR AUDIT
---file to create stored procedures
