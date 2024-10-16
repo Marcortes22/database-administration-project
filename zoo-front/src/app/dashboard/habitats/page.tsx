@@ -7,7 +7,6 @@ import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 export default function HabitatsTable() {
   const { navigateTo } = useCustomRouter();
-  // Datos simulados para los habitats
   const [habitats, setHabitats] = useState([
     { IdHabitacion: 1, Nombre: 'Habitat 1', Direccion: 'Ubicación 1', Capacidad: 50 },
     { IdHabitacion: 2, Nombre: 'Habitat 2', Direccion: 'Ubicación 2', Capacidad: 30 },
@@ -16,11 +15,7 @@ export default function HabitatsTable() {
 
   const handleEdit = (id: number) => {
     toast.success('Hábitat editado correctamente', {
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-      },
+      style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
     console.log(`Editar habitat con id: ${id}`);
   };
@@ -28,57 +23,52 @@ export default function HabitatsTable() {
   const handleDelete = (id: number) => {
     setHabitats(habitats.filter(habitat => habitat.IdHabitacion !== id));
     toast.success('Hábitat eliminado correctamente', {
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-      },
+      style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
     console.log(`Eliminar habitat con id: ${id}`);
   };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mx-8 my-6"> {/* Márgenes en los lados */}
-   <div className="flex justify-between mb-4">
-        <h2 className="text-xl font-semibold">Registro de Hábitats</h2>
+    <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-700">Registro de Hábitats</h2>
         <button
           onClick={() => navigateTo('/dashboard/habitats/addHabitats')}
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-300 flex items-center"
+          className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 flex items-center"
         >
           <FaPlus className="mr-2" /> Agregar nuevo registro
         </button>
       </div>
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3 text-center">ID</th>
-            <th scope="col" className="px-6 py-3 text-center">Nombre</th>
-            <th scope="col" className="px-6 py-3 text-center">Dirección</th>
-            <th scope="col" className="px-6 py-3 text-center">Capacidad</th>
-            <th scope="col" className="px-6 py-3 text-center">Acciones</th>
+
+      <table className="w-full text-left text-gray-500">
+        <thead className="bg-gray-50">
+          <tr className="text-gray-700 uppercase text-sm">
+            <th className="px-6 py-3 text-center">ID</th>
+            <th className="px-6 py-3 text-center">Nombre</th>
+            <th className="px-6 py-3 text-center">Dirección</th>
+            <th className="px-6 py-3 text-center">Capacidad</th>
+            <th className="px-6 py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {habitats.map((habitat) => (
-            <tr key={habitat.IdHabitacion} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
-                {habitat.IdHabitacion}
-              </th>
+            <tr key={habitat.IdHabitacion} className="border-b hover:bg-gray-100">
+              <td className="px-6 py-4 text-center font-medium">{habitat.IdHabitacion}</td>
               <td className="px-6 py-4 text-center">{habitat.Nombre}</td>
               <td className="px-6 py-4 text-center">{habitat.Direccion}</td>
               <td className="px-6 py-4 text-center">{habitat.Capacidad}</td>
-              <td className="px-6 py-4 text-center">
+              <td className="px-6 py-4 flex justify-center space-x-2">
                 <button
-                  className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2 hover:bg-blue-600 transition duration-300"
+                  className="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-all flex items-center"
                   onClick={() => handleEdit(habitat.IdHabitacion)}
                 >
-                <FaEdit/>
+                  <FaEdit className="mr-1" /> Editar
                 </button>
                 <button
-                  className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition duration-300"
+                  className="bg-red-500 text-white px-3 py-2 rounded-full hover:bg-red-600 transition-all flex items-center"
                   onClick={() => handleDelete(habitat.IdHabitacion)}
                 >
-                 <FaTrash/> 
+                  <FaTrash className="mr-1" /> Eliminar
                 </button>
               </td>
             </tr>
