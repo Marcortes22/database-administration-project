@@ -11,10 +11,19 @@ import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import LionImAGE from '@/Assets/lion.png';
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
-import { FaSignOutAlt } from 'react-icons/fa'; // Importar icono
+import { FaSignOutAlt } from 'react-icons/fa'; // Icono
 
 export default function AppNavbar() {
   const { navigateTo } = useCustomRouter();
+
+  // Definimos las rutas con su estructura organizada
+  const routes = [
+    { name: 'Empleados', path: '/dashboard/empleados' },
+    { name: 'Animales', path: '/dashboard/animales' },
+    { name: 'Venta de entradas', path: '/dashboard/ventas' },
+    { name: 'Habitats', path: '/dashboard/habitats' },
+    { name: 'Tareas', path: '/dashboard/tareas' },
+  ];
 
   return (
     <Navbar isBordered className="bg-white shadow-md px-8 py-4">
@@ -32,19 +41,18 @@ export default function AppNavbar() {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-6" justify="center">
-        {["Empleados", "Animales", "Venta de boletos", "Habitats", "Tareas"].map(
-          (item, index) => (
-            <NavbarItem key={index}>
-              <Link
-                color="foreground"
-                className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all duration-300 text-lg"
-                onClick={() => navigateTo(`/dashboard/${item.toLowerCase()}`)}
-              >
-                {item}
-              </Link>
-            </NavbarItem>
-          )
-        )}
+        {/* Mapeamos las rutas dinámicamente */}
+        {routes.map((route, index) => (
+          <NavbarItem key={index}>
+            <Link
+              color="foreground"
+              className="text-gray-600 hover:text-blue-500 cursor-pointer transition-all duration-300 text-lg"
+              onClick={() => navigateTo(route.path)}
+            >
+              {route.name}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
 
       <NavbarContent justify="end">

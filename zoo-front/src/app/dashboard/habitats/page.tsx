@@ -31,7 +31,7 @@ export default function HabitatsTable() {
   return (
     <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-700">Registro de Hábitats</h2>
+        <h2 className="text-2xl font-bold text-gray-700">Registro de Habitaciones</h2>
         <button
           onClick={() => navigateTo('/dashboard/habitats/addHabitats')}
           className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 flex items-center"
