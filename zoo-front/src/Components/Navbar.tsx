@@ -9,12 +9,12 @@ import {
 import { Button, Link } from '@nextui-org/react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image'; 
-import LionImAGE from '@/Assets/lion.png'
+import LionImAGE from '@/Assets/lion.png';
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
 
 export default function AppNavbar() {
-
   const { navigateTo } = useCustomRouter();
+  
   return (
     <Navbar isBordered className="bg-opacity-70 backdrop-blur-md bg-gray-800">
       <NavbarContent justify="start">
@@ -35,6 +35,7 @@ export default function AppNavbar() {
             color="foreground"
             href="#"
             className="text-white hover:text-blue-400 transition duration-300"
+            onClick={() => navigateTo('/dashboard/employee')}
           >
             Empleados
           </Link>
@@ -79,7 +80,7 @@ export default function AppNavbar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button color="danger" onClick={() => signOut({ callbackUrl: '/' })} >
+          <Button color="danger" onClick={() => signOut({ callbackUrl: '/' })}>
             Cerrar sesión
           </Button>
         </NavbarItem>
