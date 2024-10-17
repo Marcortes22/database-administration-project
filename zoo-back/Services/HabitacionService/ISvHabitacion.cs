@@ -8,9 +8,9 @@ using Entities;
 using Services.TipoHabitacionService.Dto;
 using Services.genericResponse;
 
-namespace Services.TipoHabitacionService
+namespace Services.HabitacionService
 {
-    public interface ISvTipoHabitacion
+    public interface ISvHabitacion
     {
 
          Task<List<TipoHabitacion>> GetAll();

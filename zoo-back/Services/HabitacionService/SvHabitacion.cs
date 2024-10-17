@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.TipoHabitacionService
+namespace Services.HabitacionService
 {
-    public class SvTipoHabitacion : ISvTipoHabitacion
+    public class SvTipoHabitacion : ISvHabitacion
     {
 
         private ZooMaContext myDbContext;
