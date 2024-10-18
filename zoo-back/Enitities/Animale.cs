@@ -27,7 +27,7 @@ public partial class Animale
 
     public virtual Dietum IdDietaNavigation { get; set; } = null!;
 
-    public virtual Especy IdEspecieNavigation { get; set; } = null!;
+    public virtual Especie IdEspecieNavigation { get; set; } = null!;
 
     public virtual EstadoSalud IdEstadoSaludNavigation { get; set; } = null!;
 

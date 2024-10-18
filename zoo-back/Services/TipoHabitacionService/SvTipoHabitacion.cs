@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Services.genericResponse;
@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Services.TipoHabitacionService
 {
@@ -23,12 +26,14 @@ namespace Services.TipoHabitacionService
         public async Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion)
         {
             var nombreTipoHabitacion = new SqlParameter("@NombreTH", tipoHabitacion.NombreTH);
+            var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
+
                 // Ejecutamos el procedimiento almacenado
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
-                     "EXEC SP_INGRESAR_TIPOHABITACION @NombreTH",
-                     nombreTipoHabitacion
+                     "EXEC SP_INGRESAR_TIPOHABITACION @NombreTH, @Cedula",
+                     nombreTipoHabitacion, cedula
                  );
 
 
@@ -45,12 +50,13 @@ namespace Services.TipoHabitacionService
         public async Task<BaseResponse<TipoHabitacion>> Delete(int id)
         {
             var IdTipoHabitacion = new SqlParameter("@IdTipoHabitacion", id);
+            var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
                 // Ejecutamos el procedimiento almacenado
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
-                     "EXEC SP_ELIMINAR_TIPOHABITACION @IdTipoHabitacion",
-                     IdTipoHabitacion
+                     "EXEC SP_ELIMINAR_TIPOHABITACION @IdTipoHabitacion, @Cedula",
+                     IdTipoHabitacion, cedula
                  );
                 return new BaseResponse<TipoHabitacion>(default, true, "Tipo habitación eliminada exitosamente");
             }
@@ -62,28 +68,56 @@ namespace Services.TipoHabitacionService
             }
         }
 
-        public async Task<List<TipoHabitacion>> GetAll()
+        public async Task<BaseResponse<List<TipoHabitacion>>> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var data = await myDbContext.TipoHabitacion.FromSqlRaw("SELECT * FROM Vw_TipoHabitacion").ToListAsync();
+
+           
+                return new BaseResponse<List<TipoHabitacion>>(data, true, "");
+            
+
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                return new BaseResponse<List<TipoHabitacion>>(default, false, ex.Message);
+            }
         }
 
-        public async Task<TipoHabitacion> GetById(int id)
+        public async Task<BaseResponse<TipoHabitacion>> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var data =  await myDbContext.TipoHabitacion.FromSqlRaw("SELECT * FROM TipoHabitacion where IdTipoHabitacion = " + id).FirstAsync();
+
+           
+                return new BaseResponse<TipoHabitacion>(data, true, "");
+
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+
+                return new BaseResponse<TipoHabitacion>(default, false, ex.Message);
+            }
+
         }
 
         public async Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion)
         {
             var IdTipoHabitacion = new SqlParameter("@IdTipoHabitacion", id);
             var nombreTipoHabitacion = new SqlParameter("@NombreTH", tipoHabitacion.NombreTH);
+            var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
                 // Ejecutamos el procedimiento almacenado
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
-                    "EXEC SP_ACTUALIZAR_TIPOHABITACION @IdTipoHabitacion, @NombreTH",
-                    nombreTipoHabitacion, IdTipoHabitacion
+                    "EXEC SP_ACTUALIZAR_TIPOHABITACION @IdTipoHabitacion, @NombreTH, @Cedula",
+                    nombreTipoHabitacion, IdTipoHabitacion, cedula
                 );
-                Console.WriteLine(result);
+                
 
                 return new BaseResponse<TipoHabitacion>(default, true, "Tipo habitación actualizada exitosamente");
             }

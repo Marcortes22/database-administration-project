@@ -14,4 +14,6 @@ public partial class MantenimientoHabitacion
     public int IdHabitacion { get; set; }
 
     public virtual Habitacion IdHabitacionNavigation { get; set; } = null!;
+
+    public virtual Tarea IdTareasNavigation { get; set; } = null!;
 }

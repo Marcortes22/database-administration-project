@@ -7,17 +7,18 @@ using Services;
 using Entities;
 using Services.TipoHabitacionService.Dto;
 using Services.genericResponse;
+using Services.HabitacionService.Dto;
 
 namespace Services.HabitacionService
 {
     public interface ISvHabitacion
     {
 
-         Task<List<TipoHabitacion>> GetAll();
+         Task<List<Habitacion>> GetAll();
          Task<TipoHabitacion> GetById(int id);
-         Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion);
-         Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion);
-         Task<BaseResponse<TipoHabitacion>> Delete(int id);
+         Task<BaseResponse<Habitacion>> Create(HabitacionCreateDto tipoHabitacion);
+         Task<BaseResponse<Habitacion>> Update(int id, HabitacionUpdateDto tipoHabitacion);
+         Task<BaseResponse<Habitacion>> Delete(int id);
 
     }
 }

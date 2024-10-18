@@ -14,4 +14,6 @@ public partial class ControlAnimal
     public int IdAnimales { get; set; }
 
     public virtual Animale IdAnimalesNavigation { get; set; } = null!;
+
+    public virtual Tarea IdTareasNavigation { get; set; } = null!;
 }

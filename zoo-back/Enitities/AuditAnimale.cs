@@ -21,7 +21,7 @@ public partial class AuditAnimale
 
     public int? IdHabitacion { get; set; }
 
-    public int? IdEspecies { get; set; }
+    public int? IdEspecie { get; set; }
 
     public int? IdEstadoSalud { get; set; }
 

@@ -172,7 +172,7 @@ CREATE TABLE Animales (
     IdHabitacion INT NOT NULL,
     IdEspecie INT NOT NULL,
     IdEstadoSalud INT NOT NULL,
-    IdZoo INT NOT NULL,
+    IdZoo INT NOT NULL DEFAULT 1,
     CONSTRAINT FK_Animales_IdEstadoSalud FOREIGN KEY (IdEstadoSalud) REFERENCES EstadoSalud (IdEstadoSalud),
     CONSTRAINT FK_Animales_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
     CONSTRAINT FK_Animales_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion),
@@ -230,13 +230,13 @@ CREATE TABLE Puesto (
 USE ZooMA
 GO
 CREATE TABLE Empleado (
-    IdEmpleado INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdEmpleado INT NOT NULL PRIMARY KEY,
     Nombre VARCHAR(20) NOT NULL,
     Apellido1 VARCHAR(20) NOT NULL,
     Apellido2 VARCHAR(20) NOT NULL,
 	Correo VARCHAR (50) NOT NULL,
     IdPuesto INT NOT NULL,
-    IdZoo INT NOT NULL,
+    IdZoo INT NOT NULL DEFAULT 1, 
     CONSTRAINT FK_Empleado_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
     CONSTRAINT FK_Empleado_IdPuesto FOREIGN KEY (IdPuesto) REFERENCES Puesto (IdPuesto)
 );
@@ -324,7 +324,7 @@ CREATE TABLE VentaEntrada (
     IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Fechaventa DATE NOT NULL,
     Horaventa TIME NOT NULL,
-    IdZoo INT NOT NULL,
+    IdZoo INT NOT NULL DEFAULT 1,
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
     CONSTRAINT FK_VentaEntrada_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),

@@ -15,7 +15,7 @@ public partial class AuditTarea
 
     public string? Nombre { get; set; }
 
-    public string? Descripcion { get; set; }
+    public int? IdTipoTarea { get; set; }
 
     public int? IdEmpleado { get; set; }
 

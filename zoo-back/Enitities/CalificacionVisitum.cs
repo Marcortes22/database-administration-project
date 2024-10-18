@@ -15,5 +15,13 @@ public partial class CalificacionVisitum
 
     public int IdVisitantes { get; set; }
 
+    public int IdCalificacionServicioAlCliente { get; set; }
+
+    public int IdCalificacionRecorrido { get; set; }
+
+    public virtual CalificacionRecorrido IdCalificacionRecorridoNavigation { get; set; } = null!;
+
+    public virtual CalificacionServicioAlCliente IdCalificacionServicioAlClienteNavigation { get; set; } = null!;
+
     public virtual Visitante IdVisitantesNavigation { get; set; } = null!;
 }

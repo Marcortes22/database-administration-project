@@ -13,6 +13,8 @@ public partial class Empleado
 
     public string Apellido2 { get; set; } = null!;
 
+    public string Correo { get; set; } = null!;
+
     public int IdPuesto { get; set; }
 
     public int IdZoo { get; set; }

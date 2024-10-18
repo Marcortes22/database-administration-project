@@ -30,15 +30,22 @@ DescripcionDiet as 'Descripcon de Dieta'
 from Dieta  
 GO
 
-Use ZooMA
+USE ZooMA
+GO
+-- Verifica si la vista existe y la elimina
+IF OBJECT_ID('Vw_TipoHabitacion', 'V') IS NOT NULL
+   DROP VIEW Vw_TipoHabitacion;
 GO
 Create View Vw_TipoHabitacion
 as
 Select
-IdTipoHabitacion as 'Codigo del tipo de habitacion',
-NombreTH  as 'Nombre del tipo de habitacion'
+IdTipoHabitacion,
+NombreTH
 from TipoHabitacion  
 GO
+
+
+select * from Vw_TipoHabitacion
 
 Use ZooMA
 GO

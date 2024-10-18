@@ -9,7 +9,7 @@ public partial class Dietum
 
     public string NombreDiet { get; set; } = null!;
 
-    public string DescripcionDiet { get; set; } = null!;
-
     public virtual ICollection<Animale> Animales { get; set; } = new List<Animale>();
+
+    public virtual ICollection<DietaAlimento> DietaAlimentos { get; set; } = new List<DietaAlimento>();
 }

@@ -19,6 +19,8 @@ public partial class AuditEmpleado
 
     public string? Apellido2 { get; set; }
 
+    public string? Correo { get; set; }
+
     public int? IdPuesto { get; set; }
 
     public int? IdZoo { get; set; }

@@ -17,6 +17,12 @@ public partial class AuditVisitante
 
     public string? Apell1Vist { get; set; }
 
+    public string? Apell2Vist { get; set; }
+
+    public string? CorreoElectronico { get; set; }
+
+    public int? Telefono { get; set; }
+
     public string? RealizadoPor { get; set; }
 
     public DateTime? FechaDeEjecucion { get; set; }

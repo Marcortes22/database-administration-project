@@ -1,7 +1,9 @@
 --Parte 5: Trigger
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_ZOO', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_ZOO;
+GO
 CREATE TRIGGER trg_Audit_ZOO
 ON ZOO
 AFTER INSERT, UPDATE, DELETE
@@ -12,6 +14,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'ZOO';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
 
     SET @User = SYSTEM_USER;
 
@@ -22,7 +25,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -33,7 +36,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -44,7 +47,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -52,6 +55,9 @@ GO
 
 
 USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Habitacion', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Habitacion;
 GO
 CREATE TRIGGER trg_Audit_Habitacion
 ON Habitacion
@@ -63,6 +69,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Habitacion';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
 
     SET @User = SYSTEM_USER;
 
@@ -73,7 +80,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Habitacion (NombreTabla, Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -84,7 +91,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Habitacion (NombreTabla, Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -95,7 +102,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Habitacion (NombreTabla, Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -104,7 +111,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Animales', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Animales;
+GO
 CREATE TRIGGER trg_Audit_Animales
 ON Animales
 AFTER INSERT, UPDATE, DELETE
@@ -115,6 +124,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Animales';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
 
     SET @User = SYSTEM_USER;
 
@@ -124,8 +134,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @User, GETDATE()
+        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -135,8 +145,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @User, GETDATE()
+        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -146,8 +156,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecies, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @User, GETDATE()
+        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -156,9 +166,11 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Especies', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Especies;
+GO
 CREATE TRIGGER trg_Audit_Especies
-ON Especies
+ON Especie
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
@@ -167,7 +179,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Especies';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
@@ -176,8 +188,8 @@ BEGIN
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Especies (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @User, GETDATE()
+        INSERT INTO Audit_Especie (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -188,7 +200,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Especies (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -199,7 +211,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Especies (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -208,7 +220,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_EstadoSalud', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_EstadoSalud;
+GO
 CREATE TRIGGER trg_Audit_EstadoSalud
 ON EstadoSalud
 AFTER INSERT, UPDATE, DELETE
@@ -219,7 +233,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'EstadoSalud';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
@@ -229,7 +243,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_EstadoSalud (NombreTabla, Operacion, IdEstadoSalud, EstadoSalud, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -240,7 +254,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_EstadoSalud (NombreTabla, Operacion, IdEstadoSalud, EstadoSalud, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -251,7 +265,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_EstadoSalud (NombreTabla, Operacion, IdEstadoSalud, EstadoSalud, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -260,7 +274,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Dieta', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Dieta;
+GO
 CREATE TRIGGER trg_Audit_Dieta
 ON Dieta
 AFTER INSERT, UPDATE, DELETE
@@ -271,39 +287,39 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Dieta';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdDieta, NombreDiet, DescripcionDiet FROM inserted)
-       AND NOT EXISTS (SELECT IdDieta, NombreDiet, DescripcionDiet FROM deleted)
+    IF EXISTS (SELECT IdDieta, NombreDiet FROM inserted)
+       AND NOT EXISTS (SELECT IdDieta, NombreDiet FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, DescripcionDiet, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdDieta, NombreDiet, DescripcionDiet, @User, GETDATE()
+        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdDieta, NombreDiet, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdDieta, NombreDiet, DescripcionDiet FROM inserted)
-       AND EXISTS (SELECT IdDieta, NombreDiet, DescripcionDiet FROM deleted)
+    IF EXISTS (SELECT IdDieta, NombreDiet FROM inserted)
+       AND EXISTS (SELECT IdDieta, NombreDiet FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, DescripcionDiet, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdDieta, NombreDiet, DescripcionDiet, @User, GETDATE()
+        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdDieta, NombreDiet, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdDieta, NombreDiet, DescripcionDiet FROM deleted)
-       AND NOT EXISTS (SELECT IdDieta, NombreDiet, DescripcionDiet FROM inserted)
+    IF EXISTS (SELECT IdDieta, NombreDiet FROM deleted)
+       AND NOT EXISTS (SELECT IdDieta, NombreDiet FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, DescripcionDiet, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdDieta, NombreDiet, DescripcionDiet, @User, GETDATE()
+        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdDieta, NombreDiet, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -312,7 +328,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_TipoHabitacion', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_TipoHabitacion;
+GO
 CREATE TRIGGER trg_Audit_TipoHabitacion
 ON TipoHabitacion
 AFTER INSERT, UPDATE, DELETE
@@ -323,6 +341,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'TipoHabitacion';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
 
     SET @User = SYSTEM_USER;
 
@@ -333,7 +352,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_TipoHabitacion (NombreTabla, Operacion, IdTipoHabitacion, NombreTH, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -344,7 +363,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_TipoHabitacion (NombreTabla, Operacion, IdTipoHabitacion, NombreTH, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -355,23 +374,29 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_TipoHabitacion (NombreTabla, Operacion, IdTipoHabitacion, NombreTH, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @Cedula, GETDATE()
         FROM deleted;
     END
 END
 GO
 
 
+
+
+
+
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Visitantes', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Visitantes;
+GO
 CREATE TRIGGER trg_Audit_Visitantes
 ON Visitantes
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Visitantes';
@@ -385,7 +410,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -396,7 +421,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -407,7 +432,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -416,7 +441,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_TipoEntrada', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_TipoEntrada;
+GO
 CREATE TRIGGER trg_Audit_TipoEntrada
 ON TipoEntrada
 AFTER INSERT, UPDATE, DELETE
@@ -427,7 +454,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'TipoEntrada';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
@@ -437,7 +464,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -448,7 +475,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -459,7 +486,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -467,14 +494,16 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_EstadoHabitacion', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_EstadoHabitacion;
+GO
 CREATE TRIGGER trg_Audit_EstadoHabitacion
 ON EstadoHabitacion
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'EstadoHabitacion';
@@ -488,7 +517,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_EstadoHabitacion (NombreTabla, Operacion, IdEstadoHabitacion, Estado, Descripcion, Fecha, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, descripcion, Fecha, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, descripcion, Fecha, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -499,7 +528,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_EstadoHabitacion (NombreTabla, Operacion, IdEstadoHabitacion, Estado, Descripcion, Fecha, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, descripcion, Fecha, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, descripcion, Fecha, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -510,7 +539,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_EstadoHabitacion (NombreTabla, Operacion, IdEstadoHabitacion, Estado, Descripcion, Fecha, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, descripcion, Fecha, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, descripcion, Fecha, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -518,14 +547,16 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Empleado', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Empleado;
+GO
 CREATE TRIGGER trg_Audit_Empleado
 ON Empleado
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Empleado';
@@ -539,7 +570,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -550,7 +581,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -561,7 +592,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -569,14 +600,16 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Puesto', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Puesto;
+GO
 CREATE TRIGGER trg_Audit_Puesto
 ON Puesto
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Puesto';
@@ -590,7 +623,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Puesto (NombreTabla, Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -601,7 +634,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Puesto (NombreTabla, Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -612,7 +645,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Puesto (NombreTabla, Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, DescripcionTareas, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -621,7 +654,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_Tareas', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Tareas;
+GO
 CREATE TRIGGER trg_Audit_Tareas
 ON Tareas
 AFTER INSERT, UPDATE, DELETE
@@ -632,45 +667,49 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Tareas';
-
+	
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdTareas, Nombre, Descripcion, IdEmpleado FROM inserted)
-       AND NOT EXISTS (SELECT IdTareas, Nombre, Descripcion, IdEmpleado FROM deleted)
+    IF EXISTS (SELECT IdTareas, Nombre, IdEmpleado FROM inserted)
+       AND NOT EXISTS (SELECT IdTareas, Nombre, IdEmpleado FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, Nombre, Descripcion, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTareas, Nombre, Descripcion, IdEmpleado, @User, GETDATE()
+        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, Nombre, IdEmpleado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTareas, Nombre, IdEmpleado, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdTareas, Nombre, Descripcion, IdEmpleado FROM inserted)
-       AND EXISTS (SELECT IdTareas, Nombre, Descripcion, IdEmpleado FROM deleted)
+    IF EXISTS (SELECT IdTareas, Nombre, IdEmpleado FROM inserted)
+       AND EXISTS (SELECT IdTareas, Nombre, IdEmpleado FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, Nombre, Descripcion, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTareas, Nombre, Descripcion, IdEmpleado, @User, GETDATE()
+        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, Nombre, IdEmpleado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTareas, Nombre, IdEmpleado, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdTareas, Nombre, Descripcion, IdEmpleado FROM deleted)
-       AND NOT EXISTS (SELECT IdTareas, Nombre, Descripcion, IdEmpleado FROM inserted)
+    IF EXISTS (SELECT IdTareas, Nombre, IdEmpleado FROM deleted)
+       AND NOT EXISTS (SELECT IdTareas, Nombre, IdEmpleado FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, Nombre, Descripcion, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdTareas, Nombre, Descripcion, IdEmpleado, @User, GETDATE()
+        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, Nombre, IdEmpleado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTareas, Nombre, IdEmpleado, @Cedula, GETDATE()
         FROM deleted;
     END
 END
 GO
 
 USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_EstadoTarea', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_EstadoTarea;
 GO
 
 CREATE TRIGGER trg_Audit_EstadoTarea
@@ -683,7 +722,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'EstadoTarea';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
@@ -693,7 +732,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_EstadoTarea (NombreTabla, Operacion, IdEstadoTarea, Nombre, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -704,7 +743,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_EstadoTarea (NombreTabla, Operacion, IdEstadoTarea, Nombre, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -715,7 +754,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_EstadoTarea (NombreTabla, Operacion, IdEstadoTarea, Nombre, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -724,14 +763,16 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_VentaEntrada', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_VentaEntrada;
+GO
 CREATE TRIGGER trg_Audit_VentaEntrada
 ON VentaEntrada
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128) = SYSTEM_USER;
     DECLARE @TableName VARCHAR(100) = 'VentaEntrada';
@@ -751,15 +792,15 @@ BEGIN
 
     IF @Operacion IN ('INSERT', 'UPDATE')
     BEGIN
-        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, @User, GETDATE()
+        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdVisitante, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdVisitantes, IdMetodoPago, @Cedula, GETDATE()
         FROM inserted;
     END
 
     IF @Operacion = 'DELETE'
     BEGIN
-        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdZoo, IdVisitantes, IdMetodoPago, @User, GETDATE()
+        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, horaventa, IdVisitante, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, horaventa, IdVisitantes, IdMetodoPago, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -768,6 +809,9 @@ GO
 
 USE ZooMA
 GO
+IF OBJECT_ID('trg_Audit_MetodoPago', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_MetodoPago;
+GO
 
 CREATE TRIGGER trg_Audit_MetodoPago
 ON MetodoPago
@@ -775,7 +819,7 @@ AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'MetodoPago';
@@ -789,7 +833,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_MetodoPago (NombreTabla, Operacion, IdMetodoPago, MetodoPago, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -800,7 +844,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_MetodoPago (NombreTabla, Operacion, IdMetodoPago, MetodoPago, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -811,7 +855,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_MetodoPago (NombreTabla, Operacion, IdMetodoPago, MetodoPago, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -821,7 +865,9 @@ GO
 
 USE ZooMA
 GO
-
+IF OBJECT_ID('trg_Audit_CalificacionVisita', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_CalificacionVisita;
+GO
 CREATE TRIGGER trg_Audit_CalificacionVisita
 ON CalificacionVisita
 AFTER INSERT, UPDATE, DELETE
@@ -832,7 +878,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'CalificacionVisita';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
@@ -842,7 +888,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -853,7 +899,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -864,7 +910,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, SugerenciaMejora, fecha, IdVisitantes, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -873,6 +919,9 @@ GO
 
 USE ZooMA
 GO
+IF OBJECT_ID('trg_Audit_Rol', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Rol;
+GO
 
 CREATE TRIGGER trg_Audit_Rol
 ON Rol
@@ -880,7 +929,7 @@ AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     SET NOCOUNT ON;
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Rol';
@@ -894,7 +943,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Rol (NombreTabla, Operacion, IdRol, Nombre, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdRol, Nombre, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdRol, Nombre, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -905,7 +954,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Rol (NombreTabla, Operacion, IdRol, Nombre, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdRol, Nombre, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdRol, Nombre, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -916,7 +965,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Rol (NombreTabla, Operacion, IdRol, Nombre, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdRol, Nombre, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdRol, Nombre, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -924,6 +973,9 @@ GO
 
 
 USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Usuario', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Usuario;
 GO
 
 CREATE TRIGGER trg_Audit_Usuario
@@ -936,7 +988,7 @@ BEGIN
     DECLARE @Operacion VARCHAR(10);
     DECLARE @User VARCHAR(128);
     DECLARE @TableName VARCHAR(100) = 'Usuario';
-
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
     SET @User = SYSTEM_USER;
 
     -- INSERT
@@ -946,7 +998,7 @@ BEGIN
         SET @Operacion = 'INSERT';
 
         INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -957,7 +1009,7 @@ BEGIN
         SET @Operacion = 'UPDATE';
 
         INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @Cedula, GETDATE()
         FROM inserted;
     END
 
@@ -968,7 +1020,7 @@ BEGIN
         SET @Operacion = 'DELETE';
 
         INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @User, GETDATE()
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @Cedula, GETDATE()
         FROM deleted;
     END
 END

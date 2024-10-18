@@ -5,9 +5,9 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZooManagementAPI", "ZooManagementAPI\ZooManagementAPI.csproj", "{0A768BD4-6DFE-418B-92EA-A721459F784D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enitities", "Enitities\Enitities.csproj", "{D8A3501C-12D7-4FA2-9218-1354F9F32430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Enitities\Entities.csproj", "{D8A3501C-12D7-4FA2-9218-1354F9F32430}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{E179586E-3B9F-4AFC-8EB6-825EF3D3992B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{E179586E-3B9F-4AFC-8EB6-825EF3D3992B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

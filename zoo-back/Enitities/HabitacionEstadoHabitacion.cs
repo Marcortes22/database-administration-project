@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace Entities;
+
 public partial class HabitacionEstadoHabitacion
 {
     public int IdHabitacionEstadoHabitacion { get; set; }

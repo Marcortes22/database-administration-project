@@ -19,13 +19,13 @@ namespace ZooManagementAPI.Controllers
         public async Task<IActionResult> Get()
         {
 
-            return Ok(Task.FromResult("hola"));
+            return Ok(await _svTipoHabitacion.GetAll());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return Ok("Esto es un get con id");
+            return Ok(await _svTipoHabitacion.GetById(id));
         }
 
         [HttpPost]

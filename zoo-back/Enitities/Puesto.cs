@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace Entities;
+
 public partial class Puesto
 {
     public int IdPuesto { get; set; }

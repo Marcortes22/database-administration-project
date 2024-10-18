@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Entities;
 
-public partial class AuditEspecy
+public partial class AuditCalificacionServicioAlCliente
 {
     public int IdAudit { get; set; }
 
@@ -11,9 +11,11 @@ public partial class AuditEspecy
 
     public string? Operacion { get; set; }
 
-    public int? IdEspecie { get; set; }
+    public int? IdCalificacionServicioAlCliente { get; set; }
 
-    public string? NombreEsp { get; set; }
+    public string? Nota { get; set; }
+
+    public string? SugerenciaMejora { get; set; }
 
     public string? RealizadoPor { get; set; }
 

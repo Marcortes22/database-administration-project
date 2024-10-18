@@ -13,8 +13,8 @@ namespace Services.TipoHabitacionService
     public interface ISvTipoHabitacion
     {
 
-         Task<List<TipoHabitacion>> GetAll();
-         Task<TipoHabitacion> GetById(int id);
+         Task<BaseResponse<List<TipoHabitacion>>> GetAll();
+         Task<BaseResponse<TipoHabitacion>> GetById(int id);
          Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion);
          Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion);
          Task<BaseResponse<TipoHabitacion>> Delete(int id);
