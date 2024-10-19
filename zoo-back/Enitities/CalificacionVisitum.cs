@@ -9,8 +9,6 @@ public partial class CalificacionVisitum
 
     public int Nota { get; set; }
 
-    public string SugerenciaMejora { get; set; } = null!;
-
     public DateOnly Fecha { get; set; }
 
     public int IdVisitantes { get; set; }

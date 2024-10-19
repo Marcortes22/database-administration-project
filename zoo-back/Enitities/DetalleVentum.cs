@@ -9,11 +9,11 @@ public partial class DetalleVentum
 
     public int IdEntrada { get; set; }
 
-    public int IdTipoEntrada { get; set; }
+    public int IdVentaEntrada { get; set; }
 
     public int Cantidad { get; set; }
 
     public virtual Entradum IdEntradaNavigation { get; set; } = null!;
 
-    public virtual TipoEntradum IdTipoEntradaNavigation { get; set; } = null!;
+    public virtual VentaEntradum IdVentaEntradaNavigation { get; set; } = null!;
 }

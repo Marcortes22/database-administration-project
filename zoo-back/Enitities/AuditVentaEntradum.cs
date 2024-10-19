@@ -17,9 +17,7 @@ public partial class AuditVentaEntradum
 
     public TimeOnly? Horaventa { get; set; }
 
-    public int? IdEmpleado { get; set; }
-
-    public int? IdVisitantes { get; set; }
+    public int? IdVisitante { get; set; }
 
     public int? IdMetodoPago { get; set; }
 

@@ -140,7 +140,7 @@ CREATE TABLE Habitacion (
 USE ZooMA
 GO
 CREATE TABLE Visitantes (
-    IdVisitantes INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdVisitantes INT NOT NULL PRIMARY KEY,
     NombreVist VARCHAR(20) NOT NULL,
     Apell1Vist VARCHAR(20) NOT NULL,
     Apell2Vist VARCHAR(20) NOT NULL,
@@ -324,10 +324,8 @@ CREATE TABLE VentaEntrada (
     IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Fechaventa DATE NOT NULL,
     Horaventa TIME NOT NULL,
-    IdZoo INT NOT NULL DEFAULT 1,
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
-    CONSTRAINT FK_VentaEntrada_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
     CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
 );
@@ -572,8 +570,7 @@ CREATE TABLE Audit_VentaEntrada (
     IdVentaEntrada INT,
     Fechaventa DATE,
     Horaventa TIME,
-    IdEmpleado INT,
-    IdVisitantes INT,
+    IdVisitante INT,
     IdMetodoPago INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()

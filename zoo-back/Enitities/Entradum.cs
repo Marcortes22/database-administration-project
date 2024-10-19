@@ -7,7 +7,7 @@ public partial class Entradum
 {
     public int IdEntrada { get; set; }
 
-    public string Descripcion { get; set; } = null!;
+    public DateOnly FechaValidez { get; set; }
 
     public int IdTipoEntrada { get; set; }
 

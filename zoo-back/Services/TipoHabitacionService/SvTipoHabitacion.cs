@@ -53,7 +53,7 @@ namespace Services.TipoHabitacionService
             var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
-                // Ejecutamos el procedimiento almacenado
+                
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
                      "EXEC SP_ELIMINAR_TIPOHABITACION @IdTipoHabitacion, @Cedula",
                      IdTipoHabitacion, cedula
@@ -62,27 +62,27 @@ namespace Services.TipoHabitacionService
             }
             catch (Exception ex)
             {
-                // Manejo de errores
+                
                 Console.WriteLine($"Error al ejecutar el procedimiento: {ex.Message}");
                 return new BaseResponse<TipoHabitacion>(default, false, ex.Message);
             }
         }
 
-        public async Task<BaseResponse<List<TipoHabitacion>>> GetAll()
+        public async Task<BaseResponse<List<VwTipoHabitacion>>> GetAll()
         {
             try
             {
-                var data = await myDbContext.TipoHabitacion.FromSqlRaw("SELECT * FROM Vw_TipoHabitacion").ToListAsync();
+                //var data = await myDbContext.TipoHabitacions.FromSqlRaw("SELECT * FROM Vw_TipoHabitacion").ToListAsync();
+                var data = await myDbContext.VwTipoHabitacions.ToListAsync();
 
-           
-                return new BaseResponse<List<TipoHabitacion>>(data, true, "");
+                return new BaseResponse<List<VwTipoHabitacion>>(data, true, "");
             
 
             }
             catch (Exception ex)
             {
                 // Manejo de errores
-                return new BaseResponse<List<TipoHabitacion>>(default, false, ex.Message);
+                return new BaseResponse<List<VwTipoHabitacion>>(default, false, ex.Message);
             }
         }
 
@@ -90,10 +90,12 @@ namespace Services.TipoHabitacionService
         {
             try
             {
-                var data =  await myDbContext.TipoHabitacion.FromSqlRaw("SELECT * FROM TipoHabitacion where IdTipoHabitacion = " + id).FirstAsync();
+                var idTipoHabitacion = new SqlParameter("@idTipoHabitacion", id);
 
+                var data =   myDbContext.TipoHabitacions.FromSqlRaw("EXEC SP_BUSCAR_TIPOS_HABITACION_POR_ID @IdTipoHabitacion", idTipoHabitacion).AsEnumerable() 
+                .FirstOrDefault(); 
            
-                return new BaseResponse<TipoHabitacion>(data, true, "");
+                return new BaseResponse<TipoHabitacion>(data, true, "Acción completada!");
 
             }
             catch (Exception ex)

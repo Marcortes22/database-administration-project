@@ -436,7 +436,6 @@ GO
 CREATE PROCEDURE SP_INGRESAR_PUESTO(
     @Nombre VARCHAR(20),
     @Salario FLOAT,
-    @DescripcionTareas VARCHAR(255),
     @Cedula VARCHAR(20)
 )
 AS
@@ -444,7 +443,7 @@ BEGIN
     BEGIN TRANSACTION;
     BEGIN TRY
 
-        IF (@Nombre = '' OR @DescripcionTareas = '' OR @Salario IS NULL OR @Cedula = '')
+        IF (@Nombre = '' OR @Salario IS NULL OR @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
@@ -465,12 +464,12 @@ BEGIN
             RETURN;
         END
 
-        INSERT INTO Puesto (Nombre, Salario, DescripcionTareas)
-        VALUES (@Nombre, @Salario, @DescripcionTareas);
+        INSERT INTO Puesto (Nombre, Salario)
+        VALUES (@Nombre, @Salario);
 
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
-        SELECT 'Puesto registrado correctamente: ' + @Nombre + ', Salario: ' + CAST(@Salario AS VARCHAR) + ', Descripción: ' + @DescripcionTareas AS 'Mensaje de Confirmación';
+        SELECT 'Puesto registrado correctamente: ' + @Nombre + ', Salario: ' + CAST(@Salario AS VARCHAR) + ', Descripción: ';
 
     END TRY
     BEGIN CATCH
@@ -655,7 +654,6 @@ IF OBJECT_ID('SP_INGRESAR_CALIFICACION_VISITA', 'P') IS NOT NULL
 GO
 CREATE PROCEDURE SP_INGRESAR_CALIFICACION_VISITA(
     @Nota INT,
-    @SugerenciaMejora VARCHAR(255),
     @Fecha DATE,
     @IdVisitantes INT,
     @IdCalificacionServicioAlCliente INT,
@@ -666,7 +664,7 @@ AS
 BEGIN
     BEGIN TRANSACTION;
     BEGIN TRY
-        IF (@Nota IS NULL OR @SugerenciaMejora = '' OR @Fecha IS NULL OR @IdVisitantes IS NULL 
+        IF (@Nota IS NULL OR @Fecha IS NULL OR @IdVisitantes IS NULL 
             OR @IdCalificacionServicioAlCliente IS NULL OR @IdCalificacionRecorrido IS NULL OR @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
@@ -695,13 +693,13 @@ BEGIN
             RETURN;
         END
 
-        INSERT INTO CalificacionVisita (Nota, SugerenciaMejora, Fecha, IdVisitantes, IdCalificacionServicioAlCliente, IdCalificacionRecorrido)
-        VALUES (@Nota, @SugerenciaMejora, @Fecha, @IdVisitantes, @IdCalificacionServicioAlCliente, @IdCalificacionRecorrido);
+        INSERT INTO CalificacionVisita (Nota, Fecha, IdVisitantes, IdCalificacionServicioAlCliente, IdCalificacionRecorrido)
+        VALUES (@Nota, @Fecha, @IdVisitantes, @IdCalificacionServicioAlCliente, @IdCalificacionRecorrido);
 
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
         SELECT 'Calificación de visita registrada correctamente. Nota: ' + CAST(@Nota AS VARCHAR)
-              + ', Sugerencia: ' + @SugerenciaMejora AS 'Mensaje de Confirmación';
+             
 
     END TRY
     BEGIN CATCH
@@ -881,7 +879,6 @@ IF OBJECT_ID('SP_INGRESAR_VENTA_ENTRADA', 'P') IS NOT NULL
 GO
 CREATE PROCEDURE SP_INGRESAR_VENTA_ENTRADA (
     @fechaventa DATE,
-    @horaventa TIME,
     @IdVisitantes INT,
     @IdMetodoPago INT,
     @Cedula VARCHAR(20)
@@ -891,7 +888,7 @@ BEGIN
     BEGIN TRANSACTION;
     BEGIN TRY
 
-        IF (@fechaventa IS NULL OR @horaventa IS NULL OR @IdVisitantes IS NULL OR @IdMetodoPago IS NULL OR @Cedula = '')
+        IF (@fechaventa IS NULL OR @IdVisitantes IS NULL OR @IdMetodoPago IS NULL OR @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
@@ -919,11 +916,11 @@ BEGIN
             RETURN;
         END
 
-        INSERT INTO VentaEntrada (fechaventa, horaventa, IdVisitantes, IdMetodoPago)
-        VALUES (@fechaventa, @horaventa, @IdVisitantes, @IdMetodoPago);
+        INSERT INTO VentaEntrada (fechaventa, IdVisitantes, IdMetodoPago)
+        VALUES (@fechaventa, @IdVisitantes, @IdMetodoPago);
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
-         SELECT 'Venta de entrada registrada correctamente para la fecha ' + CONVERT(VARCHAR(10), @fechaventa) + ' a las ' + CONVERT(VARCHAR(8), @horaventa) AS 'Mensaje de Confirmación';
+         SELECT 'Venta de entrada registrada correctamente para la fecha ' + CONVERT(VARCHAR(10), @fechaventa);
         
     END TRY
     BEGIN CATCH
@@ -1238,7 +1235,7 @@ BEGIN
         END
 
         SELECT 
-			NombreTH AS 'Nombre Tipo de Habitación'
+			NombreTH 
 		FROM 
 			TipoHabitacion 
 		WHERE 
@@ -1277,7 +1274,7 @@ BEGIN
         END
 
         SELECT  
-            NombreDiet AS 'Nombre de la Dieta'
+            NombreDiet
         FROM 
             Dieta 
         WHERE 
@@ -1423,10 +1420,10 @@ BEGIN
         END
 
         SELECT 
-            A.NombreAni AS 'Nombre Animal', 
-            E.NombreEsp AS 'Especie', 
-            H.NombreHab AS 'Nombre de la Habitación', 
-            ES.estadoSalud AS 'Estado de Salud'
+            A.NombreAni, 
+            E.NombreEsp, 
+            H.NombreHab , 
+            ES.estadoSalud 
         FROM Animales A
         INNER JOIN Especies E ON A.IdEspecie = E.IdEspecie
         INNER JOIN Habitacion H ON A.IdHabitacion = H.IdHabitacion
@@ -1501,8 +1498,8 @@ BEGIN
         END
 
         SELECT 
-            IdZoo AS 'Código Zoológico', 
-            NombreZoo AS 'Nombre del Zoológico'
+            IdZoo, 
+            NombreZoo
         FROM 
             ZOO
         WHERE 
@@ -1583,10 +1580,9 @@ BEGIN
         END
 
         SELECT 
-            IdPuesto AS 'Id Puesto',
-            Nombre AS 'Nombre',
-            Salario AS 'Salario',
-            DescripcionTareas AS 'Descripción de Tareas'
+            IdPuesto,
+            Nombre,
+            Salario
         FROM 
             Puesto 
         WHERE 
@@ -1709,8 +1705,8 @@ BEGIN
         END
 
         SELECT 
-            IdAlimentos AS 'Código Alimento', 
-            Nombre AS 'Nombre del Alimento'
+            IdAlimentos, 
+            Nombre
         FROM 
             Alimentos 
         WHERE 
@@ -1756,10 +1752,10 @@ BEGIN
         END
 
         SELECT 
-            IdTareas AS 'Código Tarea', 
-            Nombre AS 'Nombre de la Tarea',
-            IdEmpleado AS 'ID del Empleado',
-            IdTipoTarea AS 'ID del Tipo de Tarea'
+            IdTareas, 
+            Nombre,
+            IdEmpleado,
+            IdTipoTarea
         FROM 
             Tareas 
         WHERE 
@@ -2397,13 +2393,12 @@ CREATE PROCEDURE SP_ACTUALIZAR_PUESTO (
     @IdPuesto INT,
     @Nombre VARCHAR(20),
     @Salario FLOAT,
-    @DescripcionTareas VARCHAR(255),
     @Cedula VARCHAR(20)
 )
 AS
 BEGIN
 
-    IF (@IdPuesto IS NULL OR @IdPuesto = 0 OR @Nombre = '' OR @Salario IS NULL OR @DescripcionTareas = '' OR @Cedula = '')
+    IF (@IdPuesto IS NULL OR @IdPuesto = 0 OR @Nombre = '' OR @Salario IS NULL  OR @Cedula = '')
     BEGIN
         RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
         RETURN;
@@ -2421,8 +2416,7 @@ BEGIN
 
         UPDATE Puesto
         SET Nombre = @Nombre,
-            Salario = @Salario,
-            DescripcionTareas = @DescripcionTareas
+            Salario = @Salario
         WHERE IdPuesto = @IdPuesto;
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;

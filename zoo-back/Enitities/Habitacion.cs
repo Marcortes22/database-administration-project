@@ -22,6 +22,4 @@ public partial class Habitacion
     public virtual TipoHabitacion IdTipoHabitacionNavigation { get; set; } = null!;
 
     public virtual ICollection<MantenimientoHabitacion> MantenimientoHabitacions { get; set; } = new List<MantenimientoHabitacion>();
-
-    public virtual ICollection<TareasEstadoTarea> TareasEstadoTareas { get; set; } = new List<TareasEstadoTarea>();
 }
