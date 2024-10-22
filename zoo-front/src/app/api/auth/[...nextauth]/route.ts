@@ -11,35 +11,26 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req): Promise<any> {
-        // const res = await fetch('/your/endpoint', {
-        //   method: 'POST',
-        //   body: JSON.stringify(credentials),
-        //   headers: { 'Content-Type': 'application/json' },
-        // });
-
-        const user = {
-          EmpleadoId: 504420108,
-          Nombre: 'Marco',
-          Apellido1: 'Cortes',
-          Apellido2: 'Castillo',
-          Correo: 'marcortes.stiven@gmail.com',
-          access_token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o',
-        };
-
-        // If no error and we have user data, return it
-        // if (res.ok && user) {
-        //   return user;
-        // }
-
-        if (
-          credentials?.username === 'marcortes' &&
-          credentials?.password === '1234'
-        ) {
-          return user;
+        if (!credentials) {
+          throw new Error('Missing credentials');
         }
 
-        // Return null if user data could not be retrieved
+        const res = await fetch('http://localhost:5153/api/Auth/login', {
+          method: 'POST',
+          body: JSON.stringify({
+            idEmpleado: credentials.username,
+            contraseña: credentials.password,
+          }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        const user = await res.json();
+        if (res.ok && user) {
+          return user;
+        }
+        if (user.message) {
+          throw new Error(user.message);
+        }
         return null;
       },
     }),

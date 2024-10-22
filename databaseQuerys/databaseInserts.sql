@@ -2,6 +2,14 @@ USE ZooMA
 GO
 DECLARE @CedulaCreador VARCHAR(20) = '504420108';
 
+
+-- Insertar un registro en la tabla ZOO
+EXEC SP_INGRESAR_ZOO 
+    @NombreZoo = 'Zoo Maravillas', 
+    @Direccion = 'Avenida de los Animales 123', 
+    @DescripcionZoo = 'Un zoológico dedicado a la conservación de la fauna', 
+    @Cedula = @CedulaCreador;
+
 -- Insertar registros en la tabla Puesto
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario', @Salario = 2000.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Cuidador de Habitaciones', @Salario = 1200.00, @Cedula = @CedulaCreador;
@@ -19,12 +27,6 @@ EXEC SP_INGRESAR_ROL @nombre = 'ADMIN', @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_ROL @nombre = 'USER', @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_ROL @nombre = 'SELLER', @Cedula = @CedulaCreador;
 
--- Insertar un registro en la tabla ZOO
-EXEC SP_INGRESAR_ZOO 
-    @NombreZoo = 'Zoo Maravillas', 
-    @Direccion = 'Avenida de los Animales 123', 
-    @DescripcionZoo = 'Un zoológico dedicado a la conservación de la fauna', 
-    @Cedula = @CedulaCreador;
 
 -- Ingresar empleados utilizando el procedimiento almacenado SP_REGISTER
 
