@@ -1,17 +1,13 @@
 'use client';
-
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
-import { useState } from 'react';
+import { useHabitaciones } from '@/Hooks/useHabitacion';
+
 import toast from 'react-hot-toast';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'; 
 
 export default function HabitatsTable() {
   const { navigateTo } = useCustomRouter();
-  const [habitats, setHabitats] = useState([
-    { IdHabitacion: 1, Nombre: 'Habitat 1', Direccion: 'Ubicación 1', Capacidad: 50 },
-    { IdHabitacion: 2, Nombre: 'Habitat 2', Direccion: 'Ubicación 2', Capacidad: 30 },
-    { IdHabitacion: 3, Nombre: 'Habitat 3', Direccion: 'Ubicación 3', Capacidad: 20 },
-  ]);
+  const { habitaciones, loading, error } = useHabitaciones(); // Usamos el hook
 
   const handleEdit = (id: number) => {
     toast.success('Hábitat editado correctamente', {
@@ -21,12 +17,32 @@ export default function HabitatsTable() {
   };
 
   const handleDelete = (id: number) => {
-    setHabitats(habitats.filter(habitat => habitat.IdHabitacion !== id));
     toast.success('Hábitat eliminado correctamente', {
       style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
     console.log(`Eliminar habitat con id: ${id}`);
+    // Aquí puedes hacer una llamada a tu API para eliminar el hábitat del backend
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500"></div>
+        <p className="text-xl font-semibold text-gray-600 ml-4">Cargando habitaciones...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error:</strong>
+          <span className="block sm:inline"> Ocurrió un error al cargar las habitaciones.</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
@@ -47,26 +63,28 @@ export default function HabitatsTable() {
             <th className="px-6 py-3 text-center">Nombre</th>
             <th className="px-6 py-3 text-center">Dirección</th>
             <th className="px-6 py-3 text-center">Capacidad</th>
+            <th className="px-6 py-3 text-center">ID Tipo Habitación</th>
             <th className="px-6 py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {habitats.map((habitat) => (
-            <tr key={habitat.IdHabitacion} className="border-b hover:bg-gray-100">
-              <td className="px-6 py-4 text-center font-medium">{habitat.IdHabitacion}</td>
-              <td className="px-6 py-4 text-center">{habitat.Nombre}</td>
-              <td className="px-6 py-4 text-center">{habitat.Direccion}</td>
-              <td className="px-6 py-4 text-center">{habitat.Capacidad}</td>
+          {habitaciones.map((habitat) => (
+            <tr key={habitat.idHabitacion} className="border-b hover:bg-gray-100">
+              <td className="px-6 py-4 text-center font-medium">{habitat.idHabitacion}</td>
+              <td className="px-6 py-4 text-center">{habitat.nombreHab}</td>
+              <td className="px-6 py-4 text-center">{habitat.direccion}</td>
+              <td className="px-6 py-4 text-center">{habitat.capacidad}</td>
+              <td className="px-6 py-4 text-center">{habitat.idTipoHabitacion}</td>
               <td className="px-6 py-4 flex justify-center space-x-2">
                 <button
                   className="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-all flex items-center"
-                  onClick={() => handleEdit(habitat.IdHabitacion)}
+                  onClick={() => handleEdit(habitat.idHabitacion)}
                 >
                   <FaEdit className="mr-1" /> Editar
                 </button>
                 <button
                   className="bg-red-500 text-white px-3 py-2 rounded-full hover:bg-red-600 transition-all flex items-center"
-                  onClick={() => handleDelete(habitat.IdHabitacion)}
+                  onClick={() => handleDelete(habitat.idHabitacion)}
                 >
                   <FaTrash className="mr-1" /> Eliminar
                 </button>

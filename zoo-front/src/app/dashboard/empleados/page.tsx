@@ -1,33 +1,10 @@
 'use client';
-
-import { useState } from 'react';
+import { useEmpleados } from '@/Hooks/useEmpleado';
 import toast from 'react-hot-toast';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 export default function EmpleadosTable() {
-  const [empleados, setEmpleados] = useState([
-    {
-      IdEmpleado: 1,
-      Nombre: 'Juan',
-      Apellido1: 'Pérez',
-      Apellido2: 'García',
-      CorreoElectronico: 'juan.perez@example.com',
-    },
-    {
-      IdEmpleado: 2,
-      Nombre: 'María',
-      Apellido1: 'López',
-      Apellido2: 'Rodríguez',
-      CorreoElectronico: 'maria.lopez@example.com',
-    },
-    {
-      IdEmpleado: 3,
-      Nombre: 'Carlos',
-      Apellido1: 'Gómez',
-      Apellido2: 'Martínez',
-      CorreoElectronico: 'carlos.gomez@example.com',
-    },
-  ]);
+  const { empleados, loading, error } = useEmpleados(); // Usamos el hook para obtener los datos
 
   const handleEdit = (id: number) => {
     toast.success('Empleado editado correctamente', {
@@ -37,12 +14,32 @@ export default function EmpleadosTable() {
   };
 
   const handleDelete = (id: number) => {
-    setEmpleados(empleados.filter((empleado) => empleado.IdEmpleado !== id));
     toast.success('Empleado eliminado correctamente', {
       style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
     console.log(`Eliminar empleado con id: ${id}`);
+    // Aquí puedes hacer una llamada a tu API para eliminar el empleado del backend
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500"></div>
+        <p className="text-xl font-semibold text-gray-600 ml-4">Cargando empleados...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error:</strong>
+          <span className="block sm:inline"> Ocurrió un error al cargar los empleados.</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
@@ -69,22 +66,22 @@ export default function EmpleadosTable() {
         </thead>
         <tbody>
           {empleados.map((empleado) => (
-            <tr key={empleado.IdEmpleado} className="border-b hover:bg-gray-100">
-              <td className="px-6 py-4 text-center font-medium">{empleado.IdEmpleado}</td>
-              <td className="px-6 py-4 text-center">{empleado.Nombre}</td>
-              <td className="px-6 py-4 text-center">{empleado.Apellido1}</td>
-              <td className="px-6 py-4 text-center">{empleado.Apellido2}</td>
-              <td className="px-6 py-4 text-center">{empleado.CorreoElectronico}</td>
+            <tr key={empleado.idEmpleado} className="border-b hover:bg-gray-100">
+              <td className="px-6 py-4 text-center font-medium">{empleado.idEmpleado}</td>
+              <td className="px-6 py-4 text-center">{empleado.nombre}</td>
+              <td className="px-6 py-4 text-center">{empleado.apellido1}</td>
+              <td className="px-6 py-4 text-center">{empleado.apellido2}</td>
+              <td className="px-6 py-4 text-center">{empleado.correo}</td>
               <td className="px-6 py-4 flex justify-center space-x-2">
                 <button
                   className="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-all flex items-center"
-                  onClick={() => handleEdit(empleado.IdEmpleado)}
+                  onClick={() => handleEdit(empleado.idEmpleado)}
                 >
                   <FaEdit className="mr-1" /> Editar
                 </button>
                 <button
                   className="bg-red-500 text-white px-3 py-2 rounded-full hover:bg-red-600 transition-all flex items-center"
-                  onClick={() => handleDelete(empleado.IdEmpleado)}
+                  onClick={() => handleDelete(empleado.idEmpleado)}
                 >
                   <FaTrash className="mr-1" /> Eliminar
                 </button>
