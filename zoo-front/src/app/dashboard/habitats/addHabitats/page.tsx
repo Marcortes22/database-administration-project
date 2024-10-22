@@ -3,31 +3,56 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react'; // Para manejar el token
+import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
 
 export default function AddHabitat() {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [capacidad, setCapacidad] = useState('');
   const [tipoHabitat, setTipoHabitat] = useState('');
-  const [estado, setEstado] = useState('');
-  const [descripcionEstado, setDescripcionEstado] = useState('');
   const router = useRouter();
+  const { data: session } = useSession(); 
+  const { tiposHabitacion, loading, error } = useTiposHabitacion(); 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Hábitat registrado correctamente', {
-      style: {
-        borderRadius: '10px',
-        background: '#333',
-        color: '#fff',
-      },
-    });
 
-    console.log('Nuevo hábitat agregado:', { 
-      nombre, direccion, capacidad, tipoHabitat, estado, descripcionEstado 
-    });
+    if (!session?.user?.access_token) {
+      toast.error('No se encontró el token de autenticación.');
+      return;
+    }
 
-    router.push('/dashboard/habitats');
+    const nuevaHabitacion = {
+      nombreHab: nombre,
+      direccion,
+      capacidad: parseInt(capacidad), // Convertimos a número
+      idTipoHabitacion: parseInt(tipoHabitat), // Convertimos a número
+    };
+
+    try {
+      const res = await fetch('http://localhost:5153/api/Habitacion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.user.access_token}`, // Pasamos el token
+        },
+        body: JSON.stringify(nuevaHabitacion), // Enviamos los datos
+      });
+
+      if (!res.ok) {
+        throw new Error('Error al registrar la habitación');
+      }
+
+      toast.success('Hábitat registrado correctamente', {
+        style: { borderRadius: '10px', background: '#333', color: '#fff' },
+      });
+
+      router.push('/dashboard/habitats'); // Redirigimos a la lista
+    } catch (error) {
+      console.error(error);
+      toast.error('Ocurrió un error al registrar la habitación.');
+    }
   };
 
   const handleCancel = () => {
@@ -39,6 +64,7 @@ export default function AddHabitat() {
       <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
         Agregar Nueva Habitación
       </h2>
+
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -75,58 +101,39 @@ export default function AddHabitat() {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Tipo de Hábitat</label>
-            <select
-              value={tipoHabitat}
-              onChange={(e) => setTipoHabitat(e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            >
-              <option value="">Seleccione un tipo</option>
-              <option value="Acuático">Acuático</option>
-              <option value="Terrestre">Terrestre</option>
-              <option value="Aéreo">Aéreo</option>
-              <option value="Subterráneo">Subterráneo</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium">Estado de la Habitación</label>
-            <select
-              value={estado}
-              onChange={(e) => setEstado(e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            >
-              <option value="">Seleccione un estado</option>
-              <option value="Bueno">Bueno</option>
-              <option value="Regular">Regular</option>
-              <option value="Malo">Malo</option>
-            </select>
-          </div>
-
-          <div className="md:col-span-2">
-            <label className="block text-gray-700 font-medium">Descripción del Estado</label>
-            <textarea
-              value={descripcionEstado}
-              onChange={(e) => setDescripcionEstado(e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              rows={3}
-              required
-            ></textarea>
+            <label className="block text-gray-700 font-medium">Tipo de Habitación</label>
+            {loading ? (
+              <p>Cargando tipos de habitación...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : (
+              <select
+                value={tipoHabitat}
+                onChange={(e) => setTipoHabitat(e.target.value)}
+                className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              >
+                <option value="">Seleccione un tipo</option>
+                {tiposHabitacion?.map((tipo) => (
+                  <option key={tipo.idTipoHabitacion} value={tipo.idTipoHabitacion}>
+                    {tipo.nombreTh}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
         </div>
 
         <div className="flex justify-between mt-6">
-          <button 
-            type="button" 
-            onClick={handleCancel} 
+          <button
+            type="button"
+            onClick={handleCancel}
             className="bg-red-500 text-white px-5 py-3 rounded-lg hover:bg-red-600 transition duration-300"
           >
             Cancelar
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="bg-green-500 text-white px-5 py-3 rounded-lg hover:bg-green-600 transition duration-300"
           >
             Agregar

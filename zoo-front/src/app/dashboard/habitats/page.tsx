@@ -5,10 +5,12 @@ import { useCustomRouter } from '@/Hooks/Router/useRouter';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useHabitaciones } from '@/Hooks/useHabitacion';
+import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
 
 export default function HabitatsTable() {
   const { navigateTo } = useCustomRouter();
   const { habitaciones, loading, error } = useHabitaciones(); // Usamos el hook adaptado
+  const { tiposHabitacion } = useTiposHabitacion();
 
   const handleEdit = (id: number) => {
     toast.success('Hábitat editado correctamente', {
@@ -48,6 +50,11 @@ export default function HabitatsTable() {
     );
   }
 
+  const getTipoNombre = (idTipoHabitacion: number) => {
+    const tipo = tiposHabitacion.find((tipo) => tipo.idTipoHabitacion === idTipoHabitacion);
+    return tipo ? tipo.nombreTh : 'Desconocido';
+  };
+
   return (
     <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
       <div className="flex justify-between items-center mb-6">
@@ -78,7 +85,9 @@ export default function HabitatsTable() {
               <td className="px-6 py-4 text-center">{habitat.nombreHab}</td>
               <td className="px-6 py-4 text-center">{habitat.direccion}</td>
               <td className="px-6 py-4 text-center">{habitat.capacidad}</td>
-              <td className="px-6 py-4 text-center">{habitat.idTipoHabitacion}</td>
+              <td className="px-6 py-4 text-center">
+                {getTipoNombre(habitat.idTipoHabitacion)}
+              </td>
               <td className="px-6 py-4 flex justify-center space-x-2">
                 <button
                   className="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-all flex items-center"
