@@ -1,27 +1,28 @@
 'use client';
-import { useCustomRouter } from '@/Hooks/Router/useRouter';
-import { useHabitaciones } from '@/Hooks/useHabitacion';
 
+import { useCustomRouter } from '@/Hooks/Router/useRouter';
+
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'; 
+import { useHabitaciones } from '@/Hooks/useHabitacion';
 
 export default function HabitatsTable() {
   const { navigateTo } = useCustomRouter();
-  const { habitaciones, loading, error } = useHabitaciones(); // Usamos el hook
+  const { habitaciones, loading, error } = useHabitaciones(); // Usamos el hook adaptado
 
   const handleEdit = (id: number) => {
     toast.success('Hábitat editado correctamente', {
       style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
-    console.log(`Editar habitat con id: ${id}`);
+    console.log(`Editar hábitat con id: ${id}`);
   };
 
   const handleDelete = (id: number) => {
     toast.success('Hábitat eliminado correctamente', {
       style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
-    console.log(`Eliminar habitat con id: ${id}`);
-    // Aquí puedes hacer una llamada a tu API para eliminar el hábitat del backend
+    console.log(`Eliminar hábitat con id: ${id}`);
+    // Aquí podrías hacer una llamada a tu API para eliminar el hábitat
   };
 
   if (loading) {
@@ -36,9 +37,12 @@ export default function HabitatsTable() {
   if (error) {
     return (
       <div className="flex justify-center items-center h-96">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
           <strong className="font-bold">Error:</strong>
-          <span className="block sm:inline"> Ocurrió un error al cargar las habitaciones.</span>
+          <span className="block sm:inline"> {error}</span>
         </div>
       </div>
     );
@@ -68,7 +72,7 @@ export default function HabitatsTable() {
           </tr>
         </thead>
         <tbody>
-          {habitaciones.map((habitat) => (
+          {habitaciones?.map((habitat) => (
             <tr key={habitat.idHabitacion} className="border-b hover:bg-gray-100">
               <td className="px-6 py-4 text-center font-medium">{habitat.idHabitacion}</td>
               <td className="px-6 py-4 text-center">{habitat.nombreHab}</td>
