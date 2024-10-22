@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 export default function EmpleadosTable() {
-  const { empleados, loading, error } = useEmpleados(); // Usamos el hook para obtener los datos
+  const { empleados, loading, error } = useEmpleados();
 
   const handleEdit = (id: number) => {
     toast.success('Empleado editado correctamente', {
@@ -18,7 +18,6 @@ export default function EmpleadosTable() {
       style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
     console.log(`Eliminar empleado con id: ${id}`);
-    // Aquí puedes hacer una llamada a tu API para eliminar el empleado del backend
   };
 
   if (loading) {
