@@ -9,9 +9,9 @@ public partial class Usuario
 
     public string Contraseña { get; set; } = null!;
 
-    public int IdEmpleado { get; set; }
+    public bool Estado { get; set; }
 
-    public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
+    public virtual Empleado IdUsuarioNavigation { get; set; } = null!;
 
-    public virtual ICollection<RolUsario> RolUsarios { get; set; } = new List<RolUsario>();
+    public virtual ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
 }

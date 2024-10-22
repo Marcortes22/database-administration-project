@@ -7,7 +7,7 @@ public partial class MetodoPago
 {
     public int IdMetodoPago { get; set; }
 
-    public string Metodopago1 { get; set; } = null!;
+    public string Metodopago { get; set; } = null!;
 
     public virtual ICollection<VentaEntradum> VentaEntrada { get; set; } = new List<VentaEntradum>();
 }

@@ -13,7 +13,11 @@ public partial class VentaEntradum
 
     public int IdMetodoPago { get; set; }
 
+    public int IdEmpleado { get; set; }
+
     public virtual ICollection<DetalleVentum> DetalleVenta { get; set; } = new List<DetalleVentum>();
+
+    public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
 
     public virtual MetodoPago IdMetodoPagoNavigation { get; set; } = null!;
 

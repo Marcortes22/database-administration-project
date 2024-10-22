@@ -15,7 +15,7 @@ public partial class AuditUsuario
 
     public string? Contraseña { get; set; }
 
-    public int? IdEmpleado { get; set; }
+    public bool? Estado { get; set; }
 
     public string? RealizadoPor { get; set; }
 

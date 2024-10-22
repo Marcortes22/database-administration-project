@@ -25,5 +25,7 @@ public partial class Empleado
 
     public virtual ICollection<Tarea> Tareas { get; set; } = new List<Tarea>();
 
-    public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+    public virtual Usuario? Usuario { get; set; }
+
+    public virtual ICollection<VentaEntradum> VentaEntrada { get; set; } = new List<VentaEntradum>();
 }

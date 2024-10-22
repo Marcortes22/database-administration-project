@@ -4,37 +4,40 @@ using System.Security.Claims;
 using System.Text;
 using System.Data;
 
+using Entities;
+using Services.Auth.Dto;
 namespace ZooManagementAPI
+    
 {
     public class AuthHelpers
     {
-        public static string GenerateJWTToken(User user, string role = "USER")
+        public static string GenerateJWTToken(EmpleadoInfoDto empleado)
         {
             var claims = new List<Claim> {
-                new Claim("Name", user.Name),
-                new Claim("Email", user.Email),
-                new Claim("Role", role),
-                new Claim("Id", user.Id.ToString()),
-                new Claim("Phone", user.CellPhone)
+                new Claim("Id", empleado.IdEmpleado.ToString()),
+                new Claim("Nombre", empleado.Nombre),
+                new Claim("Email", empleado.Correo),
+                new Claim("Apellido1", empleado.Apellido1),
+                new Claim("Apellido2", empleado.Apellido2)
 
             };
-            // string[] roles = ["uno", "dos"];
-
-           // foreach (var rol in roles)
-           // {
-            //    claims.Add(new Claim("cosas", rol));
-           // }
 
 
+            foreach (var rol in empleado.Roles)
+            {
+                claims.Add(new Claim("Role", rol.Nombre));
+            }
 
 
-                var jwtToken = new JwtSecurityToken(
+
+
+            var jwtToken = new JwtSecurityToken(
                 claims: claims,
                 notBefore: DateTime.UtcNow,
                 expires: DateTime.UtcNow.AddDays(30),
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(
-                       Encoding.UTF8.GetBytes("ClinicInitialJWB_ClinicInitialJWB")
+                       Encoding.UTF8.GetBytes("ZooProjectZooProjectZooProjectZooProjectZooProject")
                         ),
                     SecurityAlgorithms.HmacSha256Signature)
                 );

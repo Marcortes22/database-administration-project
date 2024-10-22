@@ -302,4 +302,37 @@ IdVisitantes
 from CalificacionVisita
 GO
 
+Use ZooMA
+IF OBJECT_ID('Vw_Roles', 'V') IS NOT NULL
+   DROP VIEW Vw_Roles;
+GO
+Create View Vw_Roles 
+as
+Select
+IdRol,
+Nombre
+from Rol
+GO
+
+Use ZooMA
+IF OBJECT_ID('Vw_Empleado_Login', 'V') IS NOT NULL
+   DROP VIEW Vw_Empleado_Login;
+GO
+Create View Vw_Empleado_Login 
+as
+   SELECT IdEmpleado, Nombre, Apellido1, Apellido2, Correo FROM Empleado 
+GO
+
+Use ZooMA
+IF OBJECT_ID('Vw_Empleado_Roles_Activos', 'V') IS NOT NULL
+   DROP VIEW Vw_Empleado_Roles_Activos;
+GO
+Create View Vw_Empleado_Roles_Activos 
+as
+   SELECT  US.IdUsuario, R.nombre FROM RolUsuario US INNER JOIN Rol R ON US.IdRol = R.IdRol WHERE US.FechaFin > GETDATE() OR US.FechaFin IS NULL
+GO
+
+
+
+
 --FIN VIEWS--

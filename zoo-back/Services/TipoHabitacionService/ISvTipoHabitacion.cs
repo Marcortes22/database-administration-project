@@ -15,9 +15,9 @@ namespace Services.TipoHabitacionService
 
          Task<BaseResponse<List<VwTipoHabitacion>>> GetAll();
          Task<BaseResponse<TipoHabitacion>> GetById(int id);
-         Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion);
-         Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion);
-         Task<BaseResponse<TipoHabitacion>> Delete(int id);
+         Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion, int cedulaCreador);
+         Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion, int cedulaCreador);
+         Task<BaseResponse<TipoHabitacion>> Delete(int id, int cedulaCreador);
 
     }
 }

@@ -17,8 +17,6 @@ public partial class AuditPuesto
 
     public double? Salario { get; set; }
 
-    public string? DescripcionTareas { get; set; }
-
     public string? RealizadoPor { get; set; }
 
     public DateTime? FechaDeEjecucion { get; set; }

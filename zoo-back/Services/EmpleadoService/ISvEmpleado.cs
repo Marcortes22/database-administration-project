@@ -12,7 +12,7 @@ namespace Services.EmpleadoService
 {
     public interface ISvEmpleado
     {
-        Task<BaseResponse<List<Empleado>>> GetAll();
+        Task<BaseResponse<List<VwEmpleado>>> GetAll();
         Task<BaseResponse<Empleado>> GetById(int id);
         Task<BaseResponse<Empleado>> Create(EmpleadoCreateDto CreateEmpleado);
         Task<BaseResponse<Empleado>> Update(int id, EmpleadoUpdateDto UpdateEmpleado);

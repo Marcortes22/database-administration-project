@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services;
+using Services.Auth;
+using Services.Auth.Dto;
 
 
 
@@ -13,40 +15,51 @@ namespace ZooManagementAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ZooMaContext _context;
-        public AuthController(ZooMaContext context)
+        private readonly ISvAuth svAuth;
+        public AuthController(ISvAuth _svAuth)
         {
-            _context = context;
-        }
-        [HttpPost("Login")]
-        public IActionResult GetToken()
-        {
-            User user = new User { Id = 6, CellPhone = "45454", Email = "masr", Name = "marco" };
-            var token = AuthHelpers.GenerateJWTToken(user, "ADMIN");
-            var tokenObject = new { access_token = token };
-
-            return Ok(tokenObject);
+            svAuth = _svAuth;
         }
 
         [Authorize(Roles = "ADMIN")]
-        [HttpGet("test")]
-        public IActionResult Getsome()
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
+            try
+            {
+                int userId = int.Parse(User.FindFirst("Id").Value);
 
+                if (userId == 0)
+                {
+                    return Unauthorized();
+                }
+                var result = await svAuth.Create(registerDto, userId);
 
-            return Ok("SIIIIII");
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-
-        [HttpGet("testDB")]
-        async public Task<IActionResult> Getdb()
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            // Ejecutar una consulta SQL cruda que devuelve nombres de bases de datos
-            var result = await _context.Database
-                .SqlQueryRaw<string>("SELECT name FROM sys.databases")
-                .ToListAsync();
+            try
+            {
 
-            return Ok(result);
+            var result = await svAuth.Login(loginDto);
+
+            var token = AuthHelpers.GenerateJWTToken(result.Data);
+
+            return Ok(new { access_token = token });
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

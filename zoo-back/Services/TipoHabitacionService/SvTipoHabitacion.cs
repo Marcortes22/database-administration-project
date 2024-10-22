@@ -23,14 +23,14 @@ namespace Services.TipoHabitacionService
         {
             myDbContext = context;
         }
-        public async Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion)
+        public async Task<BaseResponse<TipoHabitacion>> Create(tipoHabitacionCreateDto tipoHabitacion, int cedulaCreador)
         {
-            var nombreTipoHabitacion = new SqlParameter("@NombreTH", tipoHabitacion.NombreTH);
-            var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
+            var nombreTipoHabitacion = new SqlParameter("@NombreTH", tipoHabitacion.NombreTH);
+            var cedula = new SqlParameter("@Cedula", cedulaCreador);
 
-                // Ejecutamos el procedimiento almacenado
+                
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
                      "EXEC SP_INGRESAR_TIPOHABITACION @NombreTH, @Cedula",
                      nombreTipoHabitacion, cedula
@@ -47,12 +47,12 @@ namespace Services.TipoHabitacionService
             }
         }
 
-        public async Task<BaseResponse<TipoHabitacion>> Delete(int id)
+        public async Task<BaseResponse<TipoHabitacion>> Delete(int id, int cedulaCreador)
         {
-            var IdTipoHabitacion = new SqlParameter("@IdTipoHabitacion", id);
-            var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
+            var IdTipoHabitacion = new SqlParameter("@IdTipoHabitacion", id);
+            var cedula = new SqlParameter("@Cedula", cedulaCreador);
                 
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
                      "EXEC SP_ELIMINAR_TIPOHABITACION @IdTipoHabitacion, @Cedula",
@@ -72,7 +72,7 @@ namespace Services.TipoHabitacionService
         {
             try
             {
-                //var data = await myDbContext.TipoHabitacions.FromSqlRaw("SELECT * FROM Vw_TipoHabitacion").ToListAsync();
+                
                 var data = await myDbContext.VwTipoHabitacions.ToListAsync();
 
                 return new BaseResponse<List<VwTipoHabitacion>>(data, true, "");
@@ -81,7 +81,7 @@ namespace Services.TipoHabitacionService
             }
             catch (Exception ex)
             {
-                // Manejo de errores
+               
                 return new BaseResponse<List<VwTipoHabitacion>>(default, false, ex.Message);
             }
         }
@@ -100,21 +100,21 @@ namespace Services.TipoHabitacionService
             }
             catch (Exception ex)
             {
-                // Manejo de errores
+               
 
                 return new BaseResponse<TipoHabitacion>(default, false, ex.Message);
             }
 
         }
 
-        public async Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion)
+        public async Task<BaseResponse<TipoHabitacion>> Update(int id, tipoHabitacionUpdateDto tipoHabitacion, int cedulaCreador)
         {
             var IdTipoHabitacion = new SqlParameter("@IdTipoHabitacion", id);
-            var nombreTipoHabitacion = new SqlParameter("@NombreTH", tipoHabitacion.NombreTH);
-            var cedula = new SqlParameter("@Cedula", "504420108");
             try
             {
-                // Ejecutamos el procedimiento almacenado
+            var nombreTipoHabitacion = new SqlParameter("@NombreTH", tipoHabitacion.NombreTH);
+            var cedula = new SqlParameter("@Cedula", cedulaCreador);
+
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
                     "EXEC SP_ACTUALIZAR_TIPOHABITACION @IdTipoHabitacion, @NombreTH, @Cedula",
                     nombreTipoHabitacion, IdTipoHabitacion, cedula
@@ -125,7 +125,7 @@ namespace Services.TipoHabitacionService
             }
             catch (Exception ex)
             {
-                // Manejo de errores
+      
                 Console.WriteLine($"Error al ejecutar el procedimiento: {ex.Message}");
                 return new BaseResponse<TipoHabitacion>(default, false, ex.Message);
             }

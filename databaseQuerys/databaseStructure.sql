@@ -1,5 +1,9 @@
 -- Parte 1: Creación de la Base de Datos
 USE master
+IF DB_ID('ZooMA') IS NOT NULL
+BEGIN
+    DROP DATABASE ZooMA;
+END;
 GO
 CREATE DATABASE ZooMA
 ON PRIMARY (
@@ -114,7 +118,7 @@ USE ZooMA
 GO
 CREATE TABLE TipoHabitacion (
     IdTipoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    NombreTH VARCHAR(20) NOT NULL
+    NombreTH VARCHAR(75) NOT NULL
 );
 
 USE ZooMA
@@ -224,7 +228,6 @@ CREATE TABLE Puesto (
     IdPuesto INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Nombre VARCHAR(20) NOT NULL,
     Salario FLOAT NOT NULL,
-    DescripcionTareas VARCHAR(255) NOT NULL
 );
 
 USE ZooMA
@@ -256,18 +259,17 @@ USE ZooMA
 GO
 CREATE TABLE EstadoTarea (
     IdEstadoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(20) NOT NULL
+    Nombre VARCHAR(20) NOT NULL,
 );
 
 USE ZooMA
 GO
 CREATE TABLE TareasEstadoTareas (
     IdTareas INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    IdHabitacion INT NOT NULL,
     IdEstadoTarea INT NOT NULL,
 	Fecha DATE NOT NULL,
     CONSTRAINT FK_TareasEstadoTareas_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
-    CONSTRAINT FK_TareasEstadoTareas_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion)
+    CONSTRAINT FK_TareasEstadoTareas_IdEstadoTarea FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
 );
 
 USE ZooMA
@@ -295,10 +297,10 @@ CREATE TABLE ControlAnimal (
 USE ZooMA
 GO
 CREATE TABLE Usuario (
-    IdUsuario INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdUsuario INT NOT NULL PRIMARY KEY,
     Contraseña VARCHAR(20) NOT NULL,
-    IdEmpleado INT NOT NULL,
-    CONSTRAINT FK_Usuario_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado)
+    Estado BIT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_Usuario_IdEmpleado FOREIGN KEY (IdUsuario) REFERENCES Empleado (IdEmpleado)
 );
 
 USE ZooMA
@@ -310,10 +312,12 @@ CREATE TABLE Rol (
 
 USE ZooMA
 GO
-CREATE TABLE RolUsario (
+CREATE TABLE RolUsuario (
     IdRolUsario INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     IdRol INT NOT NULL,
     IdUsuario INT NOT NULL,
+    FechaInicio DATE NOT NULL,
+    FechaFin DATE NULL,
     CONSTRAINT FK_RolUsario_IdUsuario  FOREIGN KEY (IdUsuario ) REFERENCES Usuario (IdUsuario ),
     CONSTRAINT FK_RolUsario_IdRol FOREIGN KEY (IdRol) REFERENCES Rol (IdRol)
 );
@@ -323,9 +327,10 @@ GO
 CREATE TABLE VentaEntrada (
     IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Fechaventa DATE NOT NULL,
-    Horaventa TIME NOT NULL,
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
+    IdEmpleado INT NOT NULL,
+    CONSTRAINT FK_VentaEntrada_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
     CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
 );
@@ -342,7 +347,7 @@ USE ZooMA
 GO
 CREATE TABLE Entrada (
     IdEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Descripcion VARCHAR(255) NOT NULL,
+    fechaValidez DATE NOT NULL,
     IdTipoEntrada INT NOT NULL,
     CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada) --Hay algo que me está dando conficto ahí y no se que es!!
 );
@@ -352,10 +357,10 @@ GO
 CREATE TABLE DetalleVenta (
     IdDetalleVenta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     IdEntrada INT NOT NULL,
-	IdTipoEntrada INT NOT NULL,
+    IdVentaEntrada INT NOT NULL,
     Cantidad INT NOT NULL,
+    CONSTRAINT FK_DetalleVenta_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada),
 	CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) REFERENCES Entrada (IdEntrada),
-    CONSTRAINT FK_DetalleVenta_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada)
 );
 
 USE ZooMA
@@ -379,7 +384,6 @@ GO
 CREATE TABLE CalificacionVisita (
     IdCalificacionVisita INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Nota INT NOT NULL,
-    SugerenciaMejora VARCHAR(255) NOT NULL,
     Fecha DATE NOT NULL,
     IdVisitantes INT NOT NULL,
 	IdCalificacionServicioAlCliente INT NOT NULL,
@@ -456,7 +460,7 @@ CREATE TABLE Audit_TipoHabitacion (
     NombreTabla VARCHAR(20),
     Operacion VARCHAR(10),
     IdTipoHabitacion INT,
-    NombreTH VARCHAR(20),
+    NombreTH VARCHAR(75),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
@@ -530,7 +534,6 @@ CREATE TABLE Audit_Puesto (
     IdPuesto INT,
     Nombre VARCHAR(20),
     Salario FLOAT,
-    DescripcionTareas VARCHAR(255),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
@@ -625,7 +628,7 @@ CREATE TABLE Audit_Usuario (
     Operacion VARCHAR(10),
     IdUsuario INT,
     Contraseña VARCHAR(20),
-    IdEmpleado INT,
+    Estado BIT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );

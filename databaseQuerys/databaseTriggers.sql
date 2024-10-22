@@ -404,35 +404,35 @@ BEGIN
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist FROM inserted)
-       AND NOT EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist FROM deleted)
+    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM inserted)
+       AND NOT EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist , CorreoElectronico, Telefono FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @Cedula, GETDATE()
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, CorreoElectronico, Telefono, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist FROM inserted)
-       AND EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist FROM deleted)
+    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM inserted)
+       AND EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @Cedula, GETDATE()
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, CorreoElectronico, Telefono, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist FROM deleted)
-       AND NOT EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist FROM inserted)
+    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM deleted)
+       AND NOT EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, @Cedula, GETDATE()
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, CorreoElectronico, Telefono, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -564,35 +564,35 @@ BEGIN
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo FROM inserted)
-       AND NOT EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo FROM deleted)
+    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, Correo, IdZoo FROM inserted)
+       AND NOT EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, Correo, IdPuesto, IdZoo FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @Cedula, GETDATE()
+        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo FROM inserted)
-       AND EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo FROM deleted)
+    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM inserted)
+       AND EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @Cedula, GETDATE()
+        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo FROM deleted)
-       AND NOT EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo FROM inserted)
+    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM deleted)
+    AND NOT EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, IdZoo, @Cedula, GETDATE()
+        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -992,35 +992,35 @@ BEGIN
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdUsuario, Contraseña, IdEmpleado FROM inserted)
-       AND NOT EXISTS (SELECT IdUsuario, Contraseña, IdEmpleado FROM deleted)
+    IF EXISTS (SELECT IdUsuario, Contraseña, Estado FROM inserted)
+       AND NOT EXISTS (SELECT IdUsuario, Contraseña, Estado FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @Cedula, GETDATE()
+        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, Estado, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdUsuario, Contraseña, IdEmpleado FROM inserted)
-       AND EXISTS (SELECT IdUsuario, Contraseña, IdEmpleado FROM deleted)
+    IF EXISTS (SELECT IdUsuario, Contraseña, Estado FROM inserted)
+       AND EXISTS (SELECT IdUsuario, Contraseña, Estado FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @Cedula, GETDATE()
+        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, Estado, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdUsuario, Contraseña, IdEmpleado FROM deleted)
-       AND NOT EXISTS (SELECT IdUsuario, Contraseña, IdEmpleado FROM inserted)
+    IF EXISTS (SELECT IdUsuario, Contraseña, Estado FROM deleted)
+       AND NOT EXISTS (SELECT IdUsuario, Contraseña, Estado FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, IdEmpleado, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdUsuario, Contraseña, IdEmpleado, @Cedula, GETDATE()
+        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, Estado, @Cedula, GETDATE()
         FROM deleted;
     END
 END

@@ -38,7 +38,7 @@ namespace Services.EmpleadoService
             throw new NotImplementedException();
         }
 
-        public async Task<BaseResponse<List<Empleado>>> GetAll()
+        public async Task<BaseResponse<List<VwEmpleado>>> GetAll()
         {
             throw new NotImplementedException();
         }
