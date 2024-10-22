@@ -1,7 +1,6 @@
 'use client';
 
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
-
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useHabitaciones } from '@/Hooks/useHabitacion';
@@ -9,7 +8,7 @@ import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
 
 export default function HabitatsTable() {
   const { navigateTo } = useCustomRouter();
-  const { habitaciones, loading, error } = useHabitaciones(); // Usamos el hook adaptado
+  const { habitaciones, loading, error } = useHabitaciones();
   const { tiposHabitacion } = useTiposHabitacion();
 
   const handleEdit = (id: number) => {
@@ -24,14 +23,15 @@ export default function HabitatsTable() {
       style: { borderRadius: '10px', background: '#333', color: '#fff' },
     });
     console.log(`Eliminar hábitat con id: ${id}`);
-    // Aquí podrías hacer una llamada a tu API para eliminar el hábitat
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
         <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-blue-500"></div>
-        <p className="text-xl font-semibold text-gray-600 ml-4">Cargando habitaciones...</p>
+        <p className="text-xl font-semibold text-gray-600 ml-4">
+          Cargando habitaciones...
+        </p>
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default function HabitatsTable() {
   };
 
   return (
-    <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
+    <div className="relative mx-8 my-6 p-6 bg-white shadow-md rounded-md">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-700">Registro de Habitaciones</h2>
         <button
@@ -67,21 +67,26 @@ export default function HabitatsTable() {
         </button>
       </div>
 
-      <table className="w-full text-left text-gray-500">
+      <table className="w-full text-left text-gray-500 bg-white rounded-md">
         <thead className="bg-gray-50">
           <tr className="text-gray-700 uppercase text-sm">
             <th className="px-6 py-3 text-center">ID</th>
             <th className="px-6 py-3 text-center">Nombre</th>
             <th className="px-6 py-3 text-center">Dirección</th>
             <th className="px-6 py-3 text-center">Capacidad</th>
-            <th className="px-6 py-3 text-center">ID Tipo Habitación</th>
+            <th className="px-6 py-3 text-center">Tipo Habitación</th>
             <th className="px-6 py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {habitaciones?.map((habitat) => (
-            <tr key={habitat.idHabitacion} className="border-b hover:bg-gray-100">
-              <td className="px-6 py-4 text-center font-medium">{habitat.idHabitacion}</td>
+          {habitaciones.map((habitat) => (
+            <tr
+              key={habitat.idHabitacion}
+              className="border-b hover:bg-gray-100 transition duration-200"
+            >
+              <td className="px-6 py-4 text-center font-medium">
+                {habitat.idHabitacion}
+              </td>
               <td className="px-6 py-4 text-center">{habitat.nombreHab}</td>
               <td className="px-6 py-4 text-center">{habitat.direccion}</td>
               <td className="px-6 py-4 text-center">{habitat.capacidad}</td>

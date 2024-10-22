@@ -1,62 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import { useSession } from 'next-auth/react'; // Para manejar el token
 import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
+import { useRegistrarHabitacion } from '@/Hooks/useRegistrarHabitacion';
 
 export default function AddHabitat() {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [capacidad, setCapacidad] = useState('');
   const [tipoHabitat, setTipoHabitat] = useState('');
-  const router = useRouter();
-  const { data: session } = useSession(); 
-  const { tiposHabitacion, loading, error } = useTiposHabitacion(); 
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const { tiposHabitacion, loading, error } = useTiposHabitacion();
+  const { registrarHabitacion } = useRegistrarHabitacion(); // Usamos el hook
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!session?.user?.access_token) {
-      toast.error('No se encontró el token de autenticación.');
-      return;
-    }
 
     const nuevaHabitacion = {
       nombreHab: nombre,
       direccion,
-      capacidad: parseInt(capacidad), // Convertimos a número
-      idTipoHabitacion: parseInt(tipoHabitat), // Convertimos a número
+      capacidad: parseInt(capacidad),
+      idTipoHabitacion: parseInt(tipoHabitat),
     };
 
-    try {
-      const res = await fetch('http://localhost:5153/api/Habitacion', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.user.access_token}`, // Pasamos el token
-        },
-        body: JSON.stringify(nuevaHabitacion), // Enviamos los datos
-      });
-
-      if (!res.ok) {
-        throw new Error('Error al registrar la habitación');
-      }
-
-      toast.success('Hábitat registrado correctamente', {
-        style: { borderRadius: '10px', background: '#333', color: '#fff' },
-      });
-
-      router.push('/dashboard/habitats'); // Redirigimos a la lista
-    } catch (error) {
-      console.error(error);
-      toast.error('Ocurrió un error al registrar la habitación.');
-    }
+    registrarHabitacion(nuevaHabitacion); // Llamamos al hook
   };
 
   const handleCancel = () => {
-    router.push('/dashboard/habitats');
+    window.history.back(); // Retroceder a la página anterior
   };
 
   return (
@@ -114,7 +85,7 @@ export default function AddHabitat() {
                 required
               >
                 <option value="">Seleccione un tipo</option>
-                {tiposHabitacion?.map((tipo) => (
+                {tiposHabitacion.map((tipo) => (
                   <option key={tipo.idTipoHabitacion} value={tipo.idTipoHabitacion}>
                     {tipo.nombreTh}
                   </option>
