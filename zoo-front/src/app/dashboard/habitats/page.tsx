@@ -1,28 +1,49 @@
 'use client';
 
+import { useState } from 'react';
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useHabitaciones } from '@/Hooks/useHabitacion';
 import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
+import { useEliminarHabitacion } from '@/Hooks/useEliminarHabitacion';
+import { Habitacion } from '@/Types/next-auth-types/Habitacion';
+import { ModalEditHabitacion } from './editModal';
+import { DeleteModal } from './elimModal';
 
 export default function HabitatsTable() {
   const { navigateTo } = useCustomRouter();
   const { habitaciones, loading, error } = useHabitaciones();
   const { tiposHabitacion } = useTiposHabitacion();
+  const { eliminarHabitacion, loading: loadingEliminar } = useEliminarHabitacion(); // Usamos el hook de eliminar
+  const [selectedHabitacion, setSelectedHabitacion] = useState<Habitacion | null>(null);
+  const [habitacionIdToDelete, setHabitacionIdToDelete] = useState<number | null>(null); // Estado para abrir el modal de eliminación
 
-  const handleEdit = (id: number) => {
-    toast.success('Hábitat editado correctamente', {
-      style: { borderRadius: '10px', background: '#333', color: '#fff' },
-    });
-    console.log(`Editar hábitat con id: ${id}`);
+  const handleEdit = (habitacion: Habitacion) => {
+    setSelectedHabitacion(habitacion); // Abre el modal de edición
   };
 
   const handleDelete = (id: number) => {
-    toast.success('Hábitat eliminado correctamente', {
-      style: { borderRadius: '10px', background: '#333', color: '#fff' },
-    });
-    console.log(`Eliminar hábitat con id: ${id}`);
+    setHabitacionIdToDelete(id); // Abrir el modal de confirmación de eliminación
+  };
+
+  const confirmDelete = () => {
+    if (habitacionIdToDelete !== null) {
+      eliminarHabitacion(habitacionIdToDelete)
+        .then(() => {
+          toast.success('Habitación eliminada correctamente', {
+            style: { borderRadius: '10px', background: '#333', color: '#fff' },
+          });
+          setHabitacionIdToDelete(null); // Cerrar el modal después de eliminar
+        })
+        .catch(() => {
+          toast.error('Error al eliminar la habitación');
+        });
+    }
+  };
+
+  const refreshHabitaciones = () => {
+    // Aquí puedes llamar de nuevo al hook para refrescar las habitaciones después de editar
   };
 
   if (loading) {
@@ -96,7 +117,7 @@ export default function HabitatsTable() {
               <td className="px-6 py-4 flex justify-center space-x-2">
                 <button
                   className="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-all flex items-center"
-                  onClick={() => handleEdit(habitat.idHabitacion)}
+                  onClick={() => handleEdit(habitat)}
                 >
                   <FaEdit className="mr-1" /> Editar
                 </button>
@@ -111,6 +132,25 @@ export default function HabitatsTable() {
           ))}
         </tbody>
       </table>
+
+      {/* Modal de edición */}
+      {selectedHabitacion && (
+        <ModalEditHabitacion
+          habitacion={selectedHabitacion}
+          onClose={() => setSelectedHabitacion(null)}
+          onSave={refreshHabitaciones}
+        />
+      )}
+
+      {/* Modal de confirmación de eliminación */}
+      {habitacionIdToDelete !== null && (
+        <DeleteModal
+          habitacionId={habitacionIdToDelete}
+          onClose={() => setHabitacionIdToDelete(null)}
+          onDelete={confirmDelete}
+          loading={loadingEliminar}
+        />
+      )}
     </div>
   );
 }
