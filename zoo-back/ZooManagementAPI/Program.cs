@@ -44,10 +44,9 @@ builder.Services.AddScoped<ISvTipoEntrada, SvTipoEntrada>();
 builder.Services.AddCors(options => {
     options.AddPolicy("ReactApp", policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:5173");
+        policyBuilder.AllowAnyOrigin();  // Permite cualquier origen temporalmente para depuración
         policyBuilder.AllowAnyHeader();
         policyBuilder.AllowAnyMethod();
-        policyBuilder.AllowCredentials();
     });
 });
 
@@ -117,7 +116,7 @@ if (app.Environment.IsDevelopment())
     //app.UseAuthorization();  
 }
 
-
+app.UseCors("ReactApp");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
