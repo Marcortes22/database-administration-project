@@ -14,12 +14,7 @@ namespace ZooManagementAPI
         public static string GenerateJWTToken(EmpleadoInfoDto empleado)
         {
             var claims = new List<Claim> {
-                new Claim("Id", empleado.IdEmpleado.ToString()),
-                new Claim("Nombre", empleado.Nombre),
-                new Claim("Email", empleado.Correo),
-                new Claim("Apellido1", empleado.Apellido1),
-                new Claim("Apellido2", empleado.Apellido2)
-
+                new Claim("Id", empleado.IdEmpleado.ToString())
             };
 
 

@@ -51,9 +51,19 @@ namespace ZooManagementAPI.Controllers
 
             var result = await svAuth.Login(loginDto);
 
-            var token = AuthHelpers.GenerateJWTToken(result.Data);
+                if(result.Success == false)
+                {
+                    return Unauthorized();
+                }
 
-            return Ok(new { access_token = token });
+                var token = AuthHelpers.GenerateJWTToken(result.Data);
+
+            return Ok(new { EmpleadoId = result.Data.IdEmpleado, 
+                            Nombre = result.Data.Nombre,
+                            Apellido1 = result.Data.Apellido1,
+                            Apellido2 = result.Data.Apellido2,
+                            Correo = result.Data.Correo,
+                            access_token = token });
 
             }
             catch (Exception e)
