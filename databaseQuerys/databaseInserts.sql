@@ -408,3 +408,97 @@ EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-12', @descuento = 15, @IdT
 
 
 
+DECLARE @Detalles DetalleVentaTableType;
+
+-- Venta 1
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 2);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420101, 
+    @IdMetodoPago = 1, -- Efectivo
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 2
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (2, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420102, 
+    @IdMetodoPago = 2, -- Tarjeta Débito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 3
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 3);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420103, 
+    @IdMetodoPago = 3, -- Tarjeta Crédito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 4
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (4, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420104, 
+    @IdMetodoPago = 4, -- Transferencia Bancaria
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 5
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (5, 2);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420105, 
+    @IdMetodoPago = 5, -- Pago Móvil
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 6
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (6, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420106, 
+    @IdMetodoPago = 6, -- Cheque
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 7
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (7, 2);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420107, 
+    @IdMetodoPago = 7, -- PayPal
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 8
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (5, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420108, 
+    @IdMetodoPago = 1, -- Efectivo
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 9
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (2, 3);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420109, 
+    @IdMetodoPago = 2, -- Tarjeta Débito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 10
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420110, 
+    @IdMetodoPago = 3, -- Tarjeta Crédito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+
+
+
