@@ -350,7 +350,7 @@ GO
 Create View Vw_Entradas_Activas 
 as
     SELECT  E.IdEntrada, E.fechaVencimiento, E.descuento, TP.nombreEnt as 'Tipo entrada', TP.Precio as 'Precio tipo entrada', 
-   TP.Precio - (TP.Precio * (ISNULL(E.descuento, 0)/100.0)) as 'Precio total' FROM Entrada E 
+    (dbo.CalcularPrecioEntrada(E.IdEntrada, 1)) as 'Precio total' FROM Entrada E 
    INNER JOIN TipoEntrada TP ON E.IdTipoEntrada = TP.IdTipoEntrada WHERE E.fechaVencimiento > GETDATE()
 GO
 
