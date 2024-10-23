@@ -14,7 +14,7 @@ namespace Services.EmpleadoService
     {
         Task<BaseResponse<List<VwEmpleado>>> GetAll();
         Task<BaseResponse<VwEmpleado>> GetById(int id);
-        Task<BaseResponse<Empleado>> Create(EmpleadoCreateDto CreateEmpleado);
+       // Task<BaseResponse<Empleado>> Create(EmpleadoCreateDto CreateEmpleado);
         Task<BaseResponse<Empleado>> Update(int id, EmpleadoUpdateDto UpdateEmpleado);
         Task<BaseResponse<Empleado>> Delete(int id);
     }

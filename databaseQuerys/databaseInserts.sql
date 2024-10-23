@@ -383,18 +383,28 @@ EXEC SP_INGRESAR_VISITANTE
 
 
 
-    -- Declaración de la cédula creador
-DECLARE @CedulaCreador VARCHAR(20) = '504420108';
-
 -- Llamadas para registrar tipos de entrada
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Adulto', @Precio = 15.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Niño', @Precio = 10.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Estudiante', @Precio = 12.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Tercera Edad', @Precio = 8.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Tarifa Especial', @Precio = 20.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Visita Nocturna', @Precio = 18.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Entrada de Cuidado Animal', @Precio = 25.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Adulto', @Precio = 12.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Niño', @Precio = 8.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Estudiante', @Precio = 10.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Tercera Edad', @Precio = 7.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Tarifa Especial', @Precio = 15.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Visita Nocturna', @Precio = 14.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Entrada de Cuidado Animal', @Precio = 20.00, @Cedula = @CedulaCreador;
 
+
+
+
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-12-31', @descuento = 10, @IdTipoEntrada = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-15', @descuento = 5, @IdTipoEntrada = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-10-30', @descuento = 0, @IdTipoEntrada = 2, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-01', @descuento = 15, @IdTipoEntrada = 3, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-12-01', @descuento = 20, @IdTipoEntrada = 4, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-20', @descuento = 25, @IdTipoEntrada = 5, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-10-28', @descuento = 10, @IdTipoEntrada = 6, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-25', @descuento = 30, @IdTipoEntrada = 7, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-12-05', @descuento = 5, @IdTipoEntrada = 2, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-12', @descuento = 15, @IdTipoEntrada = 3, @Cedula = @CedulaCreador;
 
 
 

@@ -1011,6 +1011,129 @@ BEGIN
 END
 GO
 
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_ENTRADA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_ENTRADA;
+GO
+CREATE PROCEDURE SP_INGRESAR_ENTRADA (
+    @fechaVencimiento DATE,
+    @descuento INT,
+    @IdTipoEntrada INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@fechaVencimiento IS NULL OR @descuento IS NULL OR @IdTipoEntrada IS NULL OR @Cedula = '')
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM TipoEntrada WHERE IdTipoEntrada = @idTipoEntrada)
+        BEGIN
+            RAISERROR ('El tipo entrada no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF  (@fechaVencimiento < GETDATE())
+        BEGIN
+            RAISERROR ('La de vencimiento no puede ser en el pasado', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        
+
+        INSERT INTO Entrada (fechaVencimiento, descuento, IdTipoEntrada)
+        VALUES (@fechaVencimiento, @descuento, @IdTipoEntrada);
+        COMMIT TRANSACTION;
+         SELECT 'Entrada registrada correctamente para la fecha ';
+        
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
+
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_ENTRADA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_ENTRADA;
+GO
+CREATE PROCEDURE SP_ACTUALIZAR_ENTRADA (
+    @IdEntrada INT,
+    @fechaVencimiento DATE,
+    @descuento INT,
+    @IdTipoEntrada INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        IF (@fechaVencimiento IS NULL AND @descuento IS NULL AND @IdTipoEntrada IS NULL OR @Cedula = '' OR @IdEntrada IS NULL)
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF (@IdTipoEntrada IS NOT NULL AND NOT EXISTS (SELECT 1 FROM TipoEntrada WHERE IdTipoEntrada = @IdTipoEntrada))
+        BEGIN
+            RAISERROR ('El tipo entrada no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+       
+       IF(@fechaVencimiento IS NOT NULL AND @fechaVencimiento < GETDATE())
+        BEGIN
+            RAISERROR ('La fecha de vencimiento no puede ser en el pasado', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+         
+
+        UPDATE Entrada 
+        SET fechaVencimiento = ISNULL(@fechaVencimiento, fechaVencimiento),
+            descuento = ISNULL(@descuento, descuento),
+            IdTipoEntrada = ISNULL(@IdTipoEntrada, IdTipoEntrada)
+        WHERE IdEntrada = @IdEntrada;
+        COMMIT TRANSACTION;
+         SELECT 'Entrada editada correctamente ';
+        
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
+
+
+
+
+
 USE ZooMA
 GO
 IF OBJECT_ID('SP_INGRESAR_ESTADO_TAREA', 'P') IS NOT NULL
@@ -2861,6 +2984,7 @@ BEGIN
         RAISERROR ('El usuario no existe', 16, 1);
         RETURN;
     END
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
     BEGIN TRANSACTION;
 
@@ -2868,7 +2992,6 @@ BEGIN
         UPDATE Usuario
         SET Contraseña = @Contraseña
         WHERE IdUsuario = @IdUsuario;
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
 
         SELECT 'Registro del usuario actualizado correctamente' AS 'Mensaje de Confirmación';
@@ -2886,6 +3009,7 @@ BEGIN
     END CATCH
 END;
 GO
+
 
 USE ZooMA
 GO
@@ -3184,6 +3308,72 @@ BEGIN
 
     END CATCH
 END;
+
+go
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_ELIMINAR_Entrada', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ELIMINAR_Entrada;
+GO
+CREATE PROCEDURE SP_ELIMINAR_Entrada (
+    @IdEntrada INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+BEGIN TRY
+ BEGIN TRANSACTION;
+    IF(@IdEntrada IS NULL OR @IdEntrada = 0)
+    BEGIN
+        RAISERROR ('El ID del estado de salud no puede ser un campo vacío o ser cero', 16, 1);
+        RETURN;
+    END
+
+    IF(@Cedula = '')
+    BEGIN
+        RAISERROR ('Las se necesitan las credenciales de la persona a realizar la accion', 16, 1);
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM Entrada WHERE IdEntrada = @IdEntrada)
+    BEGIN
+        RAISERROR ('La entrada no existe', 16, 1);
+        RETURN;
+    END
+
+    IF EXISTS(SELECT 1 FROM DetalleVenta WHERE IdEntrada = @IdEntrada)
+
+    BEGIN
+        RAISERROR ('No se puede eliminar la entrada porque tiene ventas asociadas', 16, 1);
+        RETURN;
+    END    
+
+        DELETE FROM Entrada
+        WHERE IdEntrada = @IdEntrada;
+        COMMIT TRANSACTION;
+
+        SELECT 'Registro del estado de salud eliminado correctamente' AS 'Mensaje de Confirmación';
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(100) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, 16, 1);
+
+    END CATCH
+END;
+
+
+
+go
+
 
 
 --Parte 10: SP Eliminar
@@ -3989,3 +4179,10 @@ BEGIN
 END;
 GO
 --FIN SP Eliminar
+
+
+
+
+
+
+

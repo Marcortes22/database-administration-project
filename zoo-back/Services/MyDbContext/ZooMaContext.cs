@@ -141,6 +141,8 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<VwEmpleadoRolesActivo> VwEmpleadoRolesActivos { get; set; }
 
+    public virtual DbSet<VwEntradasActiva> VwEntradasActivas { get; set; }
+
     public virtual DbSet<VwEspecy> VwEspecies { get; set; }
 
     public virtual DbSet<VwEstadoHabitacion> VwEstadoHabitacions { get; set; }
@@ -837,6 +839,8 @@ public partial class ZooMaContext : DbContext
         {
             entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__AAA5CEC2F1BDF18A");
 
+            entity.Property(e => e.Precio).HasColumnType("money");
+
             entity.HasOne(d => d.IdEntradaNavigation).WithMany(p => p.DetalleVenta)
                 .HasForeignKey(d => d.IdEntrada)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -910,7 +914,8 @@ public partial class ZooMaContext : DbContext
         {
             entity.HasKey(e => e.IdEntrada).HasName("PK__Entrada__BB164DEA0762A1D1");
 
-            entity.Property(e => e.FechaValidez).HasColumnName("fechaValidez");
+            entity.Property(e => e.Descuento).HasColumnName("descuento");
+            entity.Property(e => e.FechaVencimiento).HasColumnName("fechaVencimiento");
 
             entity.HasOne(d => d.IdTipoEntradaNavigation).WithMany(p => p.Entrada)
                 .HasForeignKey(d => d.IdTipoEntrada)
@@ -1187,6 +1192,8 @@ public partial class ZooMaContext : DbContext
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_VentaEntrada"));
 
+            entity.Property(e => e.Fechaventa).HasColumnType("datetime");
+
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.VentaEntrada)
                 .HasForeignKey(d => d.IdEmpleado)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1356,6 +1363,26 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
+        });
+
+        modelBuilder.Entity<VwEntradasActiva>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vw_Entradas_Activas");
+
+            entity.Property(e => e.Descuento).HasColumnName("descuento");
+            entity.Property(e => e.FechaVencimiento).HasColumnName("fechaVencimiento");
+            entity.Property(e => e.PrecioTipoEntrada)
+                .HasColumnType("money")
+                .HasColumnName("Precio tipo entrada");
+            entity.Property(e => e.PrecioTotal)
+                .HasColumnType("numeric(38, 10)")
+                .HasColumnName("Precio total");
+            entity.Property(e => e.TipoEntrada)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Tipo entrada");
         });
 
         modelBuilder.Entity<VwEspecy>(entity =>

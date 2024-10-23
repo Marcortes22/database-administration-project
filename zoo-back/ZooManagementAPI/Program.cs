@@ -17,6 +17,8 @@ using Services.MetodoPagoService;
 using Services.VisitanteService;
 using Services.TipoEntradaService;
 using Services.EmpleadoService;
+using Services.EntradaService;
+using Services.VentaEntradaService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,8 @@ builder.Services.AddScoped<ISvMetodoPago, SvMetodoPago>();
 builder.Services.AddScoped<ISvVisitante, SvVisitante>();
 builder.Services.AddScoped<ISvTipoEntrada, SvTipoEntrada>();
 builder.Services.AddScoped<ISvEmpleado, SvEmpleado>();
+builder.Services.AddScoped<ISvEntrada, SvEntrada>();
+builder.Services.AddScoped<ISvVentaEntrada, SvVentaEntrada>();
 
 
 

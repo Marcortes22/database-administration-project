@@ -326,7 +326,7 @@ USE ZooMA
 GO
 CREATE TABLE VentaEntrada (
     IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Fechaventa DATE NOT NULL,
+    Fechaventa DATETIME NOT NULL,
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
     IdEmpleado INT NOT NULL,
@@ -347,9 +347,10 @@ USE ZooMA
 GO
 CREATE TABLE Entrada (
     IdEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    fechaValidez DATE NOT NULL,
+    fechaVencimiento DATE NOT NULL,
+    descuento INT NOT NULL,
     IdTipoEntrada INT NOT NULL,
-    CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada) --Hay algo que me está dando conficto ahí y no se que es!!
+    CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada) 
 );
 
 USE ZooMA
@@ -359,6 +360,7 @@ CREATE TABLE DetalleVenta (
     IdEntrada INT NOT NULL,
     IdVentaEntrada INT NOT NULL,
     Cantidad INT NOT NULL,
+    Precio MONEY NOT NULL,
     CONSTRAINT FK_DetalleVenta_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada),
 	CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) REFERENCES Entrada (IdEntrada),
 );

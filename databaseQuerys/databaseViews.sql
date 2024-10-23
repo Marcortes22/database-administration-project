@@ -343,6 +343,17 @@ as
    SELECT  US.IdUsuario, R.nombre FROM RolUsuario US INNER JOIN Rol R ON US.IdRol = R.IdRol WHERE US.FechaFin > GETDATE() OR US.FechaFin IS NULL
 GO
 
+Use ZooMA
+IF OBJECT_ID('Vw_Entradas_Activas', 'V') IS NOT NULL
+   DROP VIEW Vw_Entradas_Activas;
+GO
+Create View Vw_Entradas_Activas 
+as
+    SELECT  E.IdEntrada, E.fechaVencimiento, E.descuento, TP.nombreEnt as 'Tipo entrada', TP.Precio as 'Precio tipo entrada', 
+   TP.Precio - (TP.Precio * (ISNULL(E.descuento, 0)/100.0)) as 'Precio total' FROM Entrada E 
+   INNER JOIN TipoEntrada TP ON E.IdTipoEntrada = TP.IdTipoEntrada WHERE E.fechaVencimiento > GETDATE()
+GO
+
 
 
 

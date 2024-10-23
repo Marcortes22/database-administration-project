@@ -21,18 +21,18 @@ namespace Services.EmpleadoService
         {
             myDbContext = context;
         }
-        public async Task<BaseResponse<Empleado>> Create(EmpleadoCreateDto CreateEmpleado)
-        {
+        //public async Task<BaseResponse<Empleado>> Create(EmpleadoCreateDto CreateEmpleado)
+        //{
 
-            var id = new SqlParameter("@EmpleadoId", CreateEmpleado.IdEmpleado);
-            var nombre = new SqlParameter("@Nombre", CreateEmpleado.Nombre);
-            var apell1 = new SqlParameter("@Apellido1", CreateEmpleado.Apellido1);
-            var apell2 = new SqlParameter("@Apellido2", CreateEmpleado.Apellido2);
-            var idPuesto = new SqlParameter("@@IdPuesto", CreateEmpleado.IdPuesto);
-            var cedula = new SqlParameter("@Cedula", "504420108");
+        //    var id = new SqlParameter("@EmpleadoId", CreateEmpleado.IdEmpleado);
+        //    var nombre = new SqlParameter("@Nombre", CreateEmpleado.Nombre);
+        //    var apell1 = new SqlParameter("@Apellido1", CreateEmpleado.Apellido1);
+        //    var apell2 = new SqlParameter("@Apellido2", CreateEmpleado.Apellido2);
+        //    var idPuesto = new SqlParameter("@@IdPuesto", CreateEmpleado.IdPuesto);
+        //    var cedula = new SqlParameter("@Cedula", "504420108");
  
-            return new BaseResponse<Empleado>(default, true, "Empleado creado exitosamente");
-        }
+        //    return new BaseResponse<Empleado>(default, true, "Empleado creado exitosamente");
+        //}
 
         public async Task<BaseResponse<Empleado>> Delete(int id)
         {
