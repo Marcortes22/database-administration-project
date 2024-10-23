@@ -13,7 +13,7 @@ public partial class RolUsuario
 
     public DateOnly FechaInicio { get; set; }
 
-    public DateOnly FechaFin { get; set; }
+    public DateOnly? FechaFin { get; set; }
 
     public virtual Rol IdRolNavigation { get; set; } = null!;
 

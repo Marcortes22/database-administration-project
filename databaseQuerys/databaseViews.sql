@@ -238,14 +238,25 @@ IF OBJECT_ID('Vw_Empleado', 'V') IS NOT NULL
 GO
 Create View Vw_Empleado
 as
-Select
-IdEmpleado,
-Nombre,
-Apellido1,
-Apellido2,
-IdPuesto,
-IdZoo
-from Empleado
+SELECT 
+	E.IdEmpleado,
+    E.Nombre, 
+	E.Apellido1, 
+	E.Apellido2, 
+    P.Nombre AS 'Puesto', 
+    STRING_AGG(R.Nombre, ', ') AS Roles 
+FROM 
+    Empleado E 
+INNER JOIN
+	Puesto P ON P.IdPuesto = E.IdPuesto
+INNER JOIN 
+    Usuario U ON E.IdEmpleado = U.IdUsuario 
+INNER JOIN 
+    RolUsuario RS ON U.IdUsuario = RS.IdUsuario 
+INNER JOIN 
+    Rol R ON R.IdRol = RS.IdRol 
+GROUP BY 
+   E.IdEmpleado, E.Nombre, E.Apellido1,  E.Apellido2, E.Nombre,  P.Nombre
 GO
 
 Use ZooMA

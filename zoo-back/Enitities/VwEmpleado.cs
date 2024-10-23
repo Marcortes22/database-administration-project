@@ -13,7 +13,7 @@ public partial class VwEmpleado
 
     public string Apellido2 { get; set; } = null!;
 
-    public int IdPuesto { get; set; }
+    public string Puesto { get; set; } = null!;
 
-    public int IdZoo { get; set; }
+    public string? Roles { get; set; }
 }

@@ -177,7 +177,7 @@ public partial class ZooMaContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=ZooMA;User ID=test;Password=1234;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=ZooMA;Integrated Security=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -653,7 +653,7 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.NombreTh)
-                .HasMaxLength(20)
+                .HasMaxLength(75)
                 .IsUnicode(false)
                 .HasColumnName("NombreTH");
             entity.Property(e => e.Operacion)
@@ -1043,7 +1043,7 @@ public partial class ZooMaContext : DbContext
 
             entity.ToTable("MetodoPago", tb => tb.HasTrigger("trg_Audit_MetodoPago"));
 
-            entity.Property(e => e.Metodopago)
+            entity.Property(e => e.Metodopago1)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("Metodopago");
@@ -1146,7 +1146,7 @@ public partial class ZooMaContext : DbContext
             entity.ToTable("TipoHabitacion", tb => tb.HasTrigger("trg_Audit_TipoHabitacion"));
 
             entity.Property(e => e.NombreTh)
-                .HasMaxLength(20)
+                .HasMaxLength(75)
                 .IsUnicode(false)
                 .HasColumnName("NombreTH");
         });
@@ -1317,6 +1317,12 @@ public partial class ZooMaContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Puesto)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Roles)
+                .HasMaxLength(8000)
                 .IsUnicode(false);
         });
 

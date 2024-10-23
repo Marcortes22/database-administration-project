@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Services.EmpleadoService.Dto;
 using Services.genericResponse;
 using Services.TipoHabitacionService;
@@ -40,12 +41,39 @@ namespace Services.EmpleadoService
 
         public async Task<BaseResponse<List<VwEmpleado>>> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                var data = await myDbContext.VwEmpleados.ToListAsync();
+
+                return new BaseResponse<List<VwEmpleado>>(data, true, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return new BaseResponse<List<VwEmpleado>>(default, false, ex.Message);
+            }
         }
 
-        public async Task<BaseResponse<Empleado>> GetById(int id)
+        public async Task<BaseResponse<VwEmpleado>> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var idTipoHabitacion = new SqlParameter("@idTipoHabitacion", id);
+
+                var data =  myDbContext.VwEmpleados.FirstOrDefault(x=> x.IdEmpleado == id);
+
+                return new BaseResponse<VwEmpleado>(data, true, "Acción completada!");
+
+            }
+            catch (Exception ex)
+            {
+
+
+                return new BaseResponse<VwEmpleado>(default, false, ex.Message);
+            }
         }
 
         public async Task<BaseResponse<Empleado>> Update(int id, EmpleadoUpdateDto UpdateEmpleado)
