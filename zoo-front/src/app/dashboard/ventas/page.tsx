@@ -1,91 +1,149 @@
 'use client';
+import { useVisitantes } from '@/Hooks/useVisitante';
+import { useEntradas } from '@/Hooks/useEntrada';
+import { useMetodosPago } from '@/Hooks/useMetodoPago';
+import { useVentaEntradas } from '@/Hooks/useVentaEntradas';
 
-import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
-import { FaFilter, FaChartBar } from 'react-icons/fa';
+export default function VentaEntradaForm() {
+  const {
+    detalles,
+    idVisitante,
+    idMetodoPago,
+    setIdVisitante,
+    setIdMetodoPago,
+    handleDetalleChange,
+    agregarDetalle,
+    eliminarDetalle,
+    realizarVenta,
+  } = useVentaEntradas();
 
-interface VentaEntrada {
-  id: number;
-  tipo: string;
-  fecha: string;
-  cantidad: number;
-  total: number;
-}
+  const { visitantes, loading: loadingVisitantes, error: errorVisitantes } = useVisitantes();
+  const { entradas, loading: loadingEntradas, error: errorEntradas } = useEntradas();
+  const { metodosPago, loading: loadingMetodos, error: errorMetodos } = useMetodosPago();
 
-const ventasSimuladas: VentaEntrada[] = [
-  { id: 1, tipo: 'Adulto', fecha: '2024-10-15', cantidad: 50, total: 500 },
-  { id: 2, tipo: 'Niño', fecha: '2024-10-15', cantidad: 30, total: 150 },
-  { id: 3, tipo: 'Grupo', fecha: '2024-10-16', cantidad: 20, total: 200 },
-];
-
-export default function VentasEntradas() {
-  const [ventas, setVentas] = useState<VentaEntrada[]>(ventasSimuladas);
-  const [filtroFecha, setFiltroFecha] = useState('');
-  const [totalRecaudado, setTotalRecaudado] = useState(0);
-
-  useEffect(() => {
-    calcularTotalRecaudado();
-  }, [ventas]);
-
-  const calcularTotalRecaudado = () => {
-    const total = ventas.reduce((acc, venta) => acc + venta.total, 0);
-    setTotalRecaudado(total);
-  };
-
-  const filtrarPorFecha = (fecha: string) => {
-    const ventasFiltradas = ventasSimuladas.filter((venta) => venta.fecha === fecha);
-    setVentas(ventasFiltradas);
-    toast.success(`Filtrado por la fecha: ${fecha}`, {
-      style: { borderRadius: '10px', background: '#333', color: '#fff' },
-    });
-  };
+  if (loadingVisitantes || loadingEntradas || loadingMetodos) return <p>Cargando datos...</p>;
+  if (errorVisitantes || errorEntradas || errorMetodos) return <p>Error al cargar datos</p>;
 
   return (
-    <div className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Ventas de Entradas</h1>
+    <div className="max-w-3xl mx-auto my-12 p-10 bg-white rounded-3xl shadow-2xl transition-shadow hover:shadow-3xl">
+      <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
+        Venta de Entradas
+      </h2>
 
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
-          <input
-            type="date"
-            className="border rounded-md px-3 py-2 mr-4"
-            value={filtroFecha}
-            onChange={(e) => setFiltroFecha(e.target.value)}
-          />
-          <button
-            onClick={() => filtrarPorFecha(filtroFecha)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 flex items-center"
+      <form 
+        onSubmit={(e) => { e.preventDefault(); realizarVenta(); }} 
+        className="space-y-6"
+      >
+        {/* Selección de Visitante */}
+        <div className="space-y-2">
+          <label className="block text-lg font-medium text-gray-700">Visitante</label>
+          <select
+            value={idVisitante ?? ''}
+            onChange={(e) => setIdVisitante(parseInt(e.target.value, 10) || null)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           >
-            <FaFilter className="mr-2" /> Filtrar
+            <option value="">Selecciona un visitante</option>
+            {visitantes.map((v) => (
+              <option key={v.idVisitantes} value={v.idVisitantes}>
+                {v.nombreVist} {v.apell1Vist} {v.apell2Vist}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Detalles de Entradas */}
+        {detalles.map((detalle, index) => (
+          <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+            <div className="space-y-2">
+              <label className="block text-lg font-medium text-gray-700">Tipo de Entrada</label>
+              <select
+                value={detalle.idEntrada ?? ''}
+                onChange={(e) =>
+                  handleDetalleChange(index, 'idEntrada', parseInt(e.target.value, 10) || 0)
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              >
+                <option value="">Selecciona un tipo de entrada</option>
+                {entradas.map((entrada) => (
+                  <option key={entrada.idEntrada} value={entrada.idEntrada}>
+                    {entrada.tipoEntrada} - ${entrada.precioTotal}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-lg font-medium text-gray-700">Cantidad</label>
+              <input
+                type="number"
+                min="1"
+                value={detalle.cantidad}
+                onChange={(e) =>
+                  handleDetalleChange(index, 'cantidad', Number(e.target.value))
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => eliminarDetalle(index)}
+              className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
+            >
+              Eliminar Detalle
+            </button>
+          </div>
+        ))}
+
+        {/* Botón para agregar detalles */}
+        <div className="flex justify-start">
+          <button
+            type="button"
+            onClick={agregarDetalle}
+            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Agregar Detalle
           </button>
         </div>
-        <h2 className="text-xl font-semibold text-gray-700">
-          Total Recaudado: <span className="text-green-600">${totalRecaudado}</span>
-        </h2>
-      </div>
 
-      <table className="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <thead className="bg-gray-50">
-          <tr className="text-gray-700 uppercase text-sm">
-            <th className="px-4 py-2">ID</th>
-            <th className="px-4 py-2">Tipo de Entrada</th>
-            <th className="px-4 py-2">Fecha</th>
-            <th className="px-4 py-2">Cantidad</th>
-            <th className="px-4 py-2">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ventas.map((venta) => (
-            <tr key={venta.id} className="border-b hover:bg-gray-100">
-              <td className="px-4 py-2 text-center">{venta.id}</td>
-              <td className="px-4 py-2 text-center">{venta.tipo}</td>
-              <td className="px-4 py-2 text-center">{venta.fecha}</td>
-              <td className="px-4 py-2 text-center">{venta.cantidad}</td>
-              <td className="px-4 py-2 text-center">${venta.total}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        {/* Selección del Método de Pago */}
+        <div className="space-y-2">
+          <label className="block text-lg font-medium text-gray-700">Método de Pago</label>
+          <select
+            value={idMetodoPago ?? ''}
+            onChange={(e) => setIdMetodoPago(parseInt(e.target.value, 10) || null)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          >
+            <option value="">Selecciona un método de pago</option>
+            {metodosPago.map((metodo) => (
+              <option key={metodo.idMetodoPago} value={metodo.idMetodoPago}>
+                {metodo.metodopago}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Botones de Acción */}
+        <div className="flex justify-between mt-6">
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300"
+          >
+            Realizar Venta
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

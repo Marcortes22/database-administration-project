@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRoles } from '@/Hooks/useRoles';
 
-import { Empleado } from '@/Types/next-auth-types/Empleado';
+import { Empleado, RegistarEmpleado } from '@/Types/next-auth-types/Empleado';
 import { usePuestos } from '@/Hooks/usePuestos';
 import { useRegistrarEmpleado } from '@/Hooks/useRegistrarEmpleado';
 
@@ -12,7 +12,7 @@ export default function FormularioRegistroEmpleado() {
   const { roles, loading: loadingRoles, error: errorRoles } = useRoles();
   const { registrarEmpleado, loading } = useRegistrarEmpleado();
 
-  const [empleado, setEmpleado] = useState<Empleado>({
+  const [empleado, setEmpleado] = useState<RegistarEmpleado>({
     idEmpleado: '',
     nombre: '',
     apellido1: '',
