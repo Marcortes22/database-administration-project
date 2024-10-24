@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
-import { Empleado } from '@/Types/next-auth-types/Empleado';
+import { Empleado, RegistarEmpleado } from '@/Types/next-auth-types/Empleado';
 
 export const useRegistrarEmpleado = () => {
   const { data: session } = useSession(); // Para obtener el token de autenticación
@@ -12,7 +12,7 @@ export const useRegistrarEmpleado = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const registrarEmpleado = async (empleado: Empleado) => {
+  const registrarEmpleado = async (empleado: RegistarEmpleado) => {
     setLoading(true);
     setError(null);
 

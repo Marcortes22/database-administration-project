@@ -1,4 +1,4 @@
-export interface Empleado {
+export interface RegistarEmpleado {
   idEmpleado: string;
   nombre: string;
   apellido1: string;
@@ -9,4 +9,13 @@ export interface Empleado {
   idRol: number;
   rolFechaInicio: string;
   rolFechaFin: string;
+}
+
+export interface Empleado {
+  idEmpleado: string;
+  nombre: string;
+  apellido1: string;
+  apellido2: string;
+  puesto: string;
+  roles: string
 }
