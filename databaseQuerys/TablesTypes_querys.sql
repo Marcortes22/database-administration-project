@@ -13,6 +13,15 @@ CREATE TYPE DetalleVentaTableType AS TABLE
 
 
 
+--table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
+ DROP TYPE if exists AlimentosDeDietaTableType
+ GO
+CREATE TYPE AlimentosDeDietaTableType AS TABLE
+(
+    IdAlimentos INT NOT NULL
+);
+
+
 
 
 

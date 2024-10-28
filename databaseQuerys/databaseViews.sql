@@ -173,9 +173,7 @@ Create View Vw_EstadoHabitacion
 as
 Select
 IdEstadoHabitacion,
-estado,
-descripcion,
-Fecha
+estado
 from EstadoHabitacion
 GO
 
@@ -324,6 +322,19 @@ IdRol,
 Nombre
 from Rol
 GO
+
+Use ZooMA
+IF OBJECT_ID('Vw_TipoTarea', 'V') IS NOT NULL
+   DROP VIEW Vw_TipoTarea;
+GO
+Create View Vw_TipoTarea 
+as
+Select
+IdTipoTarea,
+NombreTT
+from TipoTarea
+GO
+
 
 Use ZooMA
 IF OBJECT_ID('Vw_Empleado_Login', 'V') IS NOT NULL

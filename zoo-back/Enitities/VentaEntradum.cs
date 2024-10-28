@@ -7,13 +7,13 @@ public partial class VentaEntradum
 {
     public int IdVentaEntrada { get; set; }
 
+    public DateTime Fechaventa { get; set; }
+
     public int IdVisitantes { get; set; }
 
     public int IdMetodoPago { get; set; }
 
     public int IdEmpleado { get; set; }
-
-    public DateTime? Fechaventa { get; set; }
 
     public virtual ICollection<DetalleVentum> DetalleVenta { get; set; } = new List<DetalleVentum>();
 

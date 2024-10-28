@@ -9,6 +9,7 @@ CREATE PROCEDURE SP_INGRESAR_HABITACION(
     @Direccion VARCHAR(255),
     @Capacidad INT,
     @IdTipoHabitacion INT,
+    @IdEstadoHabitacion INT,
     @Cedula VARCHAR(20)
 )
 AS
@@ -18,7 +19,7 @@ BEGIN
     
     BEGIN TRY
 
-        IF (@NombreHab = '' OR @Direccion = '' OR @Capacidad = '' OR @IdTipoHabitacion IS NULL OR @Cedula = '')
+        IF (@NombreHab = '' OR @Direccion = '' OR @Capacidad = '' OR   @IdEstadoHabitacion IS NULL OR @IdTipoHabitacion IS NULL OR @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
@@ -31,9 +32,16 @@ BEGIN
             ROLLBACK TRANSACTION;
             RETURN;
         END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        BEGIN
+            RAISERROR ('El estado de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
         
-        INSERT INTO Habitacion (NombreHab, Direccion, Capacidad, IdTipoHabitacion)
-        VALUES (@NombreHab, @Direccion, @Capacidad, @IdTipoHabitacion);
+        INSERT INTO Habitacion (NombreHab, Direccion, Capacidad, IdTipoHabitacion, IdEstadoHabitacion)
+        VALUES (@NombreHab, @Direccion, @Capacidad, @IdTipoHabitacion, @IdEstadoHabitacion);
         
         COMMIT TRANSACTION;
         SELECT 'Habitación registrada correctamente: ' + @NombreHab AS 'Mensaje de Confirmación';
@@ -62,6 +70,7 @@ CREATE PROCEDURE SP_ACTUALIZAR_HABITACION(
     @Direccion VARCHAR(255),
     @Capacidad INT,
     @IdTipoHabitacion INT,
+    @IdEstadoHabitacion INT,
     @Cedula VARCHAR(20)
 )
 AS
@@ -71,7 +80,7 @@ BEGIN
     
     BEGIN TRY
         -- Validación de campos vacíos
-        IF (@NombreHab = '' AND @Direccion = '' AND @Capacidad = '' AND @IdTipoHabitacion IS NULL)
+        IF (@NombreHab = '' AND @Direccion = '' AND @Capacidad = '' AND @IdTipoHabitacion IS NULL AND @IdEstadoHabitacion IS NULL)
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
@@ -91,6 +100,13 @@ BEGIN
             ROLLBACK TRANSACTION;
             RETURN;
         END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        BEGIN
+            RAISERROR ('El estado de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
         
         -- Verificación de que el tipo de habitación exista
         IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
@@ -105,6 +121,7 @@ BEGIN
         SET NombreHab = ISNULL(@NombreHab, NombreHab),
             Direccion = ISNULL(@Direccion, Direccion),              
             Capacidad = ISNULL(@Capacidad, Capacidad),
+            IdEstadoHabitacion = ISNULL(@IdEstadoHabitacion,IdEstadoHabitacion),
             IdTipoHabitacion = ISNULL(@IdTipoHabitacion,IdTipoHabitacion)
         WHERE IdHabitacion = @IdHabitacion;
         
@@ -205,10 +222,104 @@ CREATE PROCEDURE SP_INGRESAR_ANIMAL(
 )
 AS
 BEGIN
+    BEGIN TRY
+  DECLARE @CantidadActual INT;
+
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+        IF (@NombreAni = '' OR @EdadAni IS NULL OR @IdDieta IS NULL OR @IdHabitacion IS NULL OR @IdEspecie IS NULL OR @IdEstadoSalud IS NULL OR @Cedula = '')
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            
+            RETURN;
+        END
+
+
+        IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = 1)
+        BEGIN
+			RAISERROR ('El Zoológico no existe', 16, 1);
+            
+            RETURN;
+        END
+        IF NOT EXISTS (SELECT 1 FROM Dieta WHERE IdDieta = @IdDieta)
+        BEGIN
+			RAISERROR ('La Dieta no existe', 16, 1);
+            
+            RETURN;
+        END
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+			RAISERROR ('La Habitación no existe', 16, 1);
+         
+            RETURN;
+        END
+
+		SET @CantidadActual = (SELECT COUNT(*) FROM Animales WHERE IdHabitacion = @IdHabitacion)
+
+		IF(@CantidadActual >= (SELECT Capacidad from Habitacion where IdHabitacion = @IdHabitacion))
+			BEGIN
+			RAISERROR ('La Habitación está llena', 16, 1);
+         
+            RETURN;
+			END
+
+        IF NOT EXISTS (SELECT 1 FROM Especie WHERE IdEspecie = @IdEspecie)
+        BEGIN
+			RAISERROR ('La Especie no existe', 16, 1);
+          
+            RETURN;
+        END
+        IF NOT EXISTS (SELECT 1 FROM EstadoSalud WHERE IdEstadoSalud = @IdEstadoSalud)
+        BEGIN
+			RAISERROR ('El Estado de Salud no existe', 16, 1);
+            RETURN;
+        END
+
+        INSERT INTO Animales (NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud)
+        VALUES (@NombreAni, @EdadAni, @IdDieta, @IdHabitacion, @IdEspecie, @IdEstadoSalud);
+
+        
+        SELECT 'Animal registrado correctamente: ' + @NombreAni AS 'Mensaje de Confirmación';
+        
+    END TRY
+    BEGIN CATCH
+
+        
+        DECLARE @ErrorMessage VARCHAR(200);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+
+GO
+
+USE ZooMA;
+GO
+
+use ZooMA
+go
+
+use ZooMA
+go
+IF OBJECT_ID('SP_ACTUALIZAR_ANIMAL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_ANIMAL;
+GO
+
+CREATE PROCEDURE SP_ACTUALIZAR_ANIMAL(
+    @IdAnimal INT,
+    @NombreAni VARCHAR(20) = NULL,
+    @EdadAni INT = NULL,
+    @IdDieta INT = NULL,
+    @IdEspecie INT = NULL,
+    @IdEstadoSalud INT = NULL,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
     BEGIN TRANSACTION;
     BEGIN TRY
 
-        IF (@NombreAni = '' OR @EdadAni IS NULL OR @IdDieta IS NULL OR @IdHabitacion IS NULL OR @IdEspecie IS NULL OR @IdEstadoSalud IS NULL OR @Cedula = '')
+        IF (@Cedula = '' OR @IdAnimal IS NULL)
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
@@ -217,42 +328,46 @@ BEGIN
 
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
-        IF NOT EXISTS (SELECT 1 FROM ZOO WHERE IdZoo = 1)
+        IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimal)
         BEGIN
-			RAISERROR ('El Zoológico no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        IF NOT EXISTS (SELECT 1 FROM Dieta WHERE IdDieta = @IdDieta)
-        BEGIN
-			RAISERROR ('La Dieta no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdHabitacion)
-        BEGIN
-			RAISERROR ('La Habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        IF NOT EXISTS (SELECT 1 FROM Especies WHERE IdEspecie = @IdEspecie)
-        BEGIN
-			RAISERROR ('La Especie no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        IF NOT EXISTS (SELECT 1 FROM EstadoSalud WHERE IdEstadoSalud = @IdEstadoSalud)
-        BEGIN
-			RAISERROR ('El Estado de Salud no existe', 16, 1);
+			RAISERROR ('El animal no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
-        INSERT INTO Animales (NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud)
-        VALUES (@NombreAni, @EdadAni, @IdDieta, @IdHabitacion, @IdEspecie, @IdEstadoSalud);
+        IF NOT EXISTS  (SELECT 1 FROM Dieta WHERE IdDieta = @IdDieta)
+        BEGIN
+			RAISERROR ('La Dieta especificada no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+
+        IF  NOT EXISTS (SELECT 1 FROM Especie WHERE IdEspecie = @IdEspecie)
+        BEGIN
+			RAISERROR ('La Especie especificada no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF  NOT EXISTS (SELECT 1 FROM EstadoSalud WHERE IdEstadoSalud = @IdEstadoSalud)
+        BEGIN
+			RAISERROR ('El Estado de Salud especificado no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        UPDATE Animales
+        SET 
+            NombreAni = COALESCE(@NombreAni, NombreAni),
+            EdadAni = COALESCE(@EdadAni, EdadAni),
+            IdDieta = COALESCE(@IdDieta, IdDieta),
+            IdEspecie = COALESCE(@IdEspecie, IdEspecie),
+            IdEstadoSalud = COALESCE(@IdEstadoSalud, IdEstadoSalud)
+        WHERE IdAnimales = @IdAnimal;
 
         COMMIT TRANSACTION;
-        SELECT 'Animal registrado correctamente: ' + @NombreAni AS 'Mensaje de Confirmación';
+        SELECT 'Animal actualizado correctamente: '  AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
@@ -262,53 +377,89 @@ BEGIN
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
-END
+END;
+
+
 GO
+
+
 
 USE ZooMA
 GO
-IF OBJECT_ID('SP_INGRESAR_DIETA', 'P') IS NOT NULL
-   DROP PROCEDURE SP_INGRESAR_DIETA;
+IF OBJECT_ID('SP_MOVER_ANIMAL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_MOVER_ANIMAL;
 GO
-CREATE PROCEDURE SP_INGRESAR_DIETA(
-    @NombreDiet VARCHAR(20),
+CREATE PROCEDURE SP_MOVER_ANIMAL(
+	@IdAnimal INT,
+    @IdHabitacion INT,
+	@Motivo VARCHAR(100),
     @Cedula VARCHAR(20)
 )
 AS
 BEGIN
-    BEGIN TRANSACTION;
     BEGIN TRY
+	BEGIN TRANSACTION
 
-        IF (@NombreDiet = '' OR @Cedula = '')
+  DECLARE @CantidadActual INT;
+  DECLARE @IdHabitacionAterior INT;
+
+        IF (@IdHabitacion  IS NULL OR @Motivo = '' OR @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
-            ROLLBACK TRANSACTION;
+            
             RETURN;
         END
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
-        IF EXISTS (SELECT 1 FROM Dieta WHERE NombreDiet = @NombreDiet)
+
+		 IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimal)
         BEGIN
-			RAISERROR ('La dieta ya existe', 16, 1);
+			RAISERROR ('El animal no existe', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
 
-        INSERT INTO Dieta (NombreDiet)
-        VALUES (@NombreDiet);
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+			RAISERROR ('La Habitación a la que desea mover el animal no existe', 16, 1);
+            RETURN;
+        END
 
-        COMMIT TRANSACTION;
-        SELECT 'Dieta registrada correctamente: ' + @NombreDiet AS 'Mensaje de Confirmación';
+		SET @CantidadActual = (SELECT COUNT(*) FROM Animales WHERE IdHabitacion = @IdHabitacion)
+		SET @IdHabitacionAterior = (SELECT IdHabitacion FROM Animales WHERE IdAnimales = @IdAnimal)
+
+		IF(@IdHabitacionAterior = @IdHabitacion)
+		BEGIN
+			RAISERROR ('El animal ya se encuentra en la habitacion seleccionada', 16, 1);
+            RETURN;
+			END
+
+		IF(@CantidadActual >= (SELECT Capacidad from Habitacion where IdHabitacion = @IdHabitacion))
+			BEGIN
+			RAISERROR ('La Habitación está llena', 16, 1);
+            RETURN;
+			END
+
+			UPDATE Animales
+			SET IdHabitacion = @IdHabitacion
+			WHERE IdAnimales = @IdAnimal
+
+        INSERT INTO HistorialMovimientos(FechaMovimiento, IdHabitacionAnterior, IdHabitacionActual, Motivo, IdAnimales, realizadoPor)
+        VALUES (GETDATE(), @IdHabitacionAterior, @IdHabitacion, @Motivo, @IdAnimal,@Cedula);
+
+		COMMIT TRANSACTION
+        
+        SELECT 'Animal movido correctamente: 'AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
-
-        ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        ROLLBACK TRANSACTION
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+        RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
+
 GO
+
 
 USE ZooMA
 GO
@@ -349,7 +500,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -367,34 +518,32 @@ CREATE PROCEDURE SP_INGRESAR_ESPECIE(
 )
 AS
 BEGIN
-    BEGIN TRANSACTION;
+
     BEGIN TRY
 
         IF (@NombreEsp = '' OR @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
-            ROLLBACK TRANSACTION;
+            
             RETURN;
         END
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
-        IF EXISTS (SELECT 1 FROM Especies WHERE NombreEsp = @NombreEsp)
+        IF EXISTS (SELECT 1 FROM Especie WHERE NombreEsp = @NombreEsp)
         BEGIN
 			RAISERROR ('La especie ya existe', 16, 1);
-            ROLLBACK TRANSACTION;
             RETURN;
         END
 
-        INSERT INTO Especies (NombreEsp)
+        INSERT INTO Especie (NombreEsp)
         VALUES (@NombreEsp);
 
-        COMMIT TRANSACTION;
         SELECT 'Especie registrada correctamente: ' + @NombreEsp AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
 
-        ROLLBACK TRANSACTION;
+       
         DECLARE @ErrorMessage VARCHAR(4000);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
@@ -461,41 +610,34 @@ IF OBJECT_ID('SP_INGRESAR_ESTADOHABITACION', 'P') IS NOT NULL
 GO
 CREATE PROCEDURE SP_INGRESAR_ESTADOHABITACION(
     @Estado VARCHAR(50),
-    @Descripcion VARCHAR(255),
-    @Fecha DATE,
     @Cedula VARCHAR(20)
 )
 AS
 BEGIN
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     BEGIN TRANSACTION;
     BEGIN TRY
 
-        IF (@Estado = '' OR @Descripcion = '' OR @Fecha IS NULL OR @Cedula = '')
+        IF (@Estado = '' OR  @Cedula = '')
         BEGIN
             RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
             ROLLBACK TRANSACTION;
             RETURN;
         END
         
-        IF (@Fecha > GETDATE())
-        BEGIN
-            RAISERROR ('La fecha no puede ser futura', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
+  
         
-        INSERT INTO EstadoHabitacion (estado, descripcion, Fecha)
-        VALUES (@Estado, @Descripcion, @Fecha);
+        INSERT INTO EstadoHabitacion (estado)
+        VALUES (@Estado);
 
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
-        SELECT 'Estado de habitación registrado correctamente: ' + @Estado + ', Descripción: ' + @Descripcion + ', Fecha: ' + CAST(@Fecha AS VARCHAR) AS 'Mensaje de Confirmación';
+        SELECT 'Estado de habitación registrado correctamente: ' AS 'Mensaje de Confirmación';
 
     END TRY
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
@@ -2283,6 +2425,56 @@ END;
 GO
 
 
+USE ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_EstadoHabitacion', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_EstadoHabitacion;
+GO
+CREATE PROCEDURE SP_ACTUALIZAR_EstadoHabitacion (
+    @IdEstadoHabitacion INT,
+    @Estado VARCHAR(255),
+    @Cedula VARCHAR(20)
+
+)
+AS
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+BEGIN
+    IF(@IdEstadoHabitacion IS NULL OR @IdEstadoHabitacion = 0 OR @Estado = '' OR @Cedula = '')
+    BEGIN
+        RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+    BEGIN
+        RAISERROR ('El estado de habitacion no existe', 16, 1);
+        RETURN;
+    END
+
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+
+        UPDATE EstadoHabitacion
+        SET Estado = @Estado
+        WHERE IdEstadoHabitacion = @IdEstadoHabitacion;
+        COMMIT TRANSACTION;
+
+        SELECT 'Registro del estado de salud actualizado correctamente'  AS 'Mensaje de Confirmación';
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END;
+GO
+
 
 --parte 9: SP Actualizar
 USE ZooMA
@@ -2759,9 +2951,7 @@ BEGIN
 
     BEGIN TRY
         UPDATE EstadoHabitacion
-        SET estado = @Estado,
-            descripcion = @Descripcion,
-            Fecha = @Fecha
+        SET estado = @Estado
         WHERE IdEstadoHabitacion = @IdEstadoHabitacion;
         EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
@@ -3308,6 +3498,63 @@ BEGIN
 
     END CATCH
 END;
+
+go
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_ELIMINAR_ALIMENTO', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ELIMINAR_ALIMENTO;
+GO
+CREATE PROCEDURE SP_ELIMINAR_ALIMENTO (
+    @IdAlimentos INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+
+    IF(@IdAlimentos IS NULL OR @IdAlimentos = 0)
+    BEGIN
+        RAISERROR ('El ID del alimento no puede ser un campo vacío o ser cero', 16, 1);
+        RETURN;
+    END
+
+    IF(@Cedula = '')
+    BEGIN
+        RAISERROR ('Las se necesitan las credenciales de la persona a realizar la accion', 16, 1);
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM Alimentos WHERE IdAlimentos = @IdAlimentos)
+    BEGIN
+        RAISERROR ('El alimento no existe', 16, 1);
+        RETURN;
+    END
+
+    BEGIN TRANSACTION;
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+    BEGIN TRY
+
+        DELETE FROM Alimentos
+        WHERE IdAlimentos = @IdAlimentos;
+        COMMIT TRANSACTION;
+
+        SELECT 'Registro de alimento eliminado correctamente' AS 'Mensaje de Confirmación';
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, 16, 1);
+
+    END CATCH
+END;
+
 
 go
 
@@ -3877,6 +4124,62 @@ GO
 
 USE ZooMA
 GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_ELIMINAR_TIPO_TAREA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ELIMINAR_TIPO_TAREA;
+GO
+CREATE PROCEDURE SP_ELIMINAR_TIPO_TAREA (
+    @IdTipoTarea INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+        IF (@IdTipoTarea IS NULL OR @IdTipoTarea = 0)
+        BEGIN
+            RAISERROR ('El ID del tipo tarea  no puede ser un campo vacío o ser cero', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM TipoTarea WHERE IdTipoTarea = @IdTipoTarea)
+        BEGIN
+            RAISERROR ('El tipo tarea no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF(@Cedula = '')
+    BEGIN
+        RAISERROR ('Las se necesitan las credenciales de la persona a realizar la accion', 16, 1);
+        RETURN;
+    END
+        DELETE FROM TipoTarea
+        WHERE IdTipoTarea = @IdTipoTarea;
+
+        COMMIT TRANSACTION;
+        SELECT 'El registro de tipo tarea ha sido eliminado correctamente' AS 'Mensaje de Confirmación';
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END;
+GO
+
+USE ZooMA
+GO
+
+
 IF OBJECT_ID('SP_ELIMINAR_PUESTO', 'P') IS NOT NULL
    DROP PROCEDURE SP_ELIMINAR_PUESTO;
 GO
@@ -4178,6 +4481,61 @@ BEGIN
     END CATCH
 END;
 GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_ELIMINAR_EstadoTarea', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ELIMINAR_EstadoTarea;
+GO
+CREATE PROCEDURE SP_ELIMINAR_EstadoTarea (
+    @IdEstadoTarea INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+    IF(@IdEstadoTarea IS NULL OR @IdEstadoTarea = 0)
+    BEGIN
+        RAISERROR ('El ID del estado de tarea no puede ser un campo vacío o ser cero', 16, 1);
+        RETURN;
+    END
+
+    IF(@Cedula = '')
+    BEGIN
+        RAISERROR ('Las se necesitan las credenciales de la persona a realizar la accion', 16, 1);
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM EstadoTarea WHERE IdEstadoTarea = @IdEstadoTarea)
+    BEGIN
+        RAISERROR ('El estado de tarea no existe', 16, 1);
+        RETURN;
+    END
+
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+
+        DELETE FROM EstadoTarea
+        WHERE IdEstadoTarea = @IdEstadoTarea;
+        COMMIT TRANSACTION;
+
+        SELECT 'Registro del estado de tarea eliminado correctamente' AS 'Mensaje de Confirmación';
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, 16, 1);
+
+    END CATCH
+END;
 --FIN SP Eliminar
 
 

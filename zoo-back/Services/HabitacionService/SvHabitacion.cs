@@ -24,11 +24,12 @@ namespace Services.HabitacionService
                 var direcccion = new SqlParameter("@Direccion", habitacion.Direccion);
                 var capacidad = new SqlParameter("@Capacidad", habitacion.Capacidad);
                 var idTipoHabitacion = new SqlParameter("@IdTipoHabitacion", habitacion.IdTipoHabitacion);
+                var IdEstadoHabitacion = new SqlParameter("@IdEstadoHabitacion", habitacion.IdEstadoHabitacion);
                 var cedula = new SqlParameter("@Cedula", cedulaCreador);
 
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
-                    "EXEC SP_INGRESAR_HABITACION @NombreHab, @Direccion,@Capacidad,@IdTipoHabitacion,@Cedula  ",
-                    nombreHabitacion, direcccion, capacidad, idTipoHabitacion, cedula
+                    "EXEC SP_INGRESAR_HABITACION @NombreHab, @Direccion,@Capacidad,@IdTipoHabitacion, @IdEstadoHabitacion,@Cedula  ",
+                    nombreHabitacion, direcccion, capacidad, idTipoHabitacion, IdEstadoHabitacion, cedula
                 );
 
                 return new BaseResponse<Habitacion>(default, true, "Habitación creada exitosamente");
@@ -104,12 +105,13 @@ namespace Services.HabitacionService
                 var direcccion = new SqlParameter("@Direccion", habitacion.Direccion);
                 var capacidad = new SqlParameter("@Capacidad", habitacion.Capacidad);
                 var idTipoHabitacion = new SqlParameter("@IdTipoHabitacion", habitacion.IdTipoHabitacion);
+                var IdEstadoHabitacion = new SqlParameter("@IdEstadoHabitacion", habitacion.IdEstadoHabitacion);
                 var cedula = new SqlParameter("@Cedula", cedulaCreador);
 
 
                 var result = await myDbContext.Database.ExecuteSqlRawAsync(
-                    "EXEC SP_ACTUALIZAR_HABITACION @IdHabitacion, @NombreHab,@Direccion,@Capacidad,@IdTipoHabitacion,@Cedula",
-                    idHabitacion, nombreHabitacion, direcccion, capacidad, idTipoHabitacion, cedula
+                    "EXEC SP_ACTUALIZAR_HABITACION @IdHabitacion, @NombreHab,@Direccion,@Capacidad,@IdTipoHabitacion,@IdEstadoHabitacion,@Cedula",
+                    idHabitacion, nombreHabitacion, direcccion, capacidad, idTipoHabitacion, IdEstadoHabitacion, cedula
                 );
 
                 return new BaseResponse<Habitacion>(default, true, "Habitación actualizada exitosamente");

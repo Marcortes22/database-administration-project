@@ -31,23 +31,18 @@ namespace Services.VentaEntradaService
                 var IdMetodoPago = new SqlParameter("@IdMetodoPago", ventaCreateDto.IdMetodoPago);
                 var cedula = new SqlParameter("@Cedula", cedulaCreador);
 
-                //var DetalleVentaTableType = new SqlParameter("@DetalleVentaTableType", ventaCreateDto.Detalles);
-
-                //DetalleVentaTableType.SqlDbType = SqlDbType.Structured;
-
-
-                // Crear el DataTable para los detalles de venta
+         
                 DataTable detalleVentaTable = new DataTable();
                 detalleVentaTable.Columns.Add("IdEntrada", typeof(int)); // Columna para IdEntrada
                 detalleVentaTable.Columns.Add("Cantidad", typeof(int));  // Columna para Cantidad
 
-                // Llenar el DataTable con los detalles
+               
                 foreach (var detalle in ventaCreateDto.Detalles)
                 {
                     detalleVentaTable.Rows.Add(detalle.IdEntrada, detalle.Cantidad);
                 }
 
-                // Crear el parámetro para el tipo de tabla
+               
                 var DetalleVentaTableType = new SqlParameter("@DetalleVentaTableType", detalleVentaTable);
                 DetalleVentaTableType.TypeName = "dbo.DetalleVentaTableType";
                 DetalleVentaTableType.SqlDbType = SqlDbType.Structured;

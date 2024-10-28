@@ -15,5 +15,7 @@ namespace Services.HabitacionService.Dto
         public int Capacidad { get; set; }
 
         public int IdTipoHabitacion { get; set; }
+
+        public int IdEstadoHabitacion { get; set; }
     }
 }

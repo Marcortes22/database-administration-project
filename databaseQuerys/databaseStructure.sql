@@ -129,7 +129,13 @@ CREATE TABLE ZOO (
     Direccion VARCHAR(100) NOT NULL,
     DescripcionZoo VARCHAR(255) NOT NULL
 );
-
+GO
+USE ZooMA
+GO
+CREATE TABLE EstadoHabitacion (
+    IdEstadoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Estado VARCHAR(50) NOT NULL,
+);
 USE ZooMA
 GO
 CREATE TABLE Habitacion (
@@ -138,7 +144,9 @@ CREATE TABLE Habitacion (
     Direccion VARCHAR(100) NOT NULL,
     Capacidad INT NOT NULL,
     IdTipoHabitacion INT NOT NULL,
-    CONSTRAINT FK_Habitacion_IdTipoHabitacion FOREIGN KEY (IdTipoHabitacion) REFERENCES TipoHabitacion (IdTipoHabitacion)
+    IdEstadoHabitacion INT NOT NULL,
+    CONSTRAINT FK_Habitacion_IdTipoHabitacion FOREIGN KEY (IdTipoHabitacion) REFERENCES TipoHabitacion (IdTipoHabitacion),
+    CONSTRAINT FK_HabitacionEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) REFERENCES EstadoHabitacion (IdEstadoHabitacion)
 );
 
 USE ZooMA
@@ -188,32 +196,17 @@ USE ZooMA
 GO
 CREATE TABLE HistorialMovimientos (
     IdHistorialMovimientos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    FechaMovimiento DATE NOT NULL,
+    FechaMovimiento DATETIME NOT NULL,
     IdHabitacionAnterior INT NOT NULL,
     IdHabitacionActual INT NOT NULL,
     Motivo VARCHAR(255) NOT NULL,
     IdAnimales INT NOT NULL,
+    realizadoPor INT NOT NULL,
     CONSTRAINT FK_HistorialMovimientos_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
 );
 
-USE ZooMA
-GO
-CREATE TABLE EstadoHabitacion (
-    IdEstadoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Estado VARCHAR(50) NOT NULL,
-    Descripcion VARCHAR(255) NOT NULL,
-    Fecha DATE NOT NULL
-);
 
-USE ZooMA
-GO
-CREATE TABLE HabitacionEstadoHabitacion (
-    IdHabitacionEstadoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    IdHabitacion INT NOT NULL,
-    IdEstadoHabitacion INT NOT NULL,
-    CONSTRAINT FK_HabitacionEstadoHabitacion_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion),
-    CONSTRAINT FK_HabitacionEstadoHabitacion_IdEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) REFERENCES EstadoHabitacion (IdEstadoHabitacion)
-);
+
 
 USE ZooMA
 GO
@@ -243,7 +236,12 @@ CREATE TABLE Empleado (
     CONSTRAINT FK_Empleado_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
     CONSTRAINT FK_Empleado_IdPuesto FOREIGN KEY (IdPuesto) REFERENCES Puesto (IdPuesto)
 );
-
+USE ZooMA
+GO
+CREATE TABLE EstadoTarea (
+    IdEstadoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(20) NOT NULL,
+);
 USE ZooMA
 GO
 CREATE TABLE Tareas (
@@ -251,24 +249,9 @@ CREATE TABLE Tareas (
     Nombre VARCHAR(20) NOT NULL,
     IdEmpleado INT NOT NULL,
     IdTipoTarea INT NOT NULL,
-	CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
-    CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea)
-);
-
-USE ZooMA
-GO
-CREATE TABLE EstadoTarea (
-    IdEstadoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(20) NOT NULL,
-);
-
-USE ZooMA
-GO
-CREATE TABLE TareasEstadoTareas (
-    IdTareas INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     IdEstadoTarea INT NOT NULL,
-	Fecha DATE NOT NULL,
-    CONSTRAINT FK_TareasEstadoTareas_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
+	CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
+    CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea),
     CONSTRAINT FK_TareasEstadoTareas_IdEstadoTarea FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
 );
 
@@ -287,7 +270,7 @@ USE ZooMA
 GO
 CREATE TABLE ControlAnimal (
     IdControl INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Reporte VARCHAR(255) NOT NULL,
+    Reporte VARCHAR(255) NULL,
     IdTareas INT NOT NULL,
     IdAnimales INT NOT NULL,
 	CONSTRAINT FK_ControlAnimal_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
@@ -550,6 +533,7 @@ CREATE TABLE Audit_Tareas (
     Nombre VARCHAR(20),
     IdTipoTarea INT,
     IdEmpleado INT,
+    IdEstadoTarea INT NOT NULL,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
@@ -646,6 +630,7 @@ CREATE TABLE Audit_Habitacion (
     Direccion VARCHAR(100),
     Capacidad INT,
     IdTipoHabitacion INT,
+    IdEstadoHabitacion INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );

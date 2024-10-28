@@ -91,8 +91,6 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<Habitacion> Habitacions { get; set; }
 
-    public virtual DbSet<HabitacionEstadoHabitacion> HabitacionEstadoHabitacions { get; set; }
-
     public virtual DbSet<HistorialMovimiento> HistorialMovimientos { get; set; }
 
     public virtual DbSet<MantenimientoHabitacion> MantenimientoHabitacions { get; set; }
@@ -163,13 +161,13 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<VwRole> VwRoles { get; set; }
 
-    public virtual DbSet<VwRolesVisitum> VwRolesVisita { get; set; }
-
     public virtual DbSet<VwTarea> VwTareas { get; set; }
 
     public virtual DbSet<VwTipoEntradum> VwTipoEntrada { get; set; }
 
     public virtual DbSet<VwTipoHabitacion> VwTipoHabitacions { get; set; }
+
+    public virtual DbSet<VwTipoTarea> VwTipoTareas { get; set; }
 
     public virtual DbSet<VwVentaEntradum> VwVentaEntrada { get; set; }
 
@@ -185,7 +183,7 @@ public partial class ZooMaContext : DbContext
     {
         modelBuilder.Entity<Alimento>(entity =>
         {
-            entity.HasKey(e => e.IdAlimentos).HasName("PK__Alimento__9882C1B11F3566B5");
+            entity.HasKey(e => e.IdAlimentos).HasName("PK__Alimento__9882C1B1C2E41EA7");
 
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
@@ -194,7 +192,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Animale>(entity =>
         {
-            entity.HasKey(e => e.IdAnimales).HasName("PK__Animales__D29EC56E96B06FA4");
+            entity.HasKey(e => e.IdAnimales).HasName("PK__Animales__D29EC56ED881A1FC");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_Animales"));
 
@@ -231,7 +229,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditAlimento>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Al__C87E13DD9BBA7175");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Al__C87E13DDFB1D2F29");
 
             entity.ToTable("Audit_Alimentos");
 
@@ -254,7 +252,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditAnimale>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_An__C87E13DD964766D3");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_An__C87E13DD52323C7E");
 
             entity.ToTable("Audit_Animales");
 
@@ -277,7 +275,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditCalificacionRecorrido>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DD6E9EEF2E");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DDC4071F91");
 
             entity.ToTable("Audit_CalificacionRecorrido");
 
@@ -303,7 +301,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditCalificacionServicioAlCliente>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DD2733B9C5");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DD2C4335EA");
 
             entity.ToTable("Audit_CalificacionServicioAlCliente");
 
@@ -329,7 +327,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditCalificacionVisitum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DD91687089");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DDBDDD699E");
 
             entity.ToTable("Audit_CalificacionVisita");
 
@@ -352,7 +350,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditDietum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Di__C87E13DDB08D7630");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Di__C87E13DD6DCEFDF3");
 
             entity.ToTable("Audit_Dieta");
 
@@ -375,7 +373,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditEmpleado>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Em__C87E13DD14A2A94E");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Em__C87E13DD675020BF");
 
             entity.ToTable("Audit_Empleado");
 
@@ -407,7 +405,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditEspecie>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD8E38616A");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DDC88CA790");
 
             entity.ToTable("Audit_Especie");
 
@@ -430,7 +428,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditEstadoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD75382EB2");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DDF4D39332");
 
             entity.ToTable("Audit_EstadoHabitacion");
 
@@ -456,7 +454,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditEstadoSalud>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD3A277B6C");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD74AFAD89");
 
             entity.ToTable("Audit_EstadoSalud");
 
@@ -479,7 +477,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditEstadoTarea>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD8715D17F");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Es__C87E13DD3E9068E6");
 
             entity.ToTable("Audit_EstadoTarea");
 
@@ -502,7 +500,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ha__C87E13DDEEB0B2E7");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ha__C87E13DDD2418E1A");
 
             entity.ToTable("Audit_Habitacion");
 
@@ -528,7 +526,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditMetodoPago>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Me__C87E13DD9C38E22D");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Me__C87E13DDF82B15AE");
 
             entity.ToTable("Audit_MetodoPago");
 
@@ -551,7 +549,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditPuesto>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Pu__C87E13DDD36E80F9");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Pu__C87E13DD919C76E8");
 
             entity.ToTable("Audit_Puesto");
 
@@ -574,7 +572,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditRol>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ro__C87E13DDBCA4AF6C");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ro__C87E13DD40839D68");
 
             entity.ToTable("Audit_Rol");
 
@@ -597,7 +595,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditTarea>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ta__C87E13DD11D1E503");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ta__C87E13DD5DCDA72B");
 
             entity.ToTable("Audit_Tareas");
 
@@ -620,7 +618,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditTipoEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DD400ACA88");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DD7CAEBD3D");
 
             entity.ToTable("Audit_TipoEntrada");
 
@@ -644,7 +642,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditTipoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DD49183A7E");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ti__C87E13DD9AEE55D8");
 
             entity.ToTable("Audit_TipoHabitacion");
 
@@ -668,7 +666,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditUsuario>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Us__C87E13DD125AAC71");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Us__C87E13DDD42EA626");
 
             entity.ToTable("Audit_Usuario");
 
@@ -691,7 +689,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditVentaEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ve__C87E13DD0342F036");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ve__C87E13DD08DD49EB");
 
             entity.ToTable("Audit_VentaEntrada");
 
@@ -711,7 +709,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditVisitante>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Vi__C87E13DD981108F9");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Vi__C87E13DD8055EF3C");
 
             entity.ToTable("Audit_Visitantes");
 
@@ -743,7 +741,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditZoo>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_ZO__C87E13DD69A8291E");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_ZO__C87E13DD6ACF782B");
 
             entity.ToTable("Audit_ZOO");
 
@@ -772,7 +770,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<CalificacionRecorrido>(entity =>
         {
-            entity.HasKey(e => e.IdCalificacionRecorrido).HasName("PK__Califica__5731B4928E92EB99");
+            entity.HasKey(e => e.IdCalificacionRecorrido).HasName("PK__Califica__5731B49219D9F9E4");
 
             entity.ToTable("CalificacionRecorrido");
 
@@ -783,7 +781,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<CalificacionServicioAlCliente>(entity =>
         {
-            entity.HasKey(e => e.IdCalificacionServicioAlCliente).HasName("PK__Califica__D7CC71980541BC99");
+            entity.HasKey(e => e.IdCalificacionServicioAlCliente).HasName("PK__Califica__D7CC71986541AA6C");
 
             entity.ToTable("CalificacionServicioAlCliente");
 
@@ -794,7 +792,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<CalificacionVisitum>(entity =>
         {
-            entity.HasKey(e => e.IdCalificacionVisita).HasName("PK__Califica__815EB05226607AC8");
+            entity.HasKey(e => e.IdCalificacionVisita).HasName("PK__Califica__815EB0528C00CBCF");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_CalificacionVisita"));
 
@@ -816,7 +814,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<ControlAnimal>(entity =>
         {
-            entity.HasKey(e => e.IdControl).HasName("PK__ControlA__2537521F9A854EB2");
+            entity.HasKey(e => e.IdControl).HasName("PK__ControlA__2537521F5F906012");
 
             entity.ToTable("ControlAnimal");
 
@@ -837,7 +835,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<DetalleVentum>(entity =>
         {
-            entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__AAA5CEC2F1BDF18A");
+            entity.HasKey(e => e.IdDetalleVenta).HasName("PK__DetalleV__AAA5CEC2735FC0C9");
 
             entity.Property(e => e.Precio).HasColumnType("money");
 
@@ -854,7 +852,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<DietaAlimento>(entity =>
         {
-            entity.HasKey(e => e.IdDietaAlimentos).HasName("PK__DietaAli__0ACB1C4B510DDB16");
+            entity.HasKey(e => e.IdDietaAlimentos).HasName("PK__DietaAli__0ACB1C4B234BAF16");
 
             entity.HasOne(d => d.IdAlimentosNavigation).WithMany(p => p.DietaAlimentos)
                 .HasForeignKey(d => d.IdAlimentos)
@@ -869,7 +867,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Dietum>(entity =>
         {
-            entity.HasKey(e => e.IdDieta).HasName("PK__Dieta__5F4BB815D6074815");
+            entity.HasKey(e => e.IdDieta).HasName("PK__Dieta__5F4BB815480B2226");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_Dieta"));
 
@@ -880,7 +878,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Empleado>(entity =>
         {
-            entity.HasKey(e => e.IdEmpleado).HasName("PK__Empleado__CE6D8B9E876D7E96");
+            entity.HasKey(e => e.IdEmpleado).HasName("PK__Empleado__CE6D8B9E6D1A75D9");
 
             entity.ToTable("Empleado", tb => tb.HasTrigger("trg_Audit_Empleado"));
 
@@ -912,7 +910,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Entradum>(entity =>
         {
-            entity.HasKey(e => e.IdEntrada).HasName("PK__Entrada__BB164DEA0762A1D1");
+            entity.HasKey(e => e.IdEntrada).HasName("PK__Entrada__BB164DEA72414D09");
 
             entity.Property(e => e.Descuento).HasColumnName("descuento");
             entity.Property(e => e.FechaVencimiento).HasColumnName("fechaVencimiento");
@@ -925,7 +923,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Especie>(entity =>
         {
-            entity.HasKey(e => e.IdEspecie).HasName("PK__Especie__08BEEA3EBC5C9E7C");
+            entity.HasKey(e => e.IdEspecie).HasName("PK__Especie__08BEEA3EC15A6C03");
 
             entity.ToTable("Especie", tb => tb.HasTrigger("trg_Audit_Especies"));
 
@@ -936,13 +934,10 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<EstadoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdEstadoHabitacion).HasName("PK__EstadoHa__EBF610CECBF267D2");
+            entity.HasKey(e => e.IdEstadoHabitacion).HasName("PK__EstadoHa__EBF610CE8F9F0877");
 
             entity.ToTable("EstadoHabitacion", tb => tb.HasTrigger("trg_Audit_EstadoHabitacion"));
 
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
-                .IsUnicode(false);
             entity.Property(e => e.Estado)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -950,7 +945,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<EstadoSalud>(entity =>
         {
-            entity.HasKey(e => e.IdEstadoSalud).HasName("PK__EstadoSa__01EAFF25438929E2");
+            entity.HasKey(e => e.IdEstadoSalud).HasName("PK__EstadoSa__01EAFF250B44FD9F");
 
             entity.ToTable("EstadoSalud", tb => tb.HasTrigger("trg_Audit_EstadoSalud"));
 
@@ -962,7 +957,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<EstadoTarea>(entity =>
         {
-            entity.HasKey(e => e.IdEstadoTarea).HasName("PK__EstadoTa__09BBFBF4C70C429C");
+            entity.HasKey(e => e.IdEstadoTarea).HasName("PK__EstadoTa__09BBFBF49D498711");
 
             entity.ToTable("EstadoTarea", tb => tb.HasTrigger("trg_Audit_EstadoTarea"));
 
@@ -973,7 +968,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Habitacion>(entity =>
         {
-            entity.HasKey(e => e.IdHabitacion).HasName("PK__Habitaci__8BBBF901C3C9B3B2");
+            entity.HasKey(e => e.IdHabitacion).HasName("PK__Habitaci__8BBBF901B16045F8");
 
             entity.ToTable("Habitacion", tb => tb.HasTrigger("trg_Audit_Habitacion"));
 
@@ -984,36 +979,26 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
 
+            entity.HasOne(d => d.IdEstadoHabitacionNavigation).WithMany(p => p.Habitacions)
+                .HasForeignKey(d => d.IdEstadoHabitacion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HabitacionEstadoHabitacion");
+
             entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacions)
                 .HasForeignKey(d => d.IdTipoHabitacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Habitacion_IdTipoHabitacion");
         });
 
-        modelBuilder.Entity<HabitacionEstadoHabitacion>(entity =>
-        {
-            entity.HasKey(e => e.IdHabitacionEstadoHabitacion).HasName("PK__Habitaci__7E4231BBE81C66EE");
-
-            entity.ToTable("HabitacionEstadoHabitacion");
-
-            entity.HasOne(d => d.IdEstadoHabitacionNavigation).WithMany(p => p.HabitacionEstadoHabitacions)
-                .HasForeignKey(d => d.IdEstadoHabitacion)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HabitacionEstadoHabitacion_IdEstadoHabitacion");
-
-            entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.HabitacionEstadoHabitacions)
-                .HasForeignKey(d => d.IdHabitacion)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HabitacionEstadoHabitacion_IdHabitacion");
-        });
-
         modelBuilder.Entity<HistorialMovimiento>(entity =>
         {
-            entity.HasKey(e => e.IdHistorialMovimientos).HasName("PK__Historia__DB40A18D6DEC587D");
+            entity.HasKey(e => e.IdHistorialMovimientos).HasName("PK__Historia__DB40A18D460E8C2F");
 
+            entity.Property(e => e.FechaMovimiento).HasColumnType("datetime");
             entity.Property(e => e.Motivo)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.RealizadoPor).HasColumnName("realizadoPor");
 
             entity.HasOne(d => d.IdAnimalesNavigation).WithMany(p => p.HistorialMovimientos)
                 .HasForeignKey(d => d.IdAnimales)
@@ -1023,7 +1008,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<MantenimientoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdMantenimientoHabitacion).HasName("PK__Mantenim__C724A79CB94E917A");
+            entity.HasKey(e => e.IdMantenimientoHabitacion).HasName("PK__Mantenim__C724A79C2BAF4D79");
 
             entity.ToTable("MantenimientoHabitacion");
 
@@ -1044,7 +1029,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<MetodoPago>(entity =>
         {
-            entity.HasKey(e => e.IdMetodoPago).HasName("PK__MetodoPa__6F49A9BED87CD881");
+            entity.HasKey(e => e.IdMetodoPago).HasName("PK__MetodoPa__6F49A9BE801B0D9E");
 
             entity.ToTable("MetodoPago", tb => tb.HasTrigger("trg_Audit_MetodoPago"));
 
@@ -1056,7 +1041,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Puesto>(entity =>
         {
-            entity.HasKey(e => e.IdPuesto).HasName("PK__Puesto__ADAC6B9C74AE4400");
+            entity.HasKey(e => e.IdPuesto).HasName("PK__Puesto__ADAC6B9C8B396F5A");
 
             entity.ToTable("Puesto", tb => tb.HasTrigger("trg_Audit_Puesto"));
 
@@ -1067,7 +1052,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.IdRol).HasName("PK__Rol__2A49584C89B2AF84");
+            entity.HasKey(e => e.IdRol).HasName("PK__Rol__2A49584C3B128DBA");
 
             entity.ToTable("Rol", tb => tb.HasTrigger("trg_Audit_Rol"));
 
@@ -1079,7 +1064,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<RolUsuario>(entity =>
         {
-            entity.HasKey(e => e.IdRolUsario).HasName("PK__RolUsuar__F11979EA05F812B7");
+            entity.HasKey(e => e.IdRolUsario).HasName("PK__RolUsuar__F11979EAF3B1D604");
 
             entity.ToTable("RolUsuario");
 
@@ -1096,7 +1081,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Tarea>(entity =>
         {
-            entity.HasKey(e => e.IdTareas).HasName("PK__Tareas__61D0EF21E1302085");
+            entity.HasKey(e => e.IdTareas).HasName("PK__Tareas__61D0EF2125805CFC");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_Tareas"));
 
@@ -1117,9 +1102,10 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<TareasEstadoTarea>(entity =>
         {
-            entity.HasKey(e => e.IdTareas).HasName("PK__TareasEs__61D0EF21EA7855FD");
+            entity.HasKey(e => e.IdTareas).HasName("PK__TareasEs__61D0EF21F40B081C");
 
             entity.Property(e => e.IdTareas).ValueGeneratedOnAdd();
+            entity.Property(e => e.Fecha).HasColumnType("datetime");
 
             entity.HasOne(d => d.IdEstadoTareaNavigation).WithMany(p => p.TareasEstadoTareas)
                 .HasForeignKey(d => d.IdEstadoTarea)
@@ -1134,7 +1120,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<TipoEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdTipoEntrada).HasName("PK__TipoEntr__00A2A1DE7B515C1D");
+            entity.HasKey(e => e.IdTipoEntrada).HasName("PK__TipoEntr__00A2A1DE4BA48568");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_TipoEntrada"));
 
@@ -1146,7 +1132,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<TipoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdTipoHabitacion).HasName("PK__TipoHabi__AB75E87CB049D303");
+            entity.HasKey(e => e.IdTipoHabitacion).HasName("PK__TipoHabi__AB75E87C75032150");
 
             entity.ToTable("TipoHabitacion", tb => tb.HasTrigger("trg_Audit_TipoHabitacion"));
 
@@ -1158,7 +1144,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<TipoTarea>(entity =>
         {
-            entity.HasKey(e => e.IdTipoTarea).HasName("PK__TipoTare__A623D65F2FB725F4");
+            entity.HasKey(e => e.IdTipoTarea).HasName("PK__TipoTare__A623D65F01B7E60A");
 
             entity.ToTable("TipoTarea");
 
@@ -1170,7 +1156,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF9725527866");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF97C52ACACD");
 
             entity.ToTable("Usuario", tb => tb.HasTrigger("trg_Audit_Usuario"));
 
@@ -1188,7 +1174,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<VentaEntradum>(entity =>
         {
-            entity.HasKey(e => e.IdVentaEntrada).HasName("PK__VentaEnt__5D1C3EAA765D04A7");
+            entity.HasKey(e => e.IdVentaEntrada).HasName("PK__VentaEnt__5D1C3EAA28E5CC40");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_VentaEntrada"));
 
@@ -1212,7 +1198,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Visitante>(entity =>
         {
-            entity.HasKey(e => e.IdVisitantes).HasName("PK__Visitant__AB57AD45BF928631");
+            entity.HasKey(e => e.IdVisitantes).HasName("PK__Visitant__AB57AD45B8795D4C");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_Visitantes"));
 
@@ -1377,7 +1363,7 @@ public partial class ZooMaContext : DbContext
                 .HasColumnType("money")
                 .HasColumnName("Precio tipo entrada");
             entity.Property(e => e.PrecioTotal)
-                .HasColumnType("numeric(38, 10)")
+                .HasColumnType("decimal(10, 2)")
                 .HasColumnName("Precio total");
             entity.Property(e => e.TipoEntrada)
                 .HasMaxLength(20)
@@ -1403,10 +1389,6 @@ public partial class ZooMaContext : DbContext
                 .HasNoKey()
                 .ToView("Vw_EstadoHabitacion");
 
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("descripcion");
             entity.Property(e => e.Estado)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -1460,6 +1442,7 @@ public partial class ZooMaContext : DbContext
                 .HasNoKey()
                 .ToView("Vw_HistorialMovimientos");
 
+            entity.Property(e => e.FechaMovimiento).HasColumnType("datetime");
             entity.Property(e => e.IdHistorialMovimientos).ValueGeneratedOnAdd();
             entity.Property(e => e.Motivo)
                 .HasMaxLength(255)
@@ -1516,18 +1499,6 @@ public partial class ZooMaContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<VwRolesVisitum>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("Vw_RolesVisita");
-
-            entity.Property(e => e.IdRol).ValueGeneratedOnAdd();
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-        });
-
         modelBuilder.Entity<VwTarea>(entity =>
         {
             entity
@@ -1562,9 +1533,22 @@ public partial class ZooMaContext : DbContext
 
             entity.Property(e => e.IdTipoHabitacion).ValueGeneratedOnAdd();
             entity.Property(e => e.NombreTh)
-                .HasMaxLength(20)
+                .HasMaxLength(75)
                 .IsUnicode(false)
                 .HasColumnName("NombreTH");
+        });
+
+        modelBuilder.Entity<VwTipoTarea>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vw_TipoTarea");
+
+            entity.Property(e => e.IdTipoTarea).ValueGeneratedOnAdd();
+            entity.Property(e => e.NombreTt)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("NombreTT");
         });
 
         modelBuilder.Entity<VwVentaEntradum>(entity =>
@@ -1573,7 +1557,9 @@ public partial class ZooMaContext : DbContext
                 .HasNoKey()
                 .ToView("Vw_VentaEntrada");
 
-            entity.Property(e => e.Fechaventa).HasColumnName("fechaventa");
+            entity.Property(e => e.Fechaventa)
+                .HasColumnType("datetime")
+                .HasColumnName("fechaventa");
             entity.Property(e => e.IdVentaEntrada).ValueGeneratedOnAdd();
         });
 
@@ -1599,7 +1585,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<Zoo>(entity =>
         {
-            entity.HasKey(e => e.IdZoo).HasName("PK__ZOO__283998DB70608739");
+            entity.HasKey(e => e.IdZoo).HasName("PK__ZOO__283998DB8356C78A");
 
             entity.ToTable("ZOO", tb => tb.HasTrigger("trg_Audit_ZOO"));
 

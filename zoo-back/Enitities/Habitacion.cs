@@ -15,9 +15,11 @@ public partial class Habitacion
 
     public int IdTipoHabitacion { get; set; }
 
+    public int IdEstadoHabitacion { get; set; }
+
     public virtual ICollection<Animale> Animales { get; set; } = new List<Animale>();
 
-    public virtual ICollection<HabitacionEstadoHabitacion> HabitacionEstadoHabitacions { get; set; } = new List<HabitacionEstadoHabitacion>();
+    public virtual EstadoHabitacion IdEstadoHabitacionNavigation { get; set; } = null!;
 
     public virtual TipoHabitacion IdTipoHabitacionNavigation { get; set; } = null!;
 

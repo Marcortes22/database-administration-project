@@ -19,6 +19,15 @@ using Services.TipoEntradaService;
 using Services.EmpleadoService;
 using Services.EntradaService;
 using Services.VentaEntradaService;
+using Services.EspecieServices;
+using Services.EstadoSaludService;
+using Services.AlimentosService;
+using Services.DietaService;
+using Services.EstadoTareaServices;
+using Services.TipoTareaService;
+using Services.EstadoHabitacionService;
+using Services.AnimalService;
+using Services.ControlAnimalService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,8 +53,15 @@ builder.Services.AddScoped<ISvTipoEntrada, SvTipoEntrada>();
 builder.Services.AddScoped<ISvEmpleado, SvEmpleado>();
 builder.Services.AddScoped<ISvEntrada, SvEntrada>();
 builder.Services.AddScoped<ISvVentaEntrada, SvVentaEntrada>();
-
-
+builder.Services.AddScoped<ISvEspecie, SvEspecie>();
+builder.Services.AddScoped<ISvEstadoSalud, SvEstadoSalud>();
+builder.Services.AddScoped<ISvAlimentos, SvAlimentos>();
+builder.Services.AddScoped<ISvDieta, SvDieta>();
+builder.Services.AddScoped<ISvEstadoTarea, SvEstadoTarea>();
+builder.Services.AddScoped<ISvTipoTarea, SvTipoTarea>();
+builder.Services.AddScoped<ISvEstadoHabitacion, SvEstadoHabitacion>();
+builder.Services.AddScoped<ISvAnimal, SvAnimal>();
+builder.Services.AddScoped<ISvControlAnimal, SvControlAnimal>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("ReactApp", policyBuilder =>

@@ -7,7 +7,7 @@ public partial class VwVentaEntradum
 {
     public int IdVentaEntrada { get; set; }
 
-    public DateOnly Fechaventa { get; set; }
+    public DateTime Fechaventa { get; set; }
 
     public int IdVisitantes { get; set; }
 

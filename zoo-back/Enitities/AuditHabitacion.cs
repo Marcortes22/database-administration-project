@@ -21,6 +21,8 @@ public partial class AuditHabitacion
 
     public int? IdTipoHabitacion { get; set; }
 
+    public int? IdEstadoHabitacion { get; set; }
+
     public string? RealizadoPor { get; set; }
 
     public DateTime? FechaDeEjecucion { get; set; }

@@ -7,7 +7,7 @@ public partial class VwHistorialMovimiento
 {
     public int IdHistorialMovimientos { get; set; }
 
-    public DateOnly FechaMovimiento { get; set; }
+    public DateTime FechaMovimiento { get; set; }
 
     public int IdHabitacionAnterior { get; set; }
 

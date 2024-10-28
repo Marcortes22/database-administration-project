@@ -9,7 +9,7 @@ public partial class TareasEstadoTarea
 
     public int IdEstadoTarea { get; set; }
 
-    public DateOnly Fecha { get; set; }
+    public DateTime Fecha { get; set; }
 
     public virtual EstadoTarea IdEstadoTareaNavigation { get; set; } = null!;
 

@@ -7,7 +7,7 @@ public partial class HistorialMovimiento
 {
     public int IdHistorialMovimientos { get; set; }
 
-    public DateOnly FechaMovimiento { get; set; }
+    public DateTime FechaMovimiento { get; set; }
 
     public int IdHabitacionAnterior { get; set; }
 
@@ -16,6 +16,8 @@ public partial class HistorialMovimiento
     public string Motivo { get; set; } = null!;
 
     public int IdAnimales { get; set; }
+
+    public int RealizadoPor { get; set; }
 
     public virtual Animale IdAnimalesNavigation { get; set; } = null!;
 }

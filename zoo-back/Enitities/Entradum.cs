@@ -7,11 +7,11 @@ public partial class Entradum
 {
     public int IdEntrada { get; set; }
 
+    public DateOnly FechaVencimiento { get; set; }
+
+    public int Descuento { get; set; }
+
     public int IdTipoEntrada { get; set; }
-
-    public DateOnly? FechaVencimiento { get; set; }
-
-    public int? Descuento { get; set; }
 
     public virtual ICollection<DetalleVentum> DetalleVenta { get; set; } = new List<DetalleVentum>();
 

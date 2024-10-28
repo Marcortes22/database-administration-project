@@ -9,9 +9,5 @@ public partial class EstadoHabitacion
 
     public string Estado { get; set; } = null!;
 
-    public string Descripcion { get; set; } = null!;
-
-    public DateOnly Fecha { get; set; }
-
-    public virtual ICollection<HabitacionEstadoHabitacion> HabitacionEstadoHabitacions { get; set; } = new List<HabitacionEstadoHabitacion>();
+    public virtual ICollection<Habitacion> Habitacions { get; set; } = new List<Habitacion>();
 }
