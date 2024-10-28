@@ -246,7 +246,6 @@ USE ZooMA
 GO
 CREATE TABLE Tareas (
     IdTareas INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(20) NOT NULL,
     IdEmpleado INT NOT NULL,
     IdTipoTarea INT NOT NULL,
     IdEstadoTarea INT NOT NULL,
@@ -259,9 +258,10 @@ USE ZooMA
 GO
 CREATE TABLE MantenimientoHabitacion (
     IdMantenimientoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Reporte VARCHAR(255) NOT NULL,
+    Reporte VARCHAR(255)  NULL,
     IdTareas INT NOT NULL,
     IdHabitacion INT NOT NULL,
+    Nombre VARCHAR(50) NOT NULL,
 	CONSTRAINT FK_MantenimientoHabitacion_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
     CONSTRAINT FK_MantenimientoHabitacion_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion)
 );
@@ -272,6 +272,7 @@ CREATE TABLE ControlAnimal (
     IdControl INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Reporte VARCHAR(255) NULL,
     IdTareas INT NOT NULL,
+    Nombre VARCHAR(50) NOT NULL,
     IdAnimales INT NOT NULL,
 	CONSTRAINT FK_ControlAnimal_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
     CONSTRAINT FK_ControlAnimal_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)

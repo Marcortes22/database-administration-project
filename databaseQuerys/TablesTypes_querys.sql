@@ -11,7 +11,7 @@ CREATE TYPE DetalleVentaTableType AS TABLE
 
 );
 
-
+GO
 
 --table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
  DROP TYPE if exists AlimentosDeDietaTableType

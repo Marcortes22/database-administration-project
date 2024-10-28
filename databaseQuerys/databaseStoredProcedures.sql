@@ -57,86 +57,65 @@ BEGIN
 END
 GO
 
-USE ZooMA;
+use ZooMA
 GO
-
-IF OBJECT_ID('SP_ACTUALIZAR_HABITACION', 'P') IS NOT NULL
-   DROP PROCEDURE SP_ACTUALIZAR_HABITACION;
+IF OBJECT_ID('SP_AGREGAR_TAREA_CONTROL_ANIMAL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_AGREGAR_TAREA_CONTROL_ANIMAL;
 GO
-
-CREATE PROCEDURE SP_ACTUALIZAR_HABITACION(
-    @IdHabitacion INT,
-    @NombreHab VARCHAR(20),
-    @Direccion VARCHAR(255),
-    @Capacidad INT,
-    @IdTipoHabitacion INT,
-    @IdEstadoHabitacion INT,
-    @Cedula VARCHAR(20)
+go
+CREATE PROCEDURE SP_AGREGAR_TAREA_CONTROL_ANIMAL(
+    @IdEmpleado INT,
+    @IdAnimales INT,
+    @Nombre VARCHAR(50),
+	@Cedula VARCHAR(25)
 )
 AS
 BEGIN
-    EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     BEGIN TRANSACTION;
-    
     BEGIN TRY
-        -- Validación de campos vacíos
-        IF (@NombreHab = '' AND @Direccion = '' AND @Capacidad = '' AND @IdTipoHabitacion IS NULL AND @IdEstadoHabitacion IS NULL)
+
+        DECLARE @IdTarea INT;
+
+		IF(@IdEmpleado IS NULL OR @IdAnimales IS NULL OR @Nombre = '' OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
         BEGIN
-            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        IF ( @Cedula = '' OR @IdHabitacion IS NULL)
-        BEGIN
-            RAISERROR ('Se necesita el id de la habitacion a editar y el de la persona editora', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        
-        -- Verificación de que la habitación exista
-        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
-        BEGIN
-            RAISERROR ('La habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            RAISERROR ('El empleado no existe', 16, 1);
         END
 
-        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimales)
         BEGIN
-            RAISERROR ('El estado de habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            RAISERROR ('El animal no existe', 16, 1);
         END
-        
-        -- Verificación de que el tipo de habitación exista
-        IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
+		
+        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.Nombre = 'Veterinario')
         BEGIN
-            RAISERROR ('El tipo de habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
+            RAISERROR ('El empleado seleccionado no es veterinario, por lo tanto no puede realizar esta tarea', 16, 1);
+        END 
+
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
+        VALUES (@IdEmpleado, 1,1 );  --se agrega con 1 el cual es el estado pendieente y tarea medica
+
+        SET @IdTarea = SCOPE_IDENTITY();
+
+        INSERT INTO ControlAnimal (IdTareas, IdAnimales, Nombre)
+        VALUES (@IdTarea, @IdAnimales, @Nombre)
+
+		COMMIT TRANSACTION
         
-        -- Actualización de los datos de la habitación
-        UPDATE Habitacion
-        SET NombreHab = ISNULL(@NombreHab, NombreHab),
-            Direccion = ISNULL(@Direccion, Direccion),              
-            Capacidad = ISNULL(@Capacidad, Capacidad),
-            IdEstadoHabitacion = ISNULL(@IdEstadoHabitacion,IdEstadoHabitacion),
-            IdTipoHabitacion = ISNULL(@IdTipoHabitacion,IdTipoHabitacion)
-        WHERE IdHabitacion = @IdHabitacion;
-        
-        COMMIT TRANSACTION;
-        SELECT 'Habitación actualizada correctamente: ' + @NombreHab AS 'Mensaje de Confirmación';
         
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(100);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
-GO
 
 
 
