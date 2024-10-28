@@ -2,40 +2,37 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Enitities;
 using System.Data;
 
+using Entities;
+using Services.Auth.Dto;
 namespace ZooManagementAPI
+    
 {
     public class AuthHelpers
     {
-        public static string GenerateJWTToken(User user, string role = "USER")
+        public static string GenerateJWTToken(EmpleadoInfoDto empleado)
         {
             var claims = new List<Claim> {
-                new Claim("Name", user.Name),
-                new Claim("Email", user.Email),
-                new Claim("Role", role),
-                new Claim("Id", user.Id.ToString()),
-                new Claim("Phone", user.CellPhone)
-
+                new Claim("Id", empleado.IdEmpleado.ToString())
             };
-            // string[] roles = ["uno", "dos"];
-
-           // foreach (var rol in roles)
-           // {
-            //    claims.Add(new Claim("cosas", rol));
-           // }
 
 
+            foreach (var rol in empleado.Roles)
+            {
+                claims.Add(new Claim("Role", rol.Nombre));
+            }
 
 
-                var jwtToken = new JwtSecurityToken(
+
+
+            var jwtToken = new JwtSecurityToken(
                 claims: claims,
                 notBefore: DateTime.UtcNow,
                 expires: DateTime.UtcNow.AddDays(30),
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(
-                       Encoding.UTF8.GetBytes("ClinicInitialJWB_ClinicInitialJWB")
+                       Encoding.UTF8.GetBytes("ZooProjectZooProjectZooProjectZooProjectZooProject")
                         ),
                     SecurityAlgorithms.HmacSha256Signature)
                 );
