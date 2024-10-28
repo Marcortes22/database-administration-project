@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Para manejar la sesión y el token
 import toast from 'react-hot-toast';
-import { Empleado } from '@/Types/next-auth-types/Empleado';
+import {  Empleado, RegistarEmpleado } from '@/Types/next-auth-types/Empleado';
 
 export function useEmpleados() {
   const [empleados, setEmpleados] = useState<Empleado[]>([]);

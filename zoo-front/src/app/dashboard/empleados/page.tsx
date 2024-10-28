@@ -3,12 +3,10 @@ import { useCustomRouter } from '@/Hooks/Router/useRouter';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useEmpleados } from '@/Hooks/useEmpleado';
-import { usePuestos } from '@/Hooks/usePuestos';
 
 export default function EmpleadosTable() {
   const { empleados, loading, error } = useEmpleados();
   const { navigateTo } = useCustomRouter();
-  const { puestos, loading: loadingPuestos, error: errorPuestos } = usePuestos();
 
   const handleEdit = (id: number) => {
     toast.success('Empleado editado correctamente', {
@@ -24,19 +22,13 @@ export default function EmpleadosTable() {
     console.log(`Eliminar empleado con id: ${id}`);
   };
 
-  if (loading || loadingPuestos) {
+  if (loading) {
     return <p className="text-center">Cargando datos...</p>;
   }
 
-  if (error || errorPuestos) {
+  if (error) {
     return <p className="text-center text-red-500">Error al cargar los datos</p>;
   }
-
-  // Función para obtener el nombre del puesto basado en el id
-  const getNombrePuesto = (idPuesto: number) => {
-    const puesto = puestos.find((p) => p.idPuesto === idPuesto);
-    return puesto ? puesto.nombre : 'Sin asignar';
-  };
 
   return (
     <div className="relative mx-8 my-6 p-6 bg-white shadow-lg rounded-lg">
@@ -67,9 +59,7 @@ export default function EmpleadosTable() {
               <td className="px-6 py-4 text-center">{empleado.nombre}</td>
               <td className="px-6 py-4 text-center">{empleado.apellido1}</td>
               <td className="px-6 py-4 text-center">{empleado.apellido2}</td>
-              <td className="px-6 py-4 text-center">
-                {getNombrePuesto(empleado.idPuesto)}
-              </td>
+              <td className="px-6 py-4 text-center">{empleado.puesto}</td>
             </tr>
           ))}
         </tbody>
