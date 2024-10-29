@@ -93,7 +93,7 @@ export default function VentaEntradaForm() {
               onClick={() => eliminarDetalle(index)}
               className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300"
             >
-              Eliminar Detalle
+              Eliminar Entrada
             </button>
           </div>
         ))}
@@ -105,7 +105,7 @@ export default function VentaEntradaForm() {
             onClick={agregarDetalle}
             className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
           >
-            Agregar Detalle
+            Agregar Entrada
           </button>
         </div>
 
