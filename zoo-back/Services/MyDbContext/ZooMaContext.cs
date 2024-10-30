@@ -105,8 +105,6 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<Tarea> Tareas { get; set; }
 
-    public virtual DbSet<TareasEstadoTarea> TareasEstadoTareas { get; set; }
-
     public virtual DbSet<TipoEntradum> TipoEntrada { get; set; }
 
     public virtual DbSet<TipoHabitacion> TipoHabitacions { get; set; }
@@ -557,7 +555,7 @@ public partial class ZooMaContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.NombreTabla)
                 .HasMaxLength(20)
@@ -595,7 +593,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditTarea>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ta__C87E13DD5DCDA72B");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ta__C87E13DDAB33B40E");
 
             entity.ToTable("Audit_Tareas");
 
@@ -818,6 +816,9 @@ public partial class ZooMaContext : DbContext
 
             entity.ToTable("ControlAnimal");
 
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Reporte)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -1008,10 +1009,13 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<MantenimientoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdMantenimientoHabitacion).HasName("PK__Mantenim__C724A79C2BAF4D79");
+            entity.HasKey(e => e.IdMantenimientoHabitacion).HasName("PK__Mantenim__C724A79CDA4D2A8F");
 
             entity.ToTable("MantenimientoHabitacion");
 
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Reporte)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -1046,7 +1050,7 @@ public partial class ZooMaContext : DbContext
             entity.ToTable("Puesto", tb => tb.HasTrigger("trg_Audit_Puesto"));
 
             entity.Property(e => e.Nombre)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
@@ -1085,37 +1089,22 @@ public partial class ZooMaContext : DbContext
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_Tareas"));
 
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(20)
-                .IsUnicode(false);
+            entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
 
             entity.HasOne(d => d.IdEmpleadoNavigation).WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdEmpleado)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tareas_IdEmpleado");
 
-            entity.HasOne(d => d.IdTipoTareaNavigation).WithMany(p => p.Tareas)
-                .HasForeignKey(d => d.IdTipoTarea)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Tareas_IdTipoTarea");
-        });
-
-        modelBuilder.Entity<TareasEstadoTarea>(entity =>
-        {
-            entity.HasKey(e => e.IdTareas).HasName("PK__TareasEs__61D0EF21F40B081C");
-
-            entity.Property(e => e.IdTareas).ValueGeneratedOnAdd();
-            entity.Property(e => e.Fecha).HasColumnType("datetime");
-
-            entity.HasOne(d => d.IdEstadoTareaNavigation).WithMany(p => p.TareasEstadoTareas)
+            entity.HasOne(d => d.IdEstadoTareaNavigation).WithMany(p => p.Tareas)
                 .HasForeignKey(d => d.IdEstadoTarea)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TareasEstadoTareas_IdEstadoTarea");
 
-            entity.HasOne(d => d.IdTareasNavigation).WithOne(p => p.TareasEstadoTarea)
-                .HasForeignKey<TareasEstadoTarea>(d => d.IdTareas)
+            entity.HasOne(d => d.IdTipoTareaNavigation).WithMany(p => p.Tareas)
+                .HasForeignKey(d => d.IdTipoTarea)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TareasEstadoTareas_IdTareas");
+                .HasConstraintName("FK_Tareas_IdTipoTarea");
         });
 
         modelBuilder.Entity<TipoEntradum>(entity =>

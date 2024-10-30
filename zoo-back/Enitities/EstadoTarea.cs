@@ -9,5 +9,5 @@ public partial class EstadoTarea
 
     public string Nombre { get; set; } = null!;
 
-    public virtual ICollection<TareasEstadoTarea> TareasEstadoTareas { get; set; } = new List<TareasEstadoTarea>();
+    public virtual ICollection<Tarea> Tareas { get; set; } = new List<Tarea>();
 }
