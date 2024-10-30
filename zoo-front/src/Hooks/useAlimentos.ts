@@ -4,12 +4,6 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Para manejar sesión y token
 
-// Definición del tipo Alimento
-interface Alimento {
-  idAlimentos: number;
-  nombre: string;
-}
-
 export const useAlimentos = () => {
   const { data: session } = useSession(); // Obtener sesión y token de autenticación
   const [alimentos, setAlimentos] = useState<Alimento[]>([]);

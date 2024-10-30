@@ -1,4 +1,4 @@
-// hooks/useCrearAnimal.ts
+// hooks/useRegistrarAnimal.ts
 'use client';
 
 import { useState } from 'react';
@@ -27,13 +27,19 @@ export const useRegistrarAnimal = () => {
         body: JSON.stringify(animal),
       });
 
+      const result = await response.json(); // Parseamos la respuesta del backend
+
       if (!response.ok) {
-        throw new Error('Error al crear el animal');
+        // Si el backend retorna un mensaje de error
+        toast.error(result.message || 'Error al crear el animal');
+        return;
       }
 
-      toast.success('Animal creado exitosamente');
+      // Si la creación es exitosa
+      toast.success(result.message || 'Animal creado exitosamente');
     } catch (error) {
-      toast.error('Error al crear el animal');
+      // En caso de error en la conexión o algo inesperado
+      toast.error('Error al conectar con el servidor');
     } finally {
       setLoading(false);
     }

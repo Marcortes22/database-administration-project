@@ -39,7 +39,7 @@ export default function FormularioCrearAnimal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     crearAnimal(animal);
-    navigateTo('/dashboard/animales');
+    //navigateTo('/dashboard/animales');
   };
 
   const handleCancel = () => {

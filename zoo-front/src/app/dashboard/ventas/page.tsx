@@ -3,6 +3,8 @@ import { useVisitantes } from '@/Hooks/useVisitante';
 import { useEntradas } from '@/Hooks/useEntrada';
 import { useMetodosPago } from '@/Hooks/useMetodoPago';
 import { useVentaEntradas } from '@/Hooks/useVentaEntradas';
+import { FaPlus } from 'react-icons/fa';
+import { useCustomRouter } from '@/Hooks/Router/useRouter';
 
 export default function VentaEntradaForm() {
   const {
@@ -20,16 +22,23 @@ export default function VentaEntradaForm() {
   const { visitantes, loading: loadingVisitantes, error: errorVisitantes } = useVisitantes();
   const { entradas, loading: loadingEntradas, error: errorEntradas } = useEntradas();
   const { metodosPago, loading: loadingMetodos, error: errorMetodos } = useMetodosPago();
+  const {navigateTo} = useCustomRouter();
 
   if (loadingVisitantes || loadingEntradas || loadingMetodos) return <p>Cargando datos...</p>;
   if (errorVisitantes || errorEntradas || errorMetodos) return <p>Error al cargar datos</p>;
 
   return (
     <div className="max-w-3xl mx-auto my-12 p-10 bg-white rounded-3xl shadow-2xl transition-shadow hover:shadow-3xl">
-      <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
-        Venta de Entradas
-      </h2>
-
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-700">Venta de Entradas</h2>
+        <button
+          onClick={() => navigateTo('/dashboard/ventas/registrarVisitante')}
+          className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 flex items-center"
+        >
+          <FaPlus className="mr-2" /> Agregar nuevo visitante
+        </button>
+      </div>
+      
       <form 
         onSubmit={(e) => { e.preventDefault(); realizarVenta(); }} 
         className="space-y-6"

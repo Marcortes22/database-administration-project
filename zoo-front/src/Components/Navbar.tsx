@@ -53,7 +53,7 @@ export default function AppNavbar() {
             height={40}
             className="mr-2"
           />
-          <p className="font-extrabold text-2xl text-gray-800">ZOO</p>
+          <p className="font-extrabold text-2xl text-gray-800">Mundo Animal</p>
         </NavbarBrand>
       </NavbarContent>
 

@@ -17,7 +17,7 @@ export default function WelcomePage() {
           height={300}
           className="mx-auto mb-6"
         />
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">¡Bienvenido al Sistema ZOO!</h1>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">¡Bienvenido al Sistema ZOO Mundo Animal!</h1>
         <p className="text-lg text-gray-600 mb-8">
           Gestiona los hábitats, animales, empleados y boletos de tu zoológico de manera eficiente.
           Explora las opciones disponibles en el menú superior para empezar.
