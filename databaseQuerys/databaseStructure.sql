@@ -251,7 +251,7 @@ CREATE TABLE Tareas (
     IdEstadoTarea INT NOT NULL,
 	CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea),
-    CONSTRAINT FK_TareasEstadoTareas_IdEstadoTarea FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
+    CONSTRAINT FK_TareasEstadoTareaS FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
 );
 
 USE ZooMA

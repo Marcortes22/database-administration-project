@@ -181,8 +181,8 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
             RAISERROR ('El empleado seleccionado no es veterinario, por lo tanto no puede realizar esta tarea', 16, 1);
         END 
 
-        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
-        VALUES (@IdEmpleado, 1,1 );  --se agrega con 1 el cual es el estado pendieente y tarea medica
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
+        VALUES (@IdEmpleado, 1,1,GETDATE() );  --se agrega con 1 el cual es el estado pendieente y tarea medica
 
         SET @IdTarea = SCOPE_IDENTITY();
 
@@ -194,6 +194,65 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+
+
+
+
+
+use ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_ESTADO_TAREA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA;
+GO
+go
+CREATE PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA(
+    @IdEstadoTarea INT,
+	@IdTarea INT,
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+    BEGIN TRY
+
+		IF(@IdEstadoTarea IS NULL OR @IdTarea IS NULL  OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Tareas WHERE IdTareas = @IdTarea)
+        BEGIN
+            RAISERROR ('La tarea no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoTarea WHERE IdEstadoTarea = @IdEstadoTarea)
+        BEGIN
+            RAISERROR ('El estado tarea no existe', 16, 1);
+        END
+		
+		DECLARE @IdEmpleadoEncargado INT
+
+		SET @IdEmpleadoEncargado = (SELECT IdEmpleado FROM Tareas WHERE IdTareas = @IdTarea)
+		print(@IdEmpleadoEncargado + ' ' + @Cedula)
+        IF (@IdEmpleadoEncargado <> @Cedula)
+        BEGIN
+            RAISERROR ('Solamente el encargado de la tarea puede cambiar su estado', 16, 1);
+        END 
+
+		UPDATE Tareas
+		SET IdEstadoTarea = @IdEstadoTarea
+		WHERE IdTareas = @IdTarea
+        
+        
+    END TRY
+    BEGIN CATCH
+        
         DECLARE @ErrorMessage VARCHAR(100);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
