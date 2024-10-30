@@ -1,4 +1,5 @@
-export interface Alimento {
-    idAlimento: number;
+
+interface Alimento {
+    idAlimentos: number;
     nombre: string;
-}
+  }
