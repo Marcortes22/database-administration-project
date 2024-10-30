@@ -13,12 +13,7 @@ import LionImAGE from '@/Assets/lion.png';
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
 import { FaSignOutAlt } from 'react-icons/fa'; // Icono
 import { jwtDecode } from 'jwt-decode';
-
-interface DecodedToken {
-  Id: string;
-  Role: string;
-  exp: number;
-}
+import { DecodedToken } from '@/Types/next-auth-types/DecodedToken';
 
 export default function AppNavbar() {
   const { navigateTo } = useCustomRouter();
@@ -39,7 +34,7 @@ export default function AppNavbar() {
     { name: 'Animales', path: '/dashboard/animales', roles: ['ADMIN', 'USER'] },
     { name: 'Venta de entradas', path: '/dashboard/ventas', roles: ['SELLER'] },
     { name: 'Habitats', path: '/dashboard/habitats', roles: ['ADMIN'] },
-    { name: 'Tareas', path: '/dashboard/tareas', roles: ['ADMIN'] },
+    { name: 'Mis Tareas', path: '/dashboard/mis-tareas', roles: ['ADMIN', 'USER'] },
   ];
 
   return (

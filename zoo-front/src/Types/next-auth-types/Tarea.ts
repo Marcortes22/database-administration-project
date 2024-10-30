@@ -1,6 +1,12 @@
-export interface Tarea {
-    idTareas: number;
+interface ControlAnimal {
+    idControl: number;
     nombre: string;
-    idEmpleado: number;
-    idTipoTarea: number;
-}
+    idAnimales: number;
+  }
+  
+  export interface Tarea {
+    idTareas: number;
+    idTipoTareaNavigation: { nombreTt: string };
+    idEstadoTareaNavigation: { nombre: string };
+    controlAnimals: ControlAnimal[];
+  }
