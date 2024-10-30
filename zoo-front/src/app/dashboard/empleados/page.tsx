@@ -47,8 +47,8 @@ export default function EmpleadosTable() {
           <tr className="text-gray-700 uppercase text-sm">
             <th className="px-6 py-3 text-center">Cédula</th>
             <th className="px-6 py-3 text-center">Nombre</th>
-            <th className="px-6 py-3 text-center">Apellido 1</th>
-            <th className="px-6 py-3 text-center">Apellido 2</th>
+            <th className="px-6 py-3 text-center">Primer apellido</th>
+            <th className="px-6 py-3 text-center">Segundo Apellido</th>
             <th className="px-6 py-3 text-center">Puesto</th>
           </tr>
         </thead>
