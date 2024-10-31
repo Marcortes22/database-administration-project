@@ -201,8 +201,66 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 END
 
 
+GO
+use ZooMA
+GO
+IF OBJECT_ID('SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION;
+GO
+go
+CREATE PROCEDURE SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION(
+	@IdEmpleado INT,
+    @IdHabitacion INT,
+    @Nombre VARCHAR(50),
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
 
+        DECLARE @IdTarea INT;
 
+		IF(@IdEmpleado IS NULL OR @IdHabitacion IS NULL OR @Nombre = '' OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+        BEGIN
+            RAISERROR ('El empleado no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+            RAISERROR ('La habitacion no existe', 16, 1);
+        END
+		
+        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.Nombre = 'Cuidador de Habitacion')
+        BEGIN
+            RAISERROR ('El empleado seleccionado no es Cuidador de habitads, por lo tanto no puede realizar esta tarea', 16, 1);
+        END 
+
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
+        VALUES (@IdEmpleado, 2,1,GETDATE() );  
+
+        SET @IdTarea = SCOPE_IDENTITY();
+
+        INSERT INTO MantenimientoHabitacion (IdTareas, IdHabitacion, Nombre)
+        VALUES (@IdTarea, @IdHabitacion, @Nombre)
+		COMMIT TRANSACTION
+        
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
 
 use ZooMA
 GO
