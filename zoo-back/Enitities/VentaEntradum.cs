@@ -15,6 +15,8 @@ public partial class VentaEntradum
 
     public int IdEmpleado { get; set; }
 
+    public virtual ICollection<CalificacionVisitum> CalificacionVisita { get; set; } = new List<CalificacionVisitum>();
+
     public virtual ICollection<DetalleVentum> DetalleVenta { get; set; } = new List<DetalleVentum>();
 
     public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;

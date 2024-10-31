@@ -325,7 +325,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<AuditCalificacionVisitum>(entity =>
         {
-            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DDBDDD699E");
+            entity.HasKey(e => e.IdAudit).HasName("PK__Audit_Ca__C87E13DD02AB6EF6");
 
             entity.ToTable("Audit_CalificacionVisita");
 
@@ -790,7 +790,7 @@ public partial class ZooMaContext : DbContext
 
         modelBuilder.Entity<CalificacionVisitum>(entity =>
         {
-            entity.HasKey(e => e.IdCalificacionVisita).HasName("PK__Califica__815EB0528C00CBCF");
+            entity.HasKey(e => e.IdCalificacionVisita).HasName("PK__Califica__815EB052E860E78C");
 
             entity.ToTable(tb => tb.HasTrigger("trg_Audit_CalificacionVisita"));
 
@@ -804,10 +804,10 @@ public partial class ZooMaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CalificacionVisita_IdCalificacionServicioAlCliente");
 
-            entity.HasOne(d => d.IdVisitantesNavigation).WithMany(p => p.CalificacionVisita)
-                .HasForeignKey(d => d.IdVisitantes)
+            entity.HasOne(d => d.IdVentaEntradaNavigation).WithMany(p => p.CalificacionVisita)
+                .HasForeignKey(d => d.IdVentaEntrada)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_CalificacionVisita_IdVisitantes");
+                .HasConstraintName("FK_CalificacionVisita_IdVentaEntrada");
         });
 
         modelBuilder.Entity<ControlAnimal>(entity =>

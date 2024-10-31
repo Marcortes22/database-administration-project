@@ -316,3 +316,72 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
+
+
+GO
+
+USE ZooMA
+GO
+DROP PROC IF EXISTS SP_CREAR_CALIFICACION_VISITA
+GO
+CREATE PROC SP_CREAR_CALIFICACION_VISITA 
+@NotaRecorrido INT,
+@IdVentaEntrada INT,
+@SugerenciaMejoraRecorrido VARCHAR(200),
+@NotaServicioAlCliente INT,
+@SugerenciaMejoraServicioAlCliente VARCHAR(200)
+AS
+
+BEGIN
+BEGIN TRANSACTION
+BEGIN TRY
+	IF(@NotaRecorrido IS NULL OR @NotaServicioAlCliente IS NULL OR @IdVentaEntrada IS NULL OR @SugerenciaMejoraRecorrido = '' OR @SugerenciaMejoraServicioAlCliente = '')
+        BEGIN
+        RAISERROR('No se permiten campos en blanco',16,1)
+        END
+
+
+        IF NOT EXISTS(SELECT 1 FROM VentaEntrada WHERE IdVentaEntrada = @IdVentaEntrada)
+        BEGIN
+        RAISERROR('La venta no existe',16,1)
+		RETURN
+        END
+
+        IF EXISTS(SELECT 1 FROM CalificacionVisita WHERE IdVentaEntrada = @IdVentaEntrada)
+        BEGIN
+        RAISERROR('La calificacion asociada a esta venta ya existe',16,1)
+		RETURN
+        END
+		
+        DECLARE @IdCalificacionRecorrido INT, @IdCalificacionServicio INT
+
+        INSERT INTO CalificacionRecorrido(Nota, SugerenciaMejora)
+        VALUES(@NotaRecorrido, @SugerenciaMejoraRecorrido)
+
+        SET @IdCalificacionRecorrido = SCOPE_IDENTITY()
+
+        INSERT INTO CalificacionServicioAlCliente(Nota, SugerenciaMejora)
+        VALUES(@NotaServicioAlCliente, @SugerenciaMejoraServicioAlCliente)
+
+        SET @IdCalificacionServicio = SCOPE_IDENTITY()
+
+
+
+        INSERT INTO CalificacionVisita(Fecha, IdVentaEntrada,IdCalificacionServicioAlCliente, IdCalificacionRecorrido)
+        VALUES(GETDATE(),@IdVentaEntrada,@IdCalificacionServicio, @IdCalificacionRecorrido)
+
+COMMIT TRANSACTION
+PRINT('Calificación creada exitosamente')
+
+END TRY
+
+
+BEGIN CATCH
+
+ROLLBACK TRANSACTION
+DECLARE @ERROR VARCHAR(100)
+SET @ERROR = ERROR_MESSAGE()
+RAISERROR(@ERROR,16,1)
+
+END CATCH
+END
