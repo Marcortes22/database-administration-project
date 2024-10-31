@@ -219,7 +219,7 @@ USE ZooMA
 GO
 CREATE TABLE Puesto (
     IdPuesto INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(20) NOT NULL,
+    Nombre VARCHAR(50) NOT NULL,
     Salario FLOAT NOT NULL,
 );
 
@@ -249,6 +249,7 @@ CREATE TABLE Tareas (
     IdEmpleado INT NOT NULL,
     IdTipoTarea INT NOT NULL,
     IdEstadoTarea INT NOT NULL,
+    FechaCreacion DATETIME NOT NULL,
 	CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea),
     CONSTRAINT FK_TareasEstadoTareaS FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
@@ -369,14 +370,13 @@ USE ZooMA
 GO
 CREATE TABLE CalificacionVisita (
     IdCalificacionVisita INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nota INT NOT NULL,
     Fecha DATE NOT NULL,
-    IdVisitantes INT NOT NULL,
+    IdVentaEntrada INT NOT NULL,
 	IdCalificacionServicioAlCliente INT NOT NULL,
 	IdCalificacionRecorrido INT NOT NULL,
 	CONSTRAINT FK_CalificacionVisita_IdCalificacionServicioAlCliente FOREIGN KEY (IdCalificacionServicioAlCliente) REFERENCES CalificacionServicioAlCliente (IdCalificacionServicioAlCliente),
 	CONSTRAINT FK_CalificacionVisita_IdCalificacionRecorrido FOREIGN KEY (IdCalificacionRecorrido) REFERENCES CalificacionRecorrido (IdCalificacionRecorrido),
-    CONSTRAINT FK_CalificacionVisita_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
+    CONSTRAINT FK_CalificacionVisita_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada)
 );
 
 
@@ -518,7 +518,7 @@ CREATE TABLE Audit_Puesto (
     NombreTabla VARCHAR(20),
     Operacion VARCHAR(10),
     IdPuesto INT,
-    Nombre VARCHAR(20),
+    Nombre VARCHAR(50),
     Salario FLOAT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
@@ -553,19 +553,19 @@ CREATE TABLE Audit_EstadoTarea (
 
 USE ZooMA
 GO
-CREATE TABLE Audit_VentaEntrada (
+CREATE TABLE Audit_CalificacionVisita (
     IdAudit INT PRIMARY KEY IDENTITY(1,1),
     NombreTabla VARCHAR(20),
     Operacion VARCHAR(10),
+    IdCalificacionVisita INT,
+    SugerenciaMejora VARCHAR(255),
+    Fecha DATE,
     IdVentaEntrada INT,
-    Fechaventa DATE,
-    Horaventa TIME,
-    IdVisitante INT,
-    IdMetodoPago INT,
+	IdCalificacionRecorrido INT,
+	IdRecorrido INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
-
 USE ZooMA
 GO
 CREATE TABLE Audit_MetodoPago (
@@ -578,22 +578,6 @@ CREATE TABLE Audit_MetodoPago (
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
 
-USE ZooMA
-GO
-CREATE TABLE Audit_CalificacionVisita (
-    IdAudit INT PRIMARY KEY IDENTITY(1,1),
-    NombreTabla VARCHAR(20),
-    Operacion VARCHAR(10),
-    IdCalificacionVisita INT,
-    Nota FLOAT,
-    SugerenciaMejora VARCHAR(255),
-    Fecha DATE,
-    IdVisitantes INT,
-	IdCalificacionRecorrido INT,
-	IdRecorrido INT,
-    RealizadoPor VARCHAR(100),
-    FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
 
 USE ZooMA
 GO
