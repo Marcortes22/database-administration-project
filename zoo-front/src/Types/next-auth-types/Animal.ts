@@ -10,3 +10,11 @@ export interface Animal {
     idZoo: number;
   }
   
+  export interface AnimalUpdateDTO {
+    nombreAni?: string;       
+    edadAni?: number;          
+    idDieta?: number;          
+    idHabitacion?: number;     
+    idEspecie?: number;       
+    idEstadoSalud?: number;
+  }
