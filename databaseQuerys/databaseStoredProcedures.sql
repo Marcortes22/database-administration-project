@@ -50,7 +50,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -117,7 +117,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -292,7 +292,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -463,7 +463,7 @@ BEGIN
     BEGIN CATCH
 
        
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -515,7 +515,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -610,7 +610,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -667,7 +667,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -714,7 +714,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -835,7 +835,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -880,7 +880,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -950,7 +950,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
 
@@ -1012,7 +1012,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1172,7 +1172,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1252,7 +1252,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1290,7 +1290,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1335,7 +1335,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1382,7 +1382,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1417,7 +1417,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1458,7 +1458,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1497,7 +1497,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1538,7 +1538,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1578,7 +1578,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1641,7 +1641,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1680,7 +1680,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1730,7 +1730,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1764,7 +1764,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1806,7 +1806,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1848,7 +1848,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1889,7 +1889,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1931,7 +1931,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1973,7 +1973,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2014,7 +2014,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2057,7 +2057,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2106,7 +2106,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2147,7 +2147,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2188,7 +2188,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2229,7 +2229,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2777,7 +2777,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -3925,7 +3925,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -3975,7 +3975,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4029,7 +4029,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4080,7 +4080,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4184,7 +4184,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4233,7 +4233,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4283,7 +4283,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
