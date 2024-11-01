@@ -13,13 +13,11 @@ public partial class AuditCalificacionVisitum
 
     public int? IdCalificacionVisita { get; set; }
 
-    public double? Nota { get; set; }
-
     public string? SugerenciaMejora { get; set; }
 
     public DateOnly? Fecha { get; set; }
 
-    public int? IdVisitantes { get; set; }
+    public int? IdVentaEntrada { get; set; }
 
     public int? IdCalificacionRecorrido { get; set; }
 

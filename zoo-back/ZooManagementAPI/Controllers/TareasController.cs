@@ -46,7 +46,7 @@ namespace ZooManagementAPI.Controllers
             }
         }
 
-        [HttpPut("caambiarEstado")]
+        [HttpPut("caambiarEstado-")]
         public async Task<IActionResult> AtualizarEstado([FromBody] ChangeTaskStateDto cambiarEstadoTareaDto)
         {
             try

@@ -17,7 +17,5 @@ public partial class Visitante
 
     public int Telefono { get; set; }
 
-    public virtual ICollection<CalificacionVisitum> CalificacionVisita { get; set; } = new List<CalificacionVisitum>();
-
     public virtual ICollection<VentaEntradum> VentaEntrada { get; set; } = new List<VentaEntradum>();
 }

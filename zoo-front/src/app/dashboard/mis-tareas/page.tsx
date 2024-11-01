@@ -1,18 +1,23 @@
 'use client';
 import { useAnimales } from '@/Hooks/useAnimales';
 import { useCambiarEstadoTarea } from '@/Hooks/useCambiarEstado';
+import { useHabitaciones } from '@/Hooks/useHabitacion';
 import { useTareasByEmpleado } from '@/Hooks/useMisTareas';
 
 export default function MisTareas() {
   const { tareas, loading, error } = useTareasByEmpleado();
   const { animales } = useAnimales();
+  const {habitaciones} = useHabitaciones();
   const { cambiarEstadoTarea, loading: loadingAction } = useCambiarEstadoTarea();
 
   const obtenerNombreAnimal = (id: number) =>
     animales.find((animal) => animal.idAnimales === id)?.nombreAni;
 
+  const obtenerNombreHabitacion = (id: number) =>
+    habitaciones.find((habitacion) => habitacion.idHabitacion === id)?.nombreHab;
+
   const handleAprobarTarea = (idTarea: number) => {
-    const payload = { idTarea, idEstadoTarea: 3 }; // 2 es el estado "Aprobado"
+    const payload = { idTarea, idEstadoTarea: 3 }; // 3 es el estado "Aprobado"
     cambiarEstadoTarea(payload);
   };
 
@@ -37,7 +42,7 @@ export default function MisTareas() {
             <th className="border border-gray-300 px-4 py-2">Tarea</th>
             <th className="border border-gray-300 px-4 py-2">Estado</th>
             <th className="border border-gray-300 px-4 py-2">Descripción</th>
-            <th className="border border-gray-300 px-4 py-2">Animal</th>
+            <th className="border border-gray-300 px-4 py-2">Asignación</th>
             <th className="border border-gray-300 px-4 py-2">Acción</th>
           </tr>
         </thead>
@@ -51,14 +56,28 @@ export default function MisTareas() {
                 {tarea.idEstadoTareaNavigation?.nombre || 'N/A'}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                {tarea.controlAnimals.map((control) => (
-                  <div key={control.idControl}>{control.nombre}</div>
-                ))}
+                {/* Mostrar descripción de ControlAnimal o MantenimientoHabitacion */}
+                {tarea.controlAnimals.length > 0 ? (
+                  tarea.controlAnimals.map((control) => (
+                    <div key={control.idControl}>{control.nombre}</div>
+                  ))
+                ) : (
+                  tarea.mantenimientoHabitacions.map((habitacion) => (
+                    <div key={habitacion.idMantenimientoHabitacion}>{habitacion.nombre}</div>
+                  ))
+                )}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                {tarea.controlAnimals.map((control) => (
-                  <div key={control.idControl}>{obtenerNombreAnimal(control.idAnimales)}</div>
-                ))}
+                {/* Mostrar nombre de Animal o Habitacion */}
+                {tarea.controlAnimals.length > 0 ? (
+                  tarea.controlAnimals.map((control) => (
+                    <div key={control.idControl}>{obtenerNombreAnimal(control.idAnimales)}</div>
+                  ))
+                ) : (
+                  tarea.mantenimientoHabitacions.map((habitacion) => (
+                    <div key={habitacion.idMantenimientoHabitacion}>Habitación {obtenerNombreHabitacion(habitacion.idHabitacion)}</div>
+                  ))
+                )}
               </td>
               <td className="border border-gray-300 px-4 py-2">
                 <button

@@ -1,3 +1,747 @@
+-- Parte 1: Creación de la Base de Datos
+USE master
+IF DB_ID('ZooMA') IS NOT NULL
+BEGIN
+    DROP DATABASE ZooMA;
+END;
+GO
+CREATE DATABASE ZooMA
+ON PRIMARY (
+    NAME = 'ZooMA_Data',
+    FILENAME = 'C:\SQLData\ZooMA_Data.mdf',
+    SIZE = 1300MB,
+    MAXSIZE = 6GB,
+    FILEGROWTH = 390MB
+) LOG ON (
+    NAME = 'ZooMA_Log',
+    FILENAME = 'C:\SQLData\ZooMA_Log.ldf',
+    SIZE = 500MB,
+    MAXSIZE = 2GB,
+    FILEGROWTH = 100MB 
+)
+GO
+-- FIN Creación de la Base de Datos
+
+-- Parte 2: Crear FileGroup
+USE master
+GO
+ALTER DATABASE ZooMA
+ADD FILEGROUP Animal
+GO
+
+ALTER DATABASE ZooMA
+ADD FILEGROUP Habitacion
+GO
+
+ALTER DATABASE ZooMA
+ADD FILEGROUP Zoo
+GO
+
+ALTER DATABASE ZooMA
+ADD FILEGROUP Empleado
+GO
+
+ALTER DATABASE ZooMA
+ADD FILEGROUP Auditorias
+GO
+
+-- Añadir archivos a los filegroups
+USE master
+GO
+ALTER DATABASE ZooMA
+ADD FILE (
+    NAME = 'Animal_Data',
+    FILENAME = 'C:\SQLData\Animal_Data.ndf',
+    SIZE = 26MB,
+    MAXSIZE = 104MB,
+    FILEGROWTH = 8MB
+) TO FILEGROUP Animal
+GO
+
+ALTER DATABASE ZooMA
+ADD FILE (
+    NAME = 'Habitacion_Data',
+    FILENAME = 'C:\SQLData\Habitacion_Data.ndf',
+    SIZE = 26MB,
+    MAXSIZE = 104MB,
+    FILEGROWTH = 8MB
+) TO FILEGROUP Habitacion
+GO
+
+ALTER DATABASE ZooMA
+ADD FILE (
+    NAME = 'Zoo_Data',
+    FILENAME = 'C:\SQLData\Zoo_Data.ndf',
+    SIZE = 26MB,
+    MAXSIZE = 104MB,
+    FILEGROWTH = 8MB
+) TO FILEGROUP Zoo
+GO
+
+ALTER DATABASE ZooMA
+ADD FILE (
+    NAME = 'Empleado_Data',
+    FILENAME = 'C:\SQLData\Empleado_Data.ndf',
+    SIZE = 26MB,
+    MAXSIZE = 104MB,
+    FILEGROWTH = 8MB
+) TO FILEGROUP Empleado
+GO
+
+ALTER DATABASE ZooMA
+ADD FILE (
+    NAME = 'Auditorias_Data',
+    FILENAME = 'C:\SQLData\Auditorias_Data.ndf',
+    SIZE = 26MB,
+    MAXSIZE = 104MB,
+    FILEGROWTH = 8MB
+) TO FILEGROUP Auditorias
+GO
+-- FIN FileGroup
+
+--Parte 3: Creación de tablas
+USE ZooMA
+GO
+CREATE TABLE EstadoSalud (
+    IdEstadoSalud INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    EstadoSalud VARCHAR(255) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE Especie (
+    IdEspecie INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreEsp VARCHAR(20) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE TipoHabitacion (
+    IdTipoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreTH VARCHAR(75) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE ZOO (
+    IdZoo INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreZoo VARCHAR(20) NOT NULL,
+    Direccion VARCHAR(100) NOT NULL,
+    DescripcionZoo VARCHAR(255) NOT NULL
+);
+GO
+USE ZooMA
+GO
+CREATE TABLE EstadoHabitacion (
+    IdEstadoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Estado VARCHAR(50) NOT NULL,
+);
+USE ZooMA
+GO
+CREATE TABLE Habitacion (
+    IdHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreHab VARCHAR(20) NOT NULL,
+    Direccion VARCHAR(100) NOT NULL,
+    Capacidad INT NOT NULL,
+    IdTipoHabitacion INT NOT NULL,
+    IdEstadoHabitacion INT NOT NULL,
+    CONSTRAINT FK_Habitacion_IdTipoHabitacion FOREIGN KEY (IdTipoHabitacion) REFERENCES TipoHabitacion (IdTipoHabitacion),
+    CONSTRAINT FK_HabitacionEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) REFERENCES EstadoHabitacion (IdEstadoHabitacion)
+);
+
+USE ZooMA
+GO
+CREATE TABLE Visitantes (
+    IdVisitantes INT NOT NULL PRIMARY KEY,
+    NombreVist VARCHAR(20) NOT NULL,
+    Apell1Vist VARCHAR(20) NOT NULL,
+    Apell2Vist VARCHAR(20) NOT NULL,
+	CorreoElectronico VARCHAR (50) NOT NULL,
+	TELEFONO INT NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE MetodoPago (
+    IdMetodoPago INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Metodopago VARCHAR(50) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE Dieta (
+    IdDieta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreDiet VARCHAR(20) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE Animales (
+    IdAnimales INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreAni VARCHAR(20) NOT NULL,
+    EdadAni INT NOT NULL,
+    IdDieta INT NOT NULL,
+    IdHabitacion INT NOT NULL,
+    IdEspecie INT NOT NULL,
+    IdEstadoSalud INT NOT NULL,
+    IdZoo INT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_Animales_IdEstadoSalud FOREIGN KEY (IdEstadoSalud) REFERENCES EstadoSalud (IdEstadoSalud),
+    CONSTRAINT FK_Animales_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
+    CONSTRAINT FK_Animales_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion),
+    CONSTRAINT FK_Animales_IdDieta FOREIGN KEY (IdDieta) REFERENCES Dieta (IdDieta),
+    CONSTRAINT FK_Animales_IdEspecies FOREIGN KEY (IdEspecie) REFERENCES Especie (IdEspecie)
+);
+
+USE ZooMA
+GO
+CREATE TABLE HistorialMovimientos (
+    IdHistorialMovimientos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    FechaMovimiento DATETIME NOT NULL,
+    IdHabitacionAnterior INT NOT NULL,
+    IdHabitacionActual INT NOT NULL,
+    Motivo VARCHAR(255) NOT NULL,
+    IdAnimales INT NOT NULL,
+    realizadoPor INT NOT NULL,
+    CONSTRAINT FK_HistorialMovimientos_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
+);
+
+
+
+
+USE ZooMA
+GO
+CREATE TABLE TipoTarea (
+    IdTipoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreTT VARCHAR(20) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE Puesto (
+    IdPuesto INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(100) NOT NULL,
+    Salario FLOAT NOT NULL,
+);
+
+USE ZooMA
+GO
+CREATE TABLE Empleado (
+    IdEmpleado INT NOT NULL PRIMARY KEY,
+    Nombre VARCHAR(20) NOT NULL,
+    Apellido1 VARCHAR(20) NOT NULL,
+    Apellido2 VARCHAR(20) NOT NULL,
+	  Correo VARCHAR (50) NOT NULL,
+    IdPuesto INT NOT NULL,
+    IdZoo INT NOT NULL DEFAULT 1, 
+    CONSTRAINT FK_Empleado_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
+    CONSTRAINT FK_Empleado_IdPuesto FOREIGN KEY (IdPuesto) REFERENCES Puesto (IdPuesto)
+);
+USE ZooMA
+GO
+CREATE TABLE EstadoTarea (
+    IdEstadoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(20) NOT NULL,
+);
+USE ZooMA
+GO
+CREATE TABLE Tareas (
+    IdTareas INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdEmpleado INT NOT NULL,
+    IdTipoTarea INT NOT NULL,
+    IdEstadoTarea INT NOT NULL,
+    FechaCreacion DATETIME NOT NULL,
+	CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
+    CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea),
+    CONSTRAINT FK_TareasEstadoTareaS FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
+);
+
+USE ZooMA
+GO
+CREATE TABLE MantenimientoHabitacion (
+    IdMantenimientoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Reporte VARCHAR(255)  NULL,
+    IdTareas INT NOT NULL,
+    IdHabitacion INT NOT NULL,
+    Nombre VARCHAR(50) NOT NULL,
+	CONSTRAINT FK_MantenimientoHabitacion_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
+    CONSTRAINT FK_MantenimientoHabitacion_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion)
+);
+
+USE ZooMA
+GO
+CREATE TABLE ControlAnimal (
+    IdControl INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Reporte VARCHAR(255) NULL,
+    IdTareas INT NOT NULL,
+    Nombre VARCHAR(50) NOT NULL,
+    IdAnimales INT NOT NULL,
+	CONSTRAINT FK_ControlAnimal_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
+    CONSTRAINT FK_ControlAnimal_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
+);
+
+USE ZooMA
+GO
+CREATE TABLE Usuario (
+    IdUsuario INT NOT NULL PRIMARY KEY,
+    Contraseña VARCHAR(20) NOT NULL,
+    Estado BIT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_Usuario_IdEmpleado FOREIGN KEY (IdUsuario) REFERENCES Empleado (IdEmpleado)
+);
+
+USE ZooMA
+GO
+CREATE TABLE Rol (
+    IdRol INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    nombre VARCHAR(20) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE RolUsuario (
+    IdRolUsario INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdRol INT NOT NULL,
+    IdUsuario INT NOT NULL,
+    FechaInicio DATE NOT NULL,
+    FechaFin DATE NULL,
+    CONSTRAINT FK_RolUsario_IdUsuario  FOREIGN KEY (IdUsuario ) REFERENCES Usuario (IdUsuario ),
+    CONSTRAINT FK_RolUsario_IdRol FOREIGN KEY (IdRol) REFERENCES Rol (IdRol)
+);
+
+USE ZooMA
+GO
+CREATE TABLE VentaEntrada (
+    IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Fechaventa DATETIME NOT NULL,
+    IdVisitantes INT NOT NULL,
+    IdMetodoPago INT NOT NULL,
+    IdEmpleado INT NOT NULL,
+    CONSTRAINT FK_VentaEntrada_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
+    CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
+    CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
+);
+
+USE ZooMA
+GO
+CREATE TABLE TipoEntrada (
+    IdTipoEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreEnt VARCHAR(20) NOT NULL,
+    Precio MONEY NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE Entrada (
+    IdEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    fechaVencimiento DATE NOT NULL,
+    descuento INT NOT NULL,
+    IdTipoEntrada INT NOT NULL,
+    CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada) 
+);
+
+USE ZooMA
+GO
+CREATE TABLE DetalleVenta (
+    IdDetalleVenta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdEntrada INT NOT NULL,
+    IdVentaEntrada INT NOT NULL,
+    Cantidad INT NOT NULL,
+    Precio MONEY NOT NULL,
+    CONSTRAINT FK_DetalleVenta_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada),
+	CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) REFERENCES Entrada (IdEntrada),
+);
+
+USE ZooMA
+GO
+CREATE TABLE CalificacionRecorrido (
+    IdCalificacionRecorrido INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Nota INT NOT NULL,
+	SugerenciaMejora VARCHAR (255) NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE CalificacionServicioAlCliente (
+    IdCalificacionServicioAlCliente INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Nota INT NOT NULL,
+	SugerenciaMejora VARCHAR (255) NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE CalificacionVisita (
+    IdCalificacionVisita INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Fecha DATE NOT NULL,
+    IdVentaEntrada INT NOT NULL,
+	IdCalificacionServicioAlCliente INT NOT NULL,
+	IdCalificacionRecorrido INT NOT NULL,
+	CONSTRAINT FK_CalificacionVisita_IdCalificacionServicioAlCliente FOREIGN KEY (IdCalificacionServicioAlCliente) REFERENCES CalificacionServicioAlCliente (IdCalificacionServicioAlCliente),
+	CONSTRAINT FK_CalificacionVisita_IdCalificacionRecorrido FOREIGN KEY (IdCalificacionRecorrido) REFERENCES CalificacionRecorrido (IdCalificacionRecorrido),
+    CONSTRAINT FK_CalificacionVisita_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada)
+);
+
+
+
+USE ZooMA
+GO
+CREATE TABLE Alimentos (
+    IdAlimentos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR (20) NOT NULL
+);
+
+USE ZooMA
+GO
+CREATE TABLE DietaAlimentos (
+    IdDietaAlimentos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdDieta INT NOT NULL,
+    IdAlimentos  INT NOT NULL,
+    CONSTRAINT FK_DietaAlimentos_IdDieta FOREIGN KEY (IdDieta) REFERENCES Dieta (IdDieta),
+    CONSTRAINT FK_DietaAlimentos_IdAlimentos FOREIGN KEY (IdAlimentos) REFERENCES Alimentos (IdAlimentos)
+);
+
+--FIN Creación de tablas
+
+
+
+--Parte 4: Tablas de Auditorias
+USE ZooMA
+GO
+CREATE TABLE Audit_EstadoSalud (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdEstadoSalud INT,
+    EstadoSalud VARCHAR(255),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Especie (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdEspecie INT,
+    NombreEsp VARCHAR(20),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Dieta (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdDieta INT,
+    NombreDiet VARCHAR(20),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_TipoHabitacion (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdTipoHabitacion INT,
+    NombreTH VARCHAR(75),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Visitantes (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdVisitantes INT,
+    NombreVist VARCHAR(20),
+    Apell1Vist VARCHAR(20),
+	Apell2Vist VARCHAR(20),
+	CorreoElectronico VARCHAR (50),
+	Telefono INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_TipoEntrada (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdTipoEntrada INT,
+    NombreEnt VARCHAR(20),
+    Precio MONEY,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_EstadoHabitacion (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdEstadoHabitacion INT,
+    Estado VARCHAR(255),
+    Descripcion VARCHAR(255),
+    Fecha DATE,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Empleado (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdEmpleado INT,
+    Nombre VARCHAR(20),
+    Apellido1 VARCHAR(20),
+    Apellido2 VARCHAR(20),
+	Correo VARCHAR (50),
+    IdPuesto INT,
+    IdZoo INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Puesto (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdPuesto INT,
+    Nombre VARCHAR(100),
+    Salario FLOAT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Tareas (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdTareas INT,
+    Nombre VARCHAR(20),
+    IdTipoTarea INT,
+    IdEmpleado INT,
+    IdEstadoTarea INT NOT NULL,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_EstadoTarea (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20), 
+    Operacion VARCHAR(10),
+    IdEstadoTarea INT,
+    Nombre VARCHAR(20),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_CalificacionVisita (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdCalificacionVisita INT,
+    SugerenciaMejora VARCHAR(255),
+    Fecha DATE,
+    IdVentaEntrada INT,
+	IdCalificacionRecorrido INT,
+	IdRecorrido INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+USE ZooMA
+GO
+CREATE TABLE Audit_MetodoPago (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdMetodoPago INT,
+    MetodoPago VARCHAR(255),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Rol (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdRol INT,
+    Nombre VARCHAR(20),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Usuario (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdUsuario INT,
+    Contraseña VARCHAR(20),
+    Estado BIT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Habitacion (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdHabitacion INT,
+    NombreHab VARCHAR(20),
+    Direccion VARCHAR(100),
+    Capacidad INT,
+    IdTipoHabitacion INT,
+    IdEstadoHabitacion INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_ZOO (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdZoo INT,
+    NombreZoo VARCHAR(20),
+    Direccion VARCHAR(100),
+    DescripcionZoo VARCHAR(255),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Animales (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdAnimales INT,
+    NombreAni VARCHAR(20),
+    EdadAni INT,
+    IdDieta INT,
+    IdHabitacion INT,
+    IdEspecie INT,
+    IdEstadoSalud INT,
+    IdZoo INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+
+USE ZooMA
+GO
+CREATE TABLE Audit_Alimentos (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdAlimentos INT,
+    Nombre VARCHAR(20),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_CalificacionServicioAlCliente (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdCalificacionServicioAlCliente INT,
+    Nota VARCHAR(20),
+	SugerenciaMejora VARCHAR (255),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+
+USE ZooMA
+GO
+CREATE TABLE Audit_CalificacionRecorrido (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdCalificacionRecorrido INT,
+    Nota VARCHAR(20),
+	SugerenciaMejora VARCHAR (255),
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
+--FIN Tablas Auditorias
+
+
+
+GO
+
+--table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
+USE ZooMA;
+GO
+IF EXISTS (SELECT * FROM sys.types WHERE is_table_type = 1 AND name = 'DetalleVentaTableType')
+  DROP TYPE DetalleVentaTableType;
+GO
+CREATE TYPE DetalleVentaTableType AS TABLE
+(
+    IdEntrada INT NOT NULL,
+    Cantidad INT NOT NULL
+
+);
+
+GO
+
+--table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
+ DROP TYPE if exists AlimentosDeDietaTableType
+ GO
+CREATE TYPE AlimentosDeDietaTableType AS TABLE
+(
+    IdAlimentos INT NOT NULL
+);
+
+
+GO
+
+
+
+USE ZooMA
+go
+DROP function IF EXISTS CalcularPrecioEntrada
+go
+CREATE FUNCTION dbo.CalcularPrecioEntrada(@IdEntrada INT, @Cantidad INT)
+RETURNS DECIMAL(10, 2)
+AS
+BEGIN
+    DECLARE @Precio DECIMAL(10, 2);
+    
+    -- Obtener el precio y el descuento de la entrada
+    SET @Precio = (SELECT  (TP.Precio - (TP.Precio * (ISNULL(E.descuento, 0)/100.0)))* @Cantidad  FROM Entrada E 
+    INNER JOIN TipoEntrada TP ON E.IdTipoEntrada = TP.IdTipoEntrada WHERE E.IdEntrada = @IdEntrada);
+    RETURN @Precio;
+END
+
+GO
+
 --Parte 7: SP Insert
 use ZooMA
 GO
@@ -4397,6 +5141,2308 @@ BEGIN
     END CATCH
 END;
 --FIN SP Eliminar
+
+
+GO
+
+--realizar la operacion de venta
+--realizar la operacion de venta
+use ZooMA
+GO
+IF OBJECT_ID('SP_EJECUTAR_VENTA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_EJECUTAR_VENTA;
+GO
+go
+CREATE PROCEDURE SP_EJECUTAR_VENTA(
+    @IdVisitantes INT,
+    @IdMetodoPago INT,
+	@Cedula VARCHAR(25),
+    @Detalles DetalleVentaTableType READONLY
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        DECLARE @IdVentaEntrada INT;
+
+        IF NOT EXISTS (SELECT * FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
+        BEGIN
+            RAISERROR ('El visitante no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT * FROM MetodoPago WHERE IdMetodoPago = @IdMetodoPago)
+        BEGIN
+            RAISERROR ('El metodo de pago no existe', 16, 1);
+        END
+
+        IF(select count(*) from @Detalles) = 0
+        BEGIN
+            RAISERROR ('No se han ingresado detalles', 16, 1);
+        END
+
+        IF  EXISTS(SELECT 1 FROM @Detalles D  WHERE NOT EXISTS (SELECT 1 FROM Entrada E WHERE E.IdEntrada = D.IdEntrada))
+        BEGIN
+            RAISERROR ('Uno o mas id de entrada no son validas', 16, 1);
+        END 
+        INSERT INTO VentaEntrada (Fechaventa, IdVisitantes, IdMetodoPago, IdEmpleado)
+        VALUES (GETDATE(), @IdVisitantes, @IdMetodoPago, @Cedula );
+
+        SET @IdVentaEntrada = SCOPE_IDENTITY();
+
+        INSERT INTO DetalleVenta (IdEntrada, IdVentaEntrada, Cantidad, Precio)
+        SELECT IdEntrada, @IdVentaEntrada, Cantidad, dbo.CalcularPrecioEntrada(IdEntrada, Cantidad)
+        FROM @Detalles;
+        
+        COMMIT TRANSACTION;
+      
+
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+
+
+
+
+GO
+
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_INGRESAR_DIETA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_INGRESAR_DIETA;
+GO
+CREATE PROCEDURE SP_INGRESAR_DIETA(
+    @NombreDiet VARCHAR(20),
+    @Cedula VARCHAR(20),
+    @Alimentos AlimentosDeDietaTableType READONLY
+)
+AS
+BEGIN
+    EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+    DECLARE @IdDieta INT;
+
+        IF (@NombreDiet = '' OR @Cedula = '')
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        IF EXISTS (SELECT 1 FROM Dieta WHERE NombreDiet = @NombreDiet)
+        BEGIN
+			RAISERROR ('La dieta ya existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF(select count(*) from @Alimentos) = 0
+        BEGIN
+            RAISERROR ('No se han ingresado alimentos a la dieta', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF  EXISTS(SELECT 1 FROM @Alimentos AL   WHERE NOT EXISTS (SELECT 1 FROM Alimentos A WHERE A.IdAlimentos = AL.IdAlimentos))
+        BEGIN
+            RAISERROR ('Uno o mas id de Alimentos no son validas', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END 
+
+        INSERT INTO Dieta (NombreDiet)
+        VALUES (@NombreDiet);
+
+        
+        SET @IdDieta = SCOPE_IDENTITY();
+
+        INSERT INTO DietaAlimentos (IdDieta, IdAlimentos) 
+        SELECT @IdDieta, IdAlimentos FROM @Alimentos;
+
+        COMMIT TRANSACTION;
+        SELECT 'Dieta registrada correctamente: ' + @NombreDiet AS 'Mensaje de Confirmación';
+        
+    END TRY
+    BEGIN CATCH
+
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(200);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
+    END CATCH
+END
+GO
+
+
+
+
+
+--ingresar nueva tarea de control animal
+--ingresar nueva tarea de control animal
+use ZooMA
+GO
+IF OBJECT_ID('SP_AGREGAR_TAREA_CONTROL_ANIMAL', 'P') IS NOT NULL
+   DROP PROCEDURE SP_AGREGAR_TAREA_CONTROL_ANIMAL;
+GO
+go
+CREATE PROCEDURE SP_AGREGAR_TAREA_CONTROL_ANIMAL(
+    @IdEmpleado INT,
+    @IdAnimales INT,
+    @Nombre VARCHAR(50),
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        DECLARE @IdTarea INT;
+
+		IF(@IdEmpleado IS NULL OR @IdAnimales IS NULL OR @Nombre = '' OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+        BEGIN
+            RAISERROR ('El empleado no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Animales WHERE IdAnimales = @IdAnimales)
+        BEGIN
+            RAISERROR ('El animal no existe', 16, 1);
+        END
+		
+        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.IdPuesto = 1)
+        BEGIN
+            RAISERROR ('El empleado seleccionado no es veterinario, por lo tanto no puede realizar esta tarea', 16, 1);
+        END 
+
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
+        VALUES (@IdEmpleado, 1,1,GETDATE() );  --se agrega con 1 el cual es el estado pendieente y tarea medica
+
+        SET @IdTarea = SCOPE_IDENTITY();
+
+        INSERT INTO ControlAnimal (IdTareas, IdAnimales, Nombre)
+        VALUES (@IdTarea, @IdAnimales, @Nombre)
+		COMMIT TRANSACTION
+        
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+
+
+
+GO
+use ZooMA
+GO
+IF OBJECT_ID('SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION;
+GO
+go
+CREATE PROCEDURE SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION(
+	@IdEmpleado INT,
+    @IdHabitacion INT,
+    @Nombre VARCHAR(50),
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        DECLARE @IdTarea INT;
+
+		IF(@IdEmpleado IS NULL OR @IdHabitacion IS NULL OR @Nombre = '' OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+        BEGIN
+            RAISERROR ('El empleado no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+            RAISERROR ('La habitacion no existe', 16, 1);
+        END
+		
+        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.IdPuesto = 2)
+        BEGIN
+            RAISERROR ('El empleado seleccionado no es Cuidador de habitads, por lo tanto no puede realizar esta tarea', 16, 1);
+        END 
+
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
+        VALUES (@IdEmpleado, 2,1,GETDATE() );  
+
+        SET @IdTarea = SCOPE_IDENTITY();
+
+        INSERT INTO MantenimientoHabitacion (IdTareas, IdHabitacion, Nombre)
+        VALUES (@IdTarea, @IdHabitacion, @Nombre)
+		COMMIT TRANSACTION
+        
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
+
+use ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_ESTADO_TAREA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA;
+GO
+go
+CREATE PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA(
+    @IdEstadoTarea INT,
+	@IdTarea INT,
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+    BEGIN TRY
+
+		IF(@IdEstadoTarea IS NULL OR @IdTarea IS NULL  OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Tareas WHERE IdTareas = @IdTarea)
+        BEGIN
+            RAISERROR ('La tarea no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoTarea WHERE IdEstadoTarea = @IdEstadoTarea)
+        BEGIN
+            RAISERROR ('El estado tarea no existe', 16, 1);
+        END
+		
+		DECLARE @IdEmpleadoEncargado INT
+
+		SET @IdEmpleadoEncargado = (SELECT IdEmpleado FROM Tareas WHERE IdTareas = @IdTarea)
+		print(@IdEmpleadoEncargado + ' ' + @Cedula)
+        IF (@IdEmpleadoEncargado <> @Cedula)
+        BEGIN
+            RAISERROR ('Solamente el encargado de la tarea puede cambiar su estado', 16, 1);
+        END 
+
+		UPDATE Tareas
+		SET IdEstadoTarea = @IdEstadoTarea
+		WHERE IdTareas = @IdTarea
+        
+        
+    END TRY
+    BEGIN CATCH
+        
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+
+
+GO
+--Parte 5: Trigger
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_ZOO', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_ZOO;
+GO
+CREATE TRIGGER trg_Audit_ZOO
+ON ZOO
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'ZOO';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM inserted)
+       AND NOT EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM inserted)
+       AND EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM deleted)
+       AND NOT EXISTS (SELECT IdZoo, NombreZoo, Direccion, DescripcionZoo FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_ZOO (NombreTabla, Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdZoo, NombreZoo, Direccion, DescripcionZoo, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Habitacion', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Habitacion;
+GO
+CREATE TRIGGER trg_Audit_Habitacion
+ON Habitacion
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Habitacion';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion FROM inserted)
+       AND NOT EXISTS (SELECT IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Habitacion (NombreTabla, Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion,IdEstadoHabitacion, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, IdEstadoHabitacion,@Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion FROM inserted)
+       AND EXISTS (SELECT IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Habitacion (NombreTabla, Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion,IdEstadoHabitacion, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion,IdEstadoHabitacion, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion FROM deleted)
+       AND NOT EXISTS (SELECT IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Habitacion (NombreTabla, Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion,IdEstadoHabitacion, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdHabitacion, NombreHab, Direccion, Capacidad, IdTipoHabitacion, IdEstadoHabitacion, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Animales', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Animales;
+GO
+CREATE TRIGGER trg_Audit_Animales
+ON Animales
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Animales';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM inserted)
+       AND NOT EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM inserted)
+       AND EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM deleted)
+       AND NOT EXISTS (SELECT IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Animales (NombreTabla, Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdAnimales, NombreAni, EdadAni, IdDieta, IdHabitacion, IdEspecie, IdEstadoSalud, IdZoo, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Especies', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Especies;
+GO
+CREATE TRIGGER trg_Audit_Especies
+ON Especie
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Especies';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdEspecie, NombreEsp FROM inserted)
+       AND NOT EXISTS (SELECT IdEspecie, NombreEsp FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Especie (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdEspecie, NombreEsp FROM inserted)
+       AND EXISTS (SELECT IdEspecie, NombreEsp FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Especies (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdEspecie, NombreEsp FROM deleted)
+       AND NOT EXISTS (SELECT IdEspecie, NombreEsp FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Especies (NombreTabla, Operacion, IdEspecie, NombreEsp, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEspecie, NombreEsp, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_EstadoSalud', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_EstadoSalud;
+GO
+CREATE TRIGGER trg_Audit_EstadoSalud
+ON EstadoSalud
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'EstadoSalud';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdEstadoSalud, estadoSalud FROM inserted)
+       AND NOT EXISTS (SELECT IdEstadoSalud, estadoSalud FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_EstadoSalud (NombreTabla, Operacion, IdEstadoSalud, EstadoSalud, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdEstadoSalud, estadoSalud FROM inserted)
+       AND EXISTS (SELECT IdEstadoSalud, estadoSalud FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_EstadoSalud (NombreTabla, Operacion, IdEstadoSalud, EstadoSalud, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdEstadoSalud, estadoSalud FROM deleted)
+       AND NOT EXISTS (SELECT IdEstadoSalud, estadoSalud FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_EstadoSalud (NombreTabla, Operacion, IdEstadoSalud, EstadoSalud, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoSalud, estadoSalud, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Dieta', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Dieta;
+GO
+CREATE TRIGGER trg_Audit_Dieta
+ON Dieta
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Dieta';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdDieta, NombreDiet FROM inserted)
+       AND NOT EXISTS (SELECT IdDieta, NombreDiet FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdDieta, NombreDiet, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdDieta, NombreDiet FROM inserted)
+       AND EXISTS (SELECT IdDieta, NombreDiet FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdDieta, NombreDiet, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdDieta, NombreDiet FROM deleted)
+       AND NOT EXISTS (SELECT IdDieta, NombreDiet FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Dieta (NombreTabla, Operacion, IdDieta, NombreDiet, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdDieta, NombreDiet, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_TipoHabitacion', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_TipoHabitacion;
+GO
+CREATE TRIGGER trg_Audit_TipoHabitacion
+ON TipoHabitacion
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'TipoHabitacion';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdTipoHabitacion, NombreTH FROM inserted)
+       AND NOT EXISTS (SELECT IdTipoHabitacion, NombreTH FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_TipoHabitacion (NombreTabla, Operacion, IdTipoHabitacion, NombreTH, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdTipoHabitacion, NombreTH FROM inserted)
+       AND EXISTS (SELECT IdTipoHabitacion, NombreTH FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_TipoHabitacion (NombreTabla, Operacion, IdTipoHabitacion, NombreTH, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdTipoHabitacion, NombreTH FROM deleted)
+       AND NOT EXISTS (SELECT IdTipoHabitacion, NombreTH FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_TipoHabitacion (NombreTabla, Operacion, IdTipoHabitacion, NombreTH, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoHabitacion, NombreTH, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+
+
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Visitantes', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Visitantes;
+GO
+CREATE TRIGGER trg_Audit_Visitantes
+ON Visitantes
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Visitantes';
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM inserted)
+       AND NOT EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist , CorreoElectronico, Telefono FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, CorreoElectronico, Telefono, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM inserted)
+       AND EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, apell2Vist, CorreoElectronico, Telefono, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM deleted)
+       AND NOT EXISTS (SELECT IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Visitantes (NombreTabla, Operacion, IdVisitantes, NombreVist, Apell1Vist, Apell2Vist, CorreoElectronico, Telefono, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVisitantes, nombreVist, apell1Vist, apell2Vist, CorreoElectronico, Telefono, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_TipoEntrada', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_TipoEntrada;
+GO
+CREATE TRIGGER trg_Audit_TipoEntrada
+ON TipoEntrada
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'TipoEntrada';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM inserted)
+       AND NOT EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM inserted)
+       AND EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdTipoEntrada, nombreEnt,Precio FROM deleted)
+       AND NOT EXISTS (SELECT IdTipoEntrada, nombreEnt, Precio FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_TipoEntrada (NombreTabla, Operacion, IdTipoEntrada, NombreEnt, Precio, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTipoEntrada, nombreEnt, Precio, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_EstadoHabitacion', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_EstadoHabitacion;
+GO
+CREATE TRIGGER trg_Audit_EstadoHabitacion
+ON EstadoHabitacion
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'EstadoHabitacion';
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdEstadoHabitacion FROM inserted)
+       AND NOT EXISTS (SELECT IdEstadoHabitacion, estado FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_EstadoHabitacion (NombreTabla, Operacion, IdEstadoHabitacion, Estado,  RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdEstadoHabitacion FROM inserted)
+       AND EXISTS (SELECT IdEstadoHabitacion FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_EstadoHabitacion (NombreTabla, Operacion, IdEstadoHabitacion, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdEstadoHabitacion, estado FROM deleted)
+       AND NOT EXISTS (SELECT IdEstadoHabitacion, estado FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_EstadoHabitacion (NombreTabla, Operacion, IdEstadoHabitacion, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoHabitacion, estado, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Empleado', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Empleado;
+GO
+CREATE TRIGGER trg_Audit_Empleado
+ON Empleado
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Empleado';
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, Correo, IdZoo FROM inserted)
+       AND NOT EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2, Correo, IdPuesto, IdZoo FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM inserted)
+       AND EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM deleted)
+    AND NOT EXISTS (SELECT IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Empleado (NombreTabla, Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEmpleado, Nombre, Apellido1, Apellido2,Correo, IdPuesto, IdZoo, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Puesto', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Puesto;
+GO
+CREATE TRIGGER trg_Audit_Puesto
+ON Puesto
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Puesto';
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdPuesto, Nombre, Salario FROM inserted)
+       AND NOT EXISTS (SELECT IdPuesto, Nombre, Salario FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Puesto (NombreTabla, Operacion, IdPuesto, Nombre, Salario, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdPuesto, Nombre, Salario FROM inserted)
+       AND EXISTS (SELECT IdPuesto, Nombre, Salario FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Puesto (NombreTabla, Operacion, IdPuesto, Nombre, Salario, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdPuesto, Nombre, Salario FROM deleted)
+       AND NOT EXISTS (SELECT IdPuesto, Nombre, Salario FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Puesto (NombreTabla, Operacion, IdPuesto, Nombre, Salario, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdPuesto, Nombre, Salario, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Tareas', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Tareas;
+GO
+CREATE TRIGGER trg_Audit_Tareas
+ON Tareas
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Tareas';
+	
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdTareas, IdEmpleado FROM inserted)
+       AND NOT EXISTS (SELECT IdTareas, IdEmpleado FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, IdEmpleado,IdEstadoTarea, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTareas, IdEmpleado,IdEstadoTarea, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdTareas, IdEmpleado FROM inserted)
+       AND EXISTS (SELECT IdTareas, IdEmpleado FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, IdEmpleado,IdEstadoTarea, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTareas, IdEmpleado,IdEstadoTarea, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdTareas, IdEmpleado FROM deleted)
+       AND NOT EXISTS (SELECT IdTareas, IdEmpleado FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Tareas (NombreTabla, Operacion, IdTareas, IdEmpleado,IdEstadoTarea, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdTareas, IdEmpleado,IdEstadoTarea, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_EstadoTarea', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_EstadoTarea;
+GO
+
+CREATE TRIGGER trg_Audit_EstadoTarea
+ON EstadoTarea
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'EstadoTarea';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdEstadoTarea, Nombre FROM inserted)
+       AND NOT EXISTS (SELECT IdEstadoTarea, Nombre FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_EstadoTarea (NombreTabla, Operacion, IdEstadoTarea, Nombre, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdEstadoTarea, Nombre FROM inserted)
+       AND EXISTS (SELECT IdEstadoTarea, Nombre FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_EstadoTarea (NombreTabla, Operacion, IdEstadoTarea, Nombre, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdEstadoTarea, Nombre FROM deleted)
+       AND NOT EXISTS (SELECT IdEstadoTarea, Nombre FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_EstadoTarea (NombreTabla, Operacion, IdEstadoTarea, Nombre, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdEstadoTarea, Nombre, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_VentaEntrada', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_VentaEntrada;
+GO
+CREATE TRIGGER trg_Audit_VentaEntrada
+ON VentaEntrada
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128) = SYSTEM_USER;
+    DECLARE @TableName VARCHAR(100) = 'VentaEntrada';
+
+    IF EXISTS (SELECT * FROM inserted) AND EXISTS (SELECT * FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+    END
+    ELSE IF EXISTS (SELECT * FROM inserted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+    END
+    ELSE IF EXISTS (SELECT * FROM deleted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+    END
+
+    IF @Operacion IN ('INSERT', 'UPDATE')
+    BEGIN
+        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, IdVisitante, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, IdVisitantes, IdMetodoPago, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    IF @Operacion = 'DELETE'
+    BEGIN
+        INSERT INTO Audit_VentaEntrada (NombreTabla, Operacion, IdVentaEntrada, fechaventa, IdVisitante, IdMetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdVentaEntrada, fechaventa, IdVisitantes, IdMetodoPago, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_MetodoPago', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_MetodoPago;
+GO
+
+CREATE TRIGGER trg_Audit_MetodoPago
+ON MetodoPago
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'MetodoPago';
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdMetodoPago, MetodoPago FROM inserted)
+       AND NOT EXISTS (SELECT IdMetodoPago, MetodoPago FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_MetodoPago (NombreTabla, Operacion, IdMetodoPago, MetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdMetodoPago, MetodoPago FROM inserted)
+       AND EXISTS (SELECT IdMetodoPago, MetodoPago FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_MetodoPago (NombreTabla, Operacion, IdMetodoPago, MetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdMetodoPago, MetodoPago FROM deleted)
+       AND NOT EXISTS (SELECT IdMetodoPago, MetodoPago FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_MetodoPago (NombreTabla, Operacion, IdMetodoPago, MetodoPago, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdMetodoPago, MetodoPago, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_CalificacionVisita', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_CalificacionVisita;
+GO
+CREATE TRIGGER trg_Audit_CalificacionVisita
+ON CalificacionVisita
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'CalificacionVisita';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM inserted)
+       AND NOT EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM inserted)
+       AND EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM deleted)
+       AND NOT EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Rol', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Rol;
+GO
+
+CREATE TRIGGER trg_Audit_Rol
+ON Rol
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Rol';
+
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdRol, Nombre FROM inserted)
+       AND NOT EXISTS (SELECT IdRol, Nombre FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Rol (NombreTabla, Operacion, IdRol, Nombre, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdRol, Nombre, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdRol, Nombre FROM inserted)
+       AND EXISTS (SELECT IdRol, Nombre FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Rol (NombreTabla, Operacion, IdRol, Nombre, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdRol, Nombre, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdRol, Nombre FROM deleted)
+       AND NOT EXISTS (SELECT IdRol, Nombre FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Rol (NombreTabla, Operacion, IdRol, Nombre, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdRol, Nombre, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('trg_Audit_Usuario', 'TR') IS NOT NULL
+   DROP TRIGGER trg_Audit_Usuario;
+GO
+
+CREATE TRIGGER trg_Audit_Usuario
+ON Usuario
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Operacion VARCHAR(10);
+    DECLARE @User VARCHAR(128);
+    DECLARE @TableName VARCHAR(100) = 'Usuario';
+	DECLARE @Cedula VARCHAR(20) = CONVERT(VARCHAR(20), SESSION_CONTEXT(N'CedulaUsuario'));
+    SET @User = SYSTEM_USER;
+
+    -- INSERT
+    IF EXISTS (SELECT IdUsuario, Contraseña, Estado FROM inserted)
+       AND NOT EXISTS (SELECT IdUsuario, Contraseña, Estado FROM deleted)
+    BEGIN
+        SET @Operacion = 'INSERT';
+
+        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, Estado, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- UPDATE
+    IF EXISTS (SELECT IdUsuario, Contraseña, Estado FROM inserted)
+       AND EXISTS (SELECT IdUsuario, Contraseña, Estado FROM deleted)
+    BEGIN
+        SET @Operacion = 'UPDATE';
+
+        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, Estado, @Cedula, GETDATE()
+        FROM inserted;
+    END
+
+    -- DELETE
+    IF EXISTS (SELECT IdUsuario, Contraseña, Estado FROM deleted)
+       AND NOT EXISTS (SELECT IdUsuario, Contraseña, Estado FROM inserted)
+    BEGIN
+        SET @Operacion = 'DELETE';
+
+        INSERT INTO Audit_Usuario (NombreTabla, Operacion, IdUsuario, Contraseña, Estado, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdUsuario, Contraseña, Estado, @Cedula, GETDATE()
+        FROM deleted;
+    END
+END
+GO
+--FIN Trigger
+
+
+GO
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_REGISTER','P') IS NOT NULL
+    DROP PROCEDURE SP_REGISTER;
+GO
+CREATE PROCEDURE SP_REGISTER(
+    @IdEmpleado VARCHAR(20),
+    @Nombre VARCHAR(20),
+    @Apellido1 VARCHAR(20),
+    @Apellido2 VARCHAR(20),
+    @Correo VARCHAR(50),
+    @IdPuesto INT,
+    @Contraseña VARCHAR(20),
+    @IdRol INT,
+    @RolFechaInicio DATE,
+    @RolFechaFin DATE,
+    @Cedula VARCHAR(20),
+    @Estado INT = 1 -- 1 = Activo, 0 = Inactivo
+)
+AS
+BEGIN
+ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+
+ BEGIN TRANSACTION;
+ BEGIN TRY
+
+  IF (@IdEmpleado IS NULL OR @Nombre IS NULL OR @Apellido1 IS NULL OR @Apellido2 IS NULL OR @IdPuesto IS NULL OR @Contraseña IS NULL OR @IdRol IS NULL OR @RolFechaInicio IS NULL OR @RolFechaFin IS NULL OR @Cedula IS NULL)
+  BEGIN
+    RAISERROR('Todos los campos son requeridos', 16, 1);
+    RETURN;
+  END
+
+
+  IF EXISTS (SELECT IdEmpleado FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+  BEGIN
+    RAISERROR('El empleado ya existe', 16, 1);
+    RETURN;
+  END
+
+  IF NOT EXISTS (SELECT IdRol FROM Rol WHERE IdRol = @IdRol)
+  BEGIN
+    RAISERROR('El rol no existe', 16, 1);
+    RETURN;
+  END
+
+  IF NOT EXISTS (SELECT IdPuesto FROM Puesto WHERE IdPuesto = @IdPuesto)
+  BEGIN
+    RAISERROR('El puesto no existe', 16, 1);
+    RETURN;
+  END
+
+  
+
+    
+        INSERT INTO Empleado (IdEmpleado, Nombre, Apellido1, Apellido2, IdPuesto, Correo)
+        VALUES (@IdEmpleado, @Nombre, @Apellido1, @Apellido2, @IdPuesto, @Correo);
+
+        INSERT INTO Usuario (IdUsuario, Contraseña, Estado)
+        VALUES (@IdEmpleado, @Contraseña, @Estado);
+
+        INSERT INTO RolUsuario (IdRol, IdUsuario, FechaInicio, FechaFin)
+        VALUES (@IdRol, @IdEmpleado, @RolFechaInicio, @RolFechaFin);
+
+        COMMIT TRANSACTION;
+    END TRY
+
+
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SET @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR(@ErrorMessage, 16, 1);
+    END CATCH
+
+END
+
+
+
+
+
+GO
+
+
+USE ZooMA
+GO
+IF OBJECT_ID('SP_LOGIN','P') IS NOT NULL
+    DROP PROCEDURE SP_LOGIN;
+GO
+CREATE PROCEDURE SP_LOGIN(
+    @IdEmpleado VARCHAR(20),
+    @Contraseña VARCHAR(20) 
+)
+AS
+BEGIN
+
+  IF (@IdEmpleado IS NULL OR @Contraseña IS NULL)
+  BEGIN
+    RAISERROR('Todos los campos son requeridos', 16, 1);
+    RETURN;
+  END
+
+    BEGIN TRY
+        
+        IF NOT EXISTS(SELECT IdUsuario FROM Usuario WHERE IdUsuario = @IdEmpleado AND Contraseña = @Contraseña AND Estado = 1)
+        BEGIN
+            RAISERROR('Credenciales incorrectos', 16, 1);
+            RETURN;
+        END
+
+      
+    END TRY
+
+
+    BEGIN CATCH
+        
+        DECLARE @ErrorMessage VARCHAR(100);
+        SET @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR(@ErrorMessage, 16, 1);
+    END CATCH
+
+END
+
+GO
+
+USE ZooMA
+GO
+DECLARE @CedulaCreador VARCHAR(20) = '504420108';
+
+
+-- Insertar un registro en la tabla ZOO
+EXEC SP_INGRESAR_ZOO 
+    @NombreZoo = 'Zoo Maravillas', 
+    @Direccion = 'Avenida de los Animales 123', 
+    @DescripcionZoo = 'Un zoológico dedicado a la conservación de la fauna', 
+    @Cedula = @CedulaCreador;
+
+-- Insertar registros en la tabla Puesto
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario', @Salario = 2000.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Cuidador de Habitaciones', @Salario = 1200.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Secretaria', @Salario = 1100.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Guía de Zoológico', @Salario = 1300.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Encargado de Alimentación', @Salario = 1250.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario Asistente', @Salario = 1500.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Técnico en Manejo Animal', @Salario = 1400.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Investigador de Fauna', @Salario = 1600.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Coordinador de Actividades', @Salario = 1350.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Asistente de Veterinario', @Salario = 1550.00, @Cedula = @CedulaCreador;
+
+-- Insertar registros en la tabla Rol
+EXEC SP_INGRESAR_ROL @nombre = 'ADMIN', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ROL @nombre = 'USER', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ROL @nombre = 'SELLER', @Cedula = @CedulaCreador;
+
+
+-- Ingresar empleados utilizando el procedimiento almacenado SP_REGISTER
+
+-- Registro 1 - ADMIN
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420108', 
+    @Nombre = 'Marco', 
+    @Apellido1 = 'Cortes', 
+    @Apellido2 = 'Castillo', 
+    @Correo = 'marcortes.stiven@gmail.com', 
+    @IdPuesto = 1, 
+    @Contraseña = 'cortes10', 
+    @IdRol = 1, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;
+
+-- Registro 2 - ADMIN
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420109', 
+    @Nombre = 'Laura', 
+    @Apellido1 = 'Fernández', 
+    @Apellido2 = 'Martínez', 
+    @Correo = 'laura.fernandez@gmail.com', 
+    @IdPuesto = 2, 
+    @Contraseña = 'laura123', 
+    @IdRol = 1, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador; 
+
+-- Registro 3 - USER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420110', 
+    @Nombre = 'Luis', 
+    @Apellido1 = 'Pérez', 
+    @Apellido2 = 'García', 
+    @Correo = 'luis.perez@gmail.com', 
+    @IdPuesto = 3,
+    @Contraseña = 'luis123', 
+    @IdRol = 2, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;  
+
+-- Registro 4 - SELLER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420111', 
+    @Nombre = 'Ana', 
+    @Apellido1 = 'Sánchez', 
+    @Apellido2 = 'Moreno', 
+    @Correo = 'ana.sanchez@gmail.com', 
+    @IdPuesto = 4,
+    @Contraseña = 'ana123', 
+    @IdRol = 3, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;  
+
+-- Registro 5 - USER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420112', 
+    @Nombre = 'Carlos', 
+    @Apellido1 = 'Ramírez', 
+    @Apellido2 = 'Soto', 
+    @Correo = 'carlos.ramirez@gmail.com', 
+    @IdPuesto = 5, 
+    @Contraseña = 'carlos123', 
+    @IdRol = 2, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador; 
+
+-- Registro 6 - SELLER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420113', 
+    @Nombre = 'Sofia', 
+    @Apellido1 = 'López', 
+    @Apellido2 = 'Jiménez', 
+    @Correo = 'sofia.lopez@gmail.com', 
+    @IdPuesto = 6, 
+    @Contraseña = 'sofia123', 
+    @IdRol = 3, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = null, 
+    @Cedula = @CedulaCreador; 
+
+-- Registro 7 - ADMIN
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420114', 
+    @Nombre = 'Pedro', 
+    @Apellido1 = 'Hernández', 
+    @Apellido2 = 'Rivas', 
+    @Correo = 'pedro.hernandez@gmail.com', 
+    @IdPuesto = 1, 
+    @Contraseña = 'pedro123', 
+    @IdRol = 1, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;
+
+-- Registro 8 - USER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420115', 
+    @Nombre = 'Jorge', 
+    @Apellido1 = 'González', 
+    @Apellido2 = 'López', 
+    @Correo = 'jorge.gonzalez@gmail.com', 
+    @IdPuesto = 2, 
+    @Contraseña = 'jorge123', 
+    @IdRol = 2, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador; 
+
+-- Registro 9 - SELLER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420116', 
+    @Nombre = 'Elena', 
+    @Apellido1 = 'Vega', 
+    @Apellido2 = 'Mora', 
+    @Correo = 'elena.vega@gmail.com', 
+    @IdPuesto = 3,
+    @Contraseña = 'elena123', 
+    @IdRol = 3, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;  
+
+-- Registro 10 - USER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420117', 
+    @Nombre = 'Natalia', 
+    @Apellido1 = 'Salas', 
+    @Apellido2 = 'Pérez', 
+    @Correo = 'natalia.salas@gmail.com', 
+    @IdPuesto = 4, 
+    @Contraseña = 'natalia123', 
+    @IdRol = 2, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador; 
+
+-- Registro 11 - ADMIN
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420118', 
+    @Nombre = 'Ricardo', 
+    @Apellido1 = 'Mendez', 
+    @Apellido2 = 'Reyes', 
+    @Correo = 'ricardo.mendez@gmail.com', 
+    @IdPuesto = 5, 
+    @Contraseña = 'ricardo123', 
+    @IdRol = 1, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;
+
+-- Registro 12 - SELLER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420119', 
+    @Nombre = 'Gabriel', 
+    @Apellido1 = 'Cáceres', 
+    @Apellido2 = 'González', 
+    @Correo = 'gabriel.caceres@gmail.com', 
+    @IdPuesto = 6, 
+    @Contraseña = 'gabriel123', 
+    @IdRol = 3, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;  
+
+
+
+-- Llamadas para registrar tipos de habitación
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Jaula Terrestre', @Cedula = @CedulaCreador; -- Para mamíferos terrestres
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Acuario', @Cedula = @CedulaCreador; -- Para animales acuáticos
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Terrario', @Cedula = @CedulaCreador; -- Para reptiles y anfibios
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Recinto de Aves', @Cedula = @CedulaCreador; -- Para aves
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Zona de Safari', @Cedula = @CedulaCreador; -- Para grandes herbívoros en un entorno natural
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Establo de Animales de Granja', @Cedula = @CedulaCreador; -- Para animales de granja
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Acuario de Aves', @Cedula = @CedulaCreador; -- Para aves acuáticas
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Recinto de Animales Pequeños', @Cedula = @CedulaCreador; -- Para pequeños mamíferos
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Estación de Rehabilitación', @Cedula = @CedulaCreador; -- Para animales en recuperación
+EXEC SP_INGRESAR_TIPOHABITACION @NombreTH = 'Jaula de Caza', @Cedula = @CedulaCreador; -- Para depredadores
+
+
+
+
+
+EXEC SP_INGRESAR_ESTADOHABITACION 
+    @Estado = 'Buena',
+    @Cedula = @CedulaCreador;
+
+-- Estado de estructura: Regular
+EXEC SP_INGRESAR_ESTADOHABITACION 
+    @Estado = 'Regular',
+    @Cedula = @CedulaCreador;
+
+-- Estado de estructura: Deteriorada
+EXEC SP_INGRESAR_ESTADOHABITACION 
+    @Estado = 'Deteriorada',
+    @Cedula = @CedulaCreador;
+
+
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Reinos de los Felinos', 
+    @Direccion = '100 m al sur de la recepción', 
+    @Capacidad = 7, 
+    @IdTipoHabitacion = 1, -- Jaula Terrestre
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 1; -- Buena
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Mar de Colores', 
+    @Direccion = 'Frente a la entrada del acuario', 
+    @Capacidad = 50, 
+    @IdTipoHabitacion = 2, -- Acuario
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 2; -- Regular
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Mundo Reptil', 
+    @Direccion = '50 m a la izquierda del sendero principal', 
+    @Capacidad = 10, 
+    @IdTipoHabitacion = 3, -- Terrario
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 1; -- Buena
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Aves del Paraíso', 
+    @Direccion = 'Detrás de la tienda de souvenirs', 
+    @Capacidad = 20, 
+    @IdTipoHabitacion = 4, -- Recinto de Aves
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 3; -- Deteriorada
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Safari Soñado', 
+    @Direccion = 'A 200 m del zoológico, en la ruta del safari', 
+    @Capacidad = 6, 
+    @IdTipoHabitacion = 5, -- Zona de Safari
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 1; -- Buena
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Granja Encantada', 
+    @Direccion = 'Cerca del parque infantil, a la derecha', 
+    @Capacidad = 8, 
+    @IdTipoHabitacion = 6, -- Establo de Animales de Granja
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 2; -- Regular
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Pequeños Exploradores', 
+    @Direccion = '100 m al este del área de reptiles', 
+    @Capacidad = 10, 
+    @IdTipoHabitacion = 8, -- Recinto de Animales Pequeños
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 1; -- Buena
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Refugio de la Esperanza', 
+    @Direccion = 'A la izquierda de la entrada principal, junto al estanque', 
+    @Capacidad = 5, 
+    @IdTipoHabitacion = 9, -- Estación de Rehabilitación
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 3; -- Deteriorada
+
+EXEC SP_INGRESAR_HABITACION 
+    @NombreHab = 'Caza del Tigre', 
+    @Direccion = 'A 150 m al norte del área de mamíferos grandes', 
+    @Capacidad = 2, 
+    @IdTipoHabitacion = 10, -- Jaula de Caza
+    @Cedula = @CedulaCreador,
+    @IdEstadoHabitacion = 2; -- Regular
+
+
+
+
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'Efectivo', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'Tarjeta Débito', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'Tarjeta Crédito', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'Transferencia Bancaria', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'Pago Móvil', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'Cheque', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_METODO_PAGO @Metodopago = 'PayPal', @Cedula = @CedulaCreador;
+
+
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420101, 
+    @NombreVist = 'Juan', 
+    @Apell1Vist = 'Pérez', 
+    @Apell2Vist = 'García', 
+    @Correo = 'juan.perez@example.com', 
+    @TELEFONO = 12345678, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420102, 
+    @NombreVist = 'María', 
+    @Apell1Vist = 'Gómez', 
+    @Apell2Vist = 'López', 
+    @Correo = 'maria.gomez@example.com', 
+    @TELEFONO = 87654321, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420103, 
+    @NombreVist = 'Carlos', 
+    @Apell1Vist = 'Rodríguez', 
+    @Apell2Vist = 'Martínez', 
+    @Correo = 'carlos.rodriguez@example.com', 
+    @TELEFONO = 12349876, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420104, 
+    @NombreVist = 'Ana', 
+    @Apell1Vist = 'Fernández', 
+    @Apell2Vist = 'Ruiz', 
+    @Correo = 'ana.fernandez@example.com', 
+    @TELEFONO = 87651234, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420105, 
+    @NombreVist = 'José', 
+    @Apell1Vist = 'Sánchez', 
+    @Apell2Vist = 'Díaz', 
+    @Correo = 'jose.sanchez@example.com', 
+    @TELEFONO = 43219876, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420106, 
+    @NombreVist = 'Lucía', 
+    @Apell1Vist = 'Méndez', 
+    @Apell2Vist = 'Rojas', 
+    @Correo = 'lucia.mendez@example.com', 
+    @TELEFONO = 56781234, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420107, 
+    @NombreVist = 'Pedro', 
+    @Apell1Vist = 'Torres', 
+    @Apell2Vist = 'Jiménez', 
+    @Correo = 'pedro.torres@example.com', 
+    @TELEFONO = 67891234, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420108, 
+    @NombreVist = 'Elena', 
+    @Apell1Vist = 'Castillo', 
+    @Apell2Vist = 'Morales', 
+    @Correo = 'elena.castillo@example.com', 
+    @TELEFONO = 78901234, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420109, 
+    @NombreVist = 'Raúl', 
+    @Apell1Vist = 'Navarro', 
+    @Apell2Vist = 'Vargas', 
+    @Correo = 'raul.navarro@example.com', 
+    @TELEFONO = 89012345, 
+    @Cedula = @CedulaCreador;
+
+EXEC SP_INGRESAR_VISITANTE 
+    @IdVisitantes = 504420110, 
+    @NombreVist = 'Sofía', 
+    @Apell1Vist = 'Mora', 
+    @Apell2Vist = 'Pérez', 
+    @Correo = 'sofia.mora@example.com', 
+    @TELEFONO = 90123456, 
+    @Cedula = @CedulaCreador;
+
+
+
+-- Llamadas para registrar tipos de entrada
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Adulto', @Precio = 12.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Niño', @Precio = 8.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Estudiante', @Precio = 10.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Tercera Edad', @Precio = 7.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Tarifa Especial', @Precio = 15.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Visita Nocturna', @Precio = 14.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_TIPO_ENTRADA @NombreEnt = 'Entrada de Cuidado Animal', @Precio = 20.00, @Cedula = @CedulaCreador;
+
+
+
+
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-12-31', @descuento = 10, @IdTipoEntrada = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-15', @descuento = 5, @IdTipoEntrada = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-10-30', @descuento = 0, @IdTipoEntrada = 2, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-01', @descuento = 15, @IdTipoEntrada = 3, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-12-01', @descuento = 20, @IdTipoEntrada = 4, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-20', @descuento = 25, @IdTipoEntrada = 5, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-10-28', @descuento = 10, @IdTipoEntrada = 6, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-25', @descuento = 30, @IdTipoEntrada = 7, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-12-05', @descuento = 5, @IdTipoEntrada = 2, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-12', @descuento = 15, @IdTipoEntrada = 3, @Cedula = @CedulaCreador;
+
+
+
+DECLARE @Detalles DetalleVentaTableType;
+
+
+
+-- Venta 1
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 2);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420101, 
+    @IdMetodoPago = 1, -- Efectivo
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 2
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (2, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420102, 
+    @IdMetodoPago = 2, -- Tarjeta Débito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 3
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 3);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420103, 
+    @IdMetodoPago = 3, -- Tarjeta Crédito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 4
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (4, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420104, 
+    @IdMetodoPago = 4, -- Transferencia Bancaria
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 5
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (5, 2);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420105, 
+    @IdMetodoPago = 5, -- Pago Móvil
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 6
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (6, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420106, 
+    @IdMetodoPago = 6, -- Cheque
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 7
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (7, 2);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420107, 
+    @IdMetodoPago = 7, -- PayPal
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 8
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (5, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420108, 
+    @IdMetodoPago = 1, -- Efectivo
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 9
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (2, 3);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420109, 
+    @IdMetodoPago = 2, -- Tarjeta Débito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+-- Venta 10
+DELETE FROM @Detalles;
+INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 1);
+EXEC SP_EJECUTAR_VENTA 
+    @IdVisitantes = 504420110, 
+    @IdMetodoPago = 3, -- Tarjeta Crédito
+    @Cedula = @CedulaCreador, 
+    @Detalles = @Detalles;
+
+
+
+EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Saludable', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Enfermo', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Bajo observación', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'En cuarentena', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Herido', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Recuperación', @Cedula = @CedulaCreador;
+
+
+
+-- Alimentos específicos para dietas de animales en el zoológico
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de venado', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de cerdo', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de conejo', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de codorniz', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Larvas', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Gusanos de seda', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Saltamontes', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Grillos', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Miel de flores', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Plátanos', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Papayas', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Mangos', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Manzanas', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Peras', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Sandías', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Melones', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Zanahorias', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Calabazas', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Betabel', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pepinos', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Tomates', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Brotes de alfalfa', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Raíces comestibles', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Heno fresco', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pasto', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Piensos para aves', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Semillas de girasol', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Semillas de sésamo', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Maíz', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Arroz integral', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Avena', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Nueces mixtas', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Avellanas', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Almendras', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Alimento para peces', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de codorniz', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de gallina', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Polen', @Cedula = @CedulaCreador;
+
+
+
+DECLARE @Alimentos AlimentosDeDietaTableType;
+
+-- Dieta 1: Dieta Carnívora
+INSERT INTO @Alimentos (IdAlimentos) VALUES (2), (3), (4), (5); -- Carne de venado, cerdo, conejo, codorniz
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta Carnívora', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 2: Dieta Insectívora
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (6), (7), (8); -- Larvas, Gusanos de seda, Saltamontes
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta Insectívora', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 3: Dieta Frutal
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (11), (12), (13), (14), (15); -- Plátanos, Papayas, Mangos, Manzanas, Peras
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta Frutal', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 4: Dieta Mixta
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (10), (11), (25), (27); -- Miel de flores, Plátanos, Heno fresco, Piensos para aves
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta Mixta', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 5: Dieta Herbívora
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (18), (19), (20), (21); -- Zanahorias, Calabazas, Betabel, Pepinos
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta Herbívora', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 6: Dieta para Aves
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (28), (29), (30); -- Semillas de girasol, Semillas de sésamo, Maíz
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta para Aves', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 7: Dieta para Peces
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (36), (37); -- Alimento para peces, Huevos de codorniz
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta para Peces', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 8: Dieta de Semillas
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (28), (29), (31), (33); -- Semillas de girasol, Semillas de sésamo, Arroz integral, Nueces mixtas
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta de Semillas', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 9: Dieta de Verduras
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (18), (21), (22), (24); -- Zanahorias, Pepinos, Tomates, Raíces comestibles
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta de Verduras', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+-- Dieta 10: Dieta Energética
+DELETE FROM @Alimentos;
+INSERT INTO @Alimentos (IdAlimentos) VALUES (30), (31), (32), (33); -- Maíz, Arroz integral, Avena, Nueces mixtas
+EXEC SP_INGRESAR_DIETA 
+    @NombreDiet = 'Dieta Energética', 
+    @Cedula = @CedulaCreador, 
+    @Alimentos = @Alimentos;
+
+
+-- Llamada para la tarea de atención de salud de los animales
+EXEC SP_INGRESAR_TIPO_TAREA 
+    @NombreTT = 'Atención de Salud',
+    @Cedula = @CedulaCreador;
+
+-- Llamada para la tarea de limpieza de habitaciones de los animales
+EXEC SP_INGRESAR_TIPO_TAREA 
+    @NombreTT = 'Limpieza de Habitaciones',
+    @Cedula = @CedulaCreador;
+
+
+
+EXEC SP_INGRESAR_ESTADO_TAREA 
+    @Nombre = 'Pendiente',
+    @Cedula = @CedulaCreador;
+
+-- Estado de tarea: En Proceso
+EXEC SP_INGRESAR_ESTADO_TAREA 
+    @Nombre = 'En Proceso',
+    @Cedula = @CedulaCreador;
+
+-- Estado de tarea: Completada
+EXEC SP_INGRESAR_ESTADO_TAREA 
+    @Nombre = 'Completada',
+    @Cedula = @CedulaCreador;
+
+
+
+
+
+
+
+
+
+-- Llamadas al procedimiento SP_INGRESAR_ESPECIE para agregar especies
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'León', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Tigre', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Elefante', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Jirafa', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Cebra', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Gorila', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Pingüino', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Cocodrilo', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Canguro', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Panda', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Búfalo', @Cedula = @CedulaCreador;  -- Búfalo
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Hiena', @Cedula = @CedulaCreador;  -- Hiena
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Hipopótamo', @Cedula = @CedulaCreador;  -- Hipopótamo
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Rinoceronte', @Cedula = @CedulaCreador;  -- Rinoceronte
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Orangután', @Cedula = @CedulaCreador;  -- Orangután
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Tortuga', @Cedula = @CedulaCreador;  -- Tortuga
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Lemur', @Cedula = @CedulaCreador;  -- Lemur
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Babuino', @Cedula = @CedulaCreador;  -- Babuino
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Cangrejo', @Cedula = @CedulaCreador;  -- Cangrejo
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Pájaro Loro', @Cedula = @CedulaCreador;  -- Loro
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Puma', @Cedula = @CedulaCreador;  -- Puma
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Zorro', @Cedula = @CedulaCreador;  -- Zorro
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Alce', @Cedula = @CedulaCreador;  -- Alce
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Foca', @Cedula = @CedulaCreador;  -- Foca
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Nutria', @Cedula = @CedulaCreador;  -- Nutria
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Koala', @Cedula = @CedulaCreador;  -- Koala
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Lince', @Cedula = @CedulaCreador;  -- Lince
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Zarigüeya', @Cedula = @CedulaCreador;  -- Zarigüeya
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Pájaro Carpintero', @Cedula = @CedulaCreador;  -- Carpintero
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Serpiente', @Cedula = @CedulaCreador;  -- Serpiente
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Chimpancé', @Cedula = @CedulaCreador;  -- Chimpancé
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Rana', @Cedula = @CedulaCreador;  -- Rana
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Gato montés', @Cedula = @CedulaCreador;  -- Gato montés
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Oso Panda Rojo', @Cedula = @CedulaCreador;  -- Panda Rojo
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Cisne', @Cedula = @CedulaCreador;  -- Cisne
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Halcon', @Cedula = @CedulaCreador;  -- Halcón
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Gallo', @Cedula = @CedulaCreador;  -- Gallo
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Pececito', @Cedula = @CedulaCreador;  -- Pez
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Serpiente de cascabel', @Cedula = @CedulaCreador;  -- Serpiente de cascabel
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Escamoso', @Cedula = @CedulaCreador;  -- Escamoso
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Gato salvaje', @Cedula = @CedulaCreador;  -- Gato salvaje
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Lobo', @Cedula = @CedulaCreador;  -- Lobo
+EXEC SP_INGRESAR_ESPECIE @NombreEsp = 'Gato doméstico', @Cedula = @CedulaCreador;  -- Gato doméstico
+
+
+
+
+
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Simba', @EdadAni = 5, @IdDieta = 1, @IdHabitacion = 1, @IdEspecie = 1, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Tigger', @EdadAni = 3, @IdDieta = 1, @IdHabitacion = 2, @IdEspecie = 2, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Dumbo', @EdadAni = 10, @IdDieta = 5, @IdHabitacion = 3, @IdEspecie = 3, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Gigi', @EdadAni = 4, @IdDieta = 3, @IdHabitacion = 4, @IdEspecie = 4, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Leo', @EdadAni = 2, @IdDieta = 4, @IdHabitacion = 5, @IdEspecie = 5, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Nemo', @EdadAni = 1, @IdDieta = 7, @IdHabitacion = 2, @IdEspecie = 6, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Winnie', @EdadAni = 6, @IdDieta = 8, @IdHabitacion = 3, @IdEspecie = 7, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Bambi', @EdadAni = 4, @IdDieta = 9, @IdHabitacion = 4, @IdEspecie = 8, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Kiki', @EdadAni = 5, @IdDieta = 6, @IdHabitacion = 1, @IdEspecie = 9, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Milo', @EdadAni = 3, @IdDieta = 10, @IdHabitacion = 2, @IdEspecie = 10, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Lola', @EdadAni = 2, @IdDieta = 5, @IdHabitacion = 3, @IdEspecie = 11, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Coco', @EdadAni = 1, @IdDieta = 4, @IdHabitacion = 4, @IdEspecie = 12, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Paco', @EdadAni = 7, @IdDieta = 3, @IdHabitacion = 1, @IdEspecie = 13, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Tina', @EdadAni = 8, @IdDieta = 2, @IdHabitacion = 2, @IdEspecie = 14, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Roxy', @EdadAni = 4, @IdDieta = 6, @IdHabitacion = 3, @IdEspecie = 15, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Nina', @EdadAni = 5, @IdDieta = 1, @IdHabitacion = 4, @IdEspecie = 16, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Bobby', @EdadAni = 2, @IdDieta = 9, @IdHabitacion = 1, @IdEspecie = 17, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Simba', @EdadAni = 5, @IdDieta = 1, @IdHabitacion = 1, @IdEspecie = 1, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Tigger', @EdadAni = 3, @IdDieta = 1, @IdHabitacion = 2, @IdEspecie = 2, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Dumbo', @EdadAni = 10, @IdDieta = 5, @IdHabitacion = 3, @IdEspecie = 3, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Gigi', @EdadAni = 4, @IdDieta = 3, @IdHabitacion = 4, @IdEspecie = 4, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Leo', @EdadAni = 2, @IdDieta = 4, @IdHabitacion = 5, @IdEspecie = 5, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Nemo', @EdadAni = 1, @IdDieta = 7, @IdHabitacion = 2, @IdEspecie = 6, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Winnie', @EdadAni = 6, @IdDieta = 8, @IdHabitacion = 3, @IdEspecie = 7, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Bambi', @EdadAni = 4, @IdDieta = 9, @IdHabitacion = 4, @IdEspecie = 8, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Kiki', @EdadAni = 5, @IdDieta = 6, @IdHabitacion = 1, @IdEspecie = 9, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Milo', @EdadAni = 3, @IdDieta = 10, @IdHabitacion = 2, @IdEspecie = 10, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Lola', @EdadAni = 2, @IdDieta = 5, @IdHabitacion = 3, @IdEspecie = 11, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Coco', @EdadAni = 1, @IdDieta = 4, @IdHabitacion = 4, @IdEspecie = 12, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Paco', @EdadAni = 7, @IdDieta = 3, @IdHabitacion = 1, @IdEspecie = 13, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Tina', @EdadAni = 8, @IdDieta = 2, @IdHabitacion = 2, @IdEspecie = 14, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Roxy', @EdadAni = 4, @IdDieta = 6, @IdHabitacion = 3, @IdEspecie = 15, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Nina', @EdadAni = 5, @IdDieta = 1, @IdHabitacion = 4, @IdEspecie = 16, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Bobby', @EdadAni = 2, @IdDieta = 9, @IdHabitacion = 1, @IdEspecie = 17, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Daisy', @EdadAni = 3, @IdDieta = 8, @IdHabitacion = 2, @IdEspecie = 18, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Fluffy', @EdadAni = 6, @IdDieta = 4, @IdHabitacion = 3, @IdEspecie = 19, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Rocky', @EdadAni = 5, @IdDieta = 5, @IdHabitacion = 4, @IdEspecie = 20, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Chester', @EdadAni = 7, @IdDieta = 1, @IdHabitacion = 1, @IdEspecie = 21, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Bella', @EdadAni = 2, @IdDieta = 2, @IdHabitacion = 2, @IdEspecie = 22, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Piper', @EdadAni = 4, @IdDieta = 3, @IdHabitacion = 3, @IdEspecie = 23, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Ziggy', @EdadAni = 1, @IdDieta = 4, @IdHabitacion = 4, @IdEspecie = 24, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Maverick', @EdadAni = 8, @IdDieta = 5, @IdHabitacion = 5, @IdEspecie = 25, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Oreo', @EdadAni = 6, @IdDieta = 6, @IdHabitacion = 1, @IdEspecie = 26, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Cleo', @EdadAni = 3, @IdDieta = 7, @IdHabitacion = 2, @IdEspecie = 27, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Shadow', @EdadAni = 4, @IdDieta = 8, @IdHabitacion = 3, @IdEspecie = 28, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Duke', @EdadAni = 5, @IdDieta = 9, @IdHabitacion = 4, @IdEspecie = 29, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Lucy', @EdadAni = 7, @IdDieta = 10, @IdHabitacion = 5, @IdEspecie = 30, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Oscar', @EdadAni = 2, @IdDieta = 6, @IdHabitacion = 1, @IdEspecie = 31, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Peanut', @EdadAni = 4, @IdDieta = 7, @IdHabitacion = 2, @IdEspecie = 32, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Chloe', @EdadAni = 3, @IdDieta = 8, @IdHabitacion = 3, @IdEspecie = 33, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Finn', @EdadAni = 1, @IdDieta = 9, @IdHabitacion = 4, @IdEspecie = 34, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Misty', @EdadAni = 8, @IdDieta = 10, @IdHabitacion = 5, @IdEspecie = 35, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Toby', @EdadAni = 5, @IdDieta = 1, @IdHabitacion = 1, @IdEspecie = 36, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Sasha', @EdadAni = 2, @IdDieta = 2, @IdHabitacion = 2, @IdEspecie = 37, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Rusty', @EdadAni = 4, @IdDieta = 3, @IdHabitacion = 3, @IdEspecie = 38, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Ellie', @EdadAni = 6, @IdDieta = 4, @IdHabitacion = 4, @IdEspecie = 39, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Tina', @EdadAni = 5, @IdDieta = 5, @IdHabitacion = 5, @IdEspecie = 40, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Sandy', @EdadAni = 3, @IdDieta = 6, @IdHabitacion = 1, @IdEspecie = 41, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Smokey', @EdadAni = 4, @IdDieta = 7, @IdHabitacion = 2, @IdEspecie = 42, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Zara', @EdadAni = 6, @IdDieta = 8, @IdHabitacion = 3, @IdEspecie = 43, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Cody', @EdadAni = 2, @IdDieta = 9, @IdHabitacion = 4, @IdEspecie = 44, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Luna', @EdadAni = 3, @IdDieta = 10, @IdHabitacion = 5, @IdEspecie = 45, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Jasper', @EdadAni = 1, @IdDieta = 1, @IdHabitacion = 1, @IdEspecie = 46, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Nala', @EdadAni = 8, @IdDieta = 2, @IdHabitacion = 2, @IdEspecie = 47, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Teddy', @EdadAni = 7, @IdDieta = 3, @IdHabitacion = 3, @IdEspecie = 48, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Chester', @EdadAni = 4, @IdDieta = 4, @IdHabitacion = 4, @IdEspecie = 49, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ANIMAL @NombreAni = 'Flora', @EdadAni = 5, @IdDieta = 5, @IdHabitacion = 5, @IdEspecie = 50, @IdEstadoSalud = 1, @Cedula = @CedulaCreador;
+
+
+
+
+
+
+
 
 
 
