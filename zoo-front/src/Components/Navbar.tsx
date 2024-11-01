@@ -35,6 +35,7 @@ export default function AppNavbar() {
     { name: 'Venta de entradas', path: '/dashboard/ventas', roles: ['SELLER'] },
     { name: 'Habitats', path: '/dashboard/habitats', roles: ['ADMIN'] },
     { name: 'Mis Tareas', path: '/dashboard/mis-tareas', roles: ['ADMIN', 'USER'] },
+    {name: 'Calificación Visita', path: '/dashboard/calificacionVisita', roles: ['SELLER']}
   ];
 
   return (
