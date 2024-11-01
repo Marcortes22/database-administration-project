@@ -135,7 +135,7 @@ export default function ModalRegistrarDieta({
                           key={alimento.idAlimento}
                           className="flex justify-between items-center bg-gray-100 px-3 py-2 rounded-lg"
                         >
-                          <span>Alimento: {obtenerAlimento(alimento.idAlimento)}</span>
+                          <span>{obtenerAlimento(alimento.idAlimento)}</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveAlimento(alimento.idAlimento)}
