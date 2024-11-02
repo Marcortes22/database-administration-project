@@ -690,4 +690,20 @@ CREATE TABLE Audit_CalificacionRecorrido (
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
+
+
+USE ZooMA
+GO
+CREATE TABLE Audit_VentaEntrada (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdVentaEntrada INT,
+    Fechaventa DATE,
+    Horaventa TIME,
+    IdVisitante INT,
+    IdMetodoPago INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
 --FIN Tablas Auditorias
