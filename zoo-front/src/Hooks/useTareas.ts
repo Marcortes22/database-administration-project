@@ -10,9 +10,20 @@ export function useTareas() {
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
 
+  // Obtener o guardar el token en localStorage
+  const getToken = () => {
+    const token = session?.user?.access_token || localStorage.getItem('access_token');
+    if (session?.user?.access_token) {
+      localStorage.setItem('access_token', session.user.access_token); // Guardar en localStorage si viene de la sesión
+    }
+    return token;
+  };
+
+  const token = getToken();
+
   // Fetch todas las tareas
   const fetchTareas = async () => {
-    if (!session?.user?.access_token) {
+    if (!token) {
       setError('No se encontró el token de autenticación');
       setLoading(false);
       return;
@@ -24,7 +35,7 @@ export function useTareas() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.user.access_token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -47,7 +58,7 @@ export function useTareas() {
 
   // Actualizar el estado de una tarea
   const updateTaskState = async (id: number, idEstadoTarea: number) => {
-    if (!session?.user?.access_token) {
+    if (!token) {
       toast.error('No se encontró el token de autenticación');
       return;
     }
@@ -57,7 +68,7 @@ export function useTareas() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.user.access_token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ IdEstadoTarea: idEstadoTarea }),
       });
@@ -78,7 +89,7 @@ export function useTareas() {
 
   useEffect(() => {
     fetchTareas();
-  }, [session]);
+  }, [session]); // Ejecutar el efecto si la sesión cambia
 
   return { tareas, loading, error, fetchTareas, updateTaskState };
 }
