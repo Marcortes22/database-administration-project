@@ -16,7 +16,6 @@ export default function FormularioMantenimientoHabitacion() {
   const [idHabitacion, setIdHabitacion] = useState<number | null>(null);
   const router = useRouter();
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -26,8 +25,11 @@ export default function FormularioMantenimientoHabitacion() {
     }
 
     await crearMantenimientoHabitacion({ idHabitacion, idEmpleado, nombreTarea });
+    router.push('/dashboard/tareas'); // Redirige a la lista de tareas después de la creación
+  };
 
-    router.push('/dashboard/tareas');
+  const handleCancel = () => {
+    router.push('/dashboard/tareas'); // Redirige a la lista de tareas al cancelar
   };
 
   return (
@@ -65,9 +67,21 @@ export default function FormularioMantenimientoHabitacion() {
             ))}
           </select>
         </div>
-        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300">
-          Crear Mantenimiento
-        </button>
+        <div className="flex justify-end space-x-4">
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-300"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300"
+          >
+            Crear Mantenimiento
+          </button>
+        </div>
       </form>
     </div>
   );

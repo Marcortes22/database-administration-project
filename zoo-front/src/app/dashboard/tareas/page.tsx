@@ -2,15 +2,25 @@
 
 import React, { useEffect } from 'react';
 import { useTareas } from '@/Hooks/useTareas';
+import { useAnimales } from '@/Hooks/useAnimales';
+import { useHabitaciones } from '@/Hooks/useHabitacion';
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
 
 export default function TableTareas() {
   const { tareas, loading, error, fetchTareas } = useTareas();
+  const { animales } = useAnimales();
+  const { habitaciones } = useHabitaciones();
   const { navigateTo } = useCustomRouter();
 
   useEffect(() => {
     fetchTareas(); // Cargar las tareas al montar el componente
   }, []);
+
+  const obtenerNombreAnimal = (id: number) =>
+    animales.find((animal) => animal.idAnimales === id)?.nombreAni || 'Sin Asignación';
+
+  const obtenerNombreHabitacion = (id: number) =>
+    habitaciones.find((habitacion) => habitacion.idHabitacion === id)?.nombreHab || 'Sin Asignación';
 
   if (loading) {
     return (
@@ -59,15 +69,29 @@ export default function TableTareas() {
             <th className="px-6 py-3 text-center">Tarea</th>
             <th className="px-6 py-3 text-center">Empleado</th>
             <th className="px-6 py-3 text-center">Estado</th>
+            <th className="px-6 py-3 text-center">Asignación</th>
           </tr>
         </thead>
         <tbody>
           {tareas.map((tarea) => (
             <tr key={tarea.idTareas} className="border-b hover:bg-gray-100 transition duration-200">
               <td className="px-6 py-4 text-center font-medium">{tarea.idTareas}</td>
-              <td className="px-6 py-4 text-center">{tarea.idTipoTareaNavigation.nombreTt}</td>
-              <td className="px-6 py-4 text-center">{tarea.idEmpleadoNavigation.nombre}</td>
-              <td className="px-6 py-4 text-center">{tarea.idEstadoTareaNavigation.nombre}</td>
+              <td className="px-6 py-4 text-center">{tarea.idTipoTareaNavigation?.nombreTt}</td>
+              <td className="px-6 py-4 text-center">{tarea.idEmpleadoNavigation?.nombre}</td>
+              <td className="px-6 py-4 text-center">{tarea.idEstadoTareaNavigation?.nombre}</td>
+              <td className="px-6 py-4 text-center">
+                {tarea.controlAnimals.length > 0 ? (
+                  tarea.controlAnimals.map((control) => (
+                    <div key={control.idControl}>{obtenerNombreAnimal(control.idAnimales)}</div>
+                  ))
+                ) : (
+                  tarea.mantenimientoHabitacions.map((habitacion) => (
+                    <div key={habitacion.idMantenimientoHabitacion}>
+                      Habitación {obtenerNombreHabitacion(habitacion.idHabitacion)}
+                    </div>
+                  ))
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
