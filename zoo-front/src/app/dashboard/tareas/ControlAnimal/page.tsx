@@ -16,6 +16,9 @@ export default function FormularioControlAnimal() {
   const [idAnimal, setIdAnimal] = useState<number | null>(null);
   const router = useRouter();
 
+  // Filtrar solo los empleados con el puesto de "Veterinario"
+  const veterinarios = empleados.filter((empleado) => empleado.puesto === 'Veterinario');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -47,9 +50,13 @@ export default function FormularioControlAnimal() {
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Empleado</label>
-          <select className="w-full p-2 border rounded" value={idEmpleado || ''} onChange={(e) => setIdEmpleado(Number(e.target.value))}>
+          <select
+            className="w-full p-2 border rounded"
+            value={idEmpleado || ''}
+            onChange={(e) => setIdEmpleado(Number(e.target.value))}
+          >
             <option value="">Seleccione un empleado</option>
-            {empleados.map((empleado) => (
+            {veterinarios.map((empleado) => (
               <option key={empleado.idEmpleado} value={empleado.idEmpleado}>
                 {empleado.nombre} {empleado.apellido1}
               </option>
@@ -58,7 +65,11 @@ export default function FormularioControlAnimal() {
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Animal</label>
-          <select className="w-full p-2 border rounded" value={idAnimal || ''} onChange={(e) => setIdAnimal(Number(e.target.value))}>
+          <select
+            className="w-full p-2 border rounded"
+            value={idAnimal || ''}
+            onChange={(e) => setIdAnimal(Number(e.target.value))}
+          >
             <option value="">Seleccione un animal</option>
             {animales.map((animal) => (
               <option key={animal.idAnimales} value={animal.idAnimales}>

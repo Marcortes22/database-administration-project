@@ -16,6 +16,11 @@ export default function FormularioMantenimientoHabitacion() {
   const [idHabitacion, setIdHabitacion] = useState<number | null>(null);
   const router = useRouter();
 
+  // Filtrar empleados con el puesto "Cuidador de Habitaci"
+  const cuidadoresHabitacion = empleados.filter(
+    (empleado) => empleado.puesto === 'Cuidador de Habitaci'
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -47,9 +52,13 @@ export default function FormularioMantenimientoHabitacion() {
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Empleado</label>
-          <select className="w-full p-2 border rounded" value={idEmpleado || ''} onChange={(e) => setIdEmpleado(Number(e.target.value))}>
+          <select
+            className="w-full p-2 border rounded"
+            value={idEmpleado || ''}
+            onChange={(e) => setIdEmpleado(Number(e.target.value))}
+          >
             <option value="">Seleccione un empleado</option>
-            {empleados.map((empleado) => (
+            {cuidadoresHabitacion.map((empleado) => (
               <option key={empleado.idEmpleado} value={empleado.idEmpleado}>
                 {empleado.nombre} {empleado.apellido1}
               </option>
@@ -58,7 +67,11 @@ export default function FormularioMantenimientoHabitacion() {
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium">Habitación</label>
-          <select className="w-full p-2 border rounded" value={idHabitacion || ''} onChange={(e) => setIdHabitacion(Number(e.target.value))}>
+          <select
+            className="w-full p-2 border rounded"
+            value={idHabitacion || ''}
+            onChange={(e) => setIdHabitacion(Number(e.target.value))}
+          >
             <option value="">Seleccione una habitación</option>
             {habitaciones.map((habitacion) => (
               <option key={habitacion.idHabitacion} value={habitacion.idHabitacion}>
