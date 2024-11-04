@@ -103,81 +103,103 @@ GO
 USE ZooMA
 GO
 CREATE TABLE EstadoSalud (
-    IdEstadoSalud INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    EstadoSalud VARCHAR(255) NOT NULL
+    IdEstadoSalud INT NOT NULL IDENTITY(1,1),
+    EstadoSalud VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_EstadoSalud_IdEstadoSalud PRIMARY KEY CLUSTERED (IdEstadoSalud)
 );
+GO
 
 USE ZooMA
 GO
+
 CREATE TABLE Especie (
-    IdEspecie INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    NombreEsp VARCHAR(20) NOT NULL
+    IdEspecie INT NOT NULL IDENTITY(1,1),
+    NombreEsp VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_Especie_IdEspecie PRIMARY KEY CLUSTERED (IdEspecie)
 );
 
 USE ZooMA
 GO
+
 CREATE TABLE TipoHabitacion (
-    IdTipoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    NombreTH VARCHAR(75) NOT NULL
+    IdTipoHabitacion INT NOT NULL IDENTITY(1,1),
+    NombreTH VARCHAR(75) NOT NULL,
+    CONSTRAINT PK_TipoHabitacion_IdTipoHabitacion PRIMARY KEY CLUSTERED (IdTipoHabitacion)
 );
+
 
 USE ZooMA
 GO
 CREATE TABLE ZOO (
-    IdZoo INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdZoo INT NOT NULL IDENTITY(1,1),
     NombreZoo VARCHAR(20) NOT NULL,
     Direccion VARCHAR(100) NOT NULL,
-    DescripcionZoo VARCHAR(255) NOT NULL
+    DescripcionZoo VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_ZOO_IdZoo PRIMARY KEY CLUSTERED (IdZoo)
 );
-GO
+
+
 USE ZooMA
 GO
 CREATE TABLE EstadoHabitacion (
-    IdEstadoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdEstadoHabitacion INT NOT NULL IDENTITY(1,1),
     Estado VARCHAR(50) NOT NULL,
+    CONSTRAINT PK_EstadoHabitacion_IdEstadoHabitacion PRIMARY KEY CLUSTERED (IdEstadoHabitacion)
 );
+
 USE ZooMA
 GO
 CREATE TABLE Habitacion (
-    IdHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdHabitacion INT NOT NULL IDENTITY(1,1),
     NombreHab VARCHAR(20) NOT NULL,
     Direccion VARCHAR(100) NOT NULL,
     Capacidad INT NOT NULL,
     IdTipoHabitacion INT NOT NULL,
     IdEstadoHabitacion INT NOT NULL,
-    CONSTRAINT FK_Habitacion_IdTipoHabitacion FOREIGN KEY (IdTipoHabitacion) REFERENCES TipoHabitacion (IdTipoHabitacion),
-    CONSTRAINT FK_HabitacionEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) REFERENCES EstadoHabitacion (IdEstadoHabitacion)
+    CONSTRAINT PK_Habitacion_IdHabitacion PRIMARY KEY CLUSTERED (IdHabitacion),
+    CONSTRAINT FK_Habitacion_IdTipoHabitacion FOREIGN KEY (IdTipoHabitacion) 
+        REFERENCES TipoHabitacion (IdTipoHabitacion),
+    CONSTRAINT FK_HabitacionEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) 
+        REFERENCES EstadoHabitacion (IdEstadoHabitacion) 
 );
 
 USE ZooMA
 GO
+
 CREATE TABLE Visitantes (
-    IdVisitantes INT NOT NULL PRIMARY KEY,
+    IdVisitantes INT NOT NULL IDENTITY(1,1),
     NombreVist VARCHAR(20) NOT NULL,
     Apell1Vist VARCHAR(20) NOT NULL,
     Apell2Vist VARCHAR(20) NOT NULL,
-	CorreoElectronico VARCHAR (50) NOT NULL,
-	TELEFONO INT NOT NULL
+    CorreoElectronico VARCHAR(50) NOT NULL,
+    Telefono VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_Visitantes_IdVisitantes PRIMARY KEY CLUSTERED (IdVisitantes)
 );
 
 USE ZooMA
 GO
+
 CREATE TABLE MetodoPago (
-    IdMetodoPago INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Metodopago VARCHAR(50) NOT NULL
+    IdMetodoPago INT NOT NULL IDENTITY(1,1),
+    Metodopago VARCHAR(50) NOT NULL,
+    CONSTRAINT PK_MetodoPago_IdMetodoPago PRIMARY KEY CLUSTERED (IdMetodoPago)
 );
 
 USE ZooMA
 GO
+
 CREATE TABLE Dieta (
-    IdDieta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    NombreDiet VARCHAR(20) NOT NULL
+    IdDieta INT NOT NULL IDENTITY(1,1),
+    NombreDiet VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_Dieta_IdDieta PRIMARY KEY CLUSTERED (IdDieta)
 );
+
 
 USE ZooMA
 GO
+
 CREATE TABLE Animales (
-    IdAnimales INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdAnimales INT NOT NULL IDENTITY(1,1),
     NombreAni VARCHAR(20) NOT NULL,
     EdadAni INT NOT NULL,
     IdDieta INT NOT NULL,
@@ -185,222 +207,288 @@ CREATE TABLE Animales (
     IdEspecie INT NOT NULL,
     IdEstadoSalud INT NOT NULL,
     IdZoo INT NOT NULL DEFAULT 1,
-    CONSTRAINT FK_Animales_IdEstadoSalud FOREIGN KEY (IdEstadoSalud) REFERENCES EstadoSalud (IdEstadoSalud),
-    CONSTRAINT FK_Animales_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
-    CONSTRAINT FK_Animales_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion),
-    CONSTRAINT FK_Animales_IdDieta FOREIGN KEY (IdDieta) REFERENCES Dieta (IdDieta),
-    CONSTRAINT FK_Animales_IdEspecies FOREIGN KEY (IdEspecie) REFERENCES Especie (IdEspecie)
+    CONSTRAINT PK_Animales PRIMARY KEY CLUSTERED (IdAnimales),
+    CONSTRAINT FK_Animales_IdEstadoSalud_IdEstadoSalud FOREIGN KEY (IdEstadoSalud) 
+        REFERENCES EstadoSalud (IdEstadoSalud),
+    CONSTRAINT FK_Animales_IdZoo FOREIGN KEY (IdZoo) 
+        REFERENCES ZOO (IdZoo),
+    CONSTRAINT FK_Animales_IdHabitacion FOREIGN KEY (IdHabitacion) 
+        REFERENCES Habitacion (IdHabitacion),
+    CONSTRAINT FK_Animales_IdDieta FOREIGN KEY (IdDieta) 
+        REFERENCES Dieta (IdDieta),
+    CONSTRAINT FK_Animales_IdEspecies FOREIGN KEY (IdEspecie) 
+        REFERENCES Especie (IdEspecie) 
 );
 
 USE ZooMA
 GO
 CREATE TABLE HistorialMovimientos (
-    IdHistorialMovimientos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdHistorialMovimientos INT NOT NULL IDENTITY(1,1),
     FechaMovimiento DATETIME NOT NULL,
     IdHabitacionAnterior INT NOT NULL,
     IdHabitacionActual INT NOT NULL,
     Motivo VARCHAR(255) NOT NULL,
     IdAnimales INT NOT NULL,
     realizadoPor INT NOT NULL,
-    CONSTRAINT FK_HistorialMovimientos_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
+    CONSTRAINT PK_HistorialMovimientos_IdHistorialMovimientos PRIMARY KEY CLUSTERED (IdHistorialMovimientos),
+    CONSTRAINT FK_HistorialMovimientos_IdAnimales FOREIGN KEY (IdAnimales) 
+        REFERENCES Animales (IdAnimales),
+    CONSTRAINT FK_HistorialMovimientos_IdHabitacionAnterior FOREIGN KEY (IdHabitacionAnterior) 
+        REFERENCES Habitacion (IdHabitacion),
+    CONSTRAINT FK_HistorialMovimientos_IdHabitacionActual FOREIGN KEY (IdHabitacionActual) 
+        REFERENCES Habitacion (IdHabitacion) 
 );
-
-
-
-
-USE ZooMA
 GO
-CREATE TABLE TipoTarea (
-    IdTipoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    NombreTT VARCHAR(20) NOT NULL
-);
+
 
 USE ZooMA
 GO
 CREATE TABLE Puesto (
-    IdPuesto INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(50) NOT NULL,
+    IdPuesto INT NOT NULL IDENTITY(1,1),
+    Nombre VARCHAR(20) NOT NULL,
     Salario FLOAT NOT NULL,
+    CONSTRAINT PK_Puesto_IdPuesto PRIMARY KEY CLUSTERED (IdPuesto)
 );
+GO
+
+
 
 USE ZooMA
 GO
 CREATE TABLE Empleado (
-    IdEmpleado INT NOT NULL PRIMARY KEY,
+    IdEmpleado INT NOT NULL IDENTITY(1,1),
     Nombre VARCHAR(20) NOT NULL,
     Apellido1 VARCHAR(20) NOT NULL,
     Apellido2 VARCHAR(20) NOT NULL,
-	Correo VARCHAR (50) NOT NULL,
+    Correo VARCHAR(50) NOT NULL,
     IdPuesto INT NOT NULL,
-    IdZoo INT NOT NULL DEFAULT 1, 
+    IdZoo INT NOT NULL DEFAULT 1,
+    CONSTRAINT PK_Empleado_IdEmpleado PRIMARY KEY CLUSTERED (IdEmpleado),
     CONSTRAINT FK_Empleado_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
-    CONSTRAINT FK_Empleado_IdPuesto FOREIGN KEY (IdPuesto) REFERENCES Puesto (IdPuesto)
+    CONSTRAINT FK_Empleado_IdPuesto FOREIGN KEY (IdPuesto) REFERENCES Puesto (IdPuesto) 
 );
+GO
+
+
 USE ZooMA
 GO
 CREATE TABLE EstadoTarea (
-    IdEstadoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdEstadoTarea INT NOT NULL IDENTITY(1,1),
     Nombre VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_EstadoTarea_IdEstadoTarea PRIMARY KEY CLUSTERED (IdEstadoTarea)
 );
+GO
+
+
 USE ZooMA
 GO
 CREATE TABLE Tareas (
-    IdTareas INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdTareas INT NOT NULL IDENTITY(1,1),
     IdEmpleado INT NOT NULL,
     IdTipoTarea INT NOT NULL,
     IdEstadoTarea INT NOT NULL,
-    FechaCreacion DATETIME NOT NULL,
-	CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
-    CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea),
-    CONSTRAINT FK_TareasEstadoTareaS FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
+    CONSTRAINT PK_Tareas_IdTareas PRIMARY KEY CLUSTERED (IdTareas),
+    CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
+    CONSTRAINT FK_TareasEstadoTareas_IdEstadoTarea FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
 );
+GO
 
 USE ZooMA
 GO
 CREATE TABLE MantenimientoHabitacion (
-    IdMantenimientoHabitacion INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Reporte VARCHAR(255)  NULL,
+    IdMantenimientoHabitacion INT NOT NULL IDENTITY(1,1),
+    Reporte VARCHAR(255) NULL,
     IdTareas INT NOT NULL,
     IdHabitacion INT NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
-	CONSTRAINT FK_MantenimientoHabitacion_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
+    CONSTRAINT PK_MantenimientoHabitacion_IdMantenimientoHabitacion PRIMARY KEY CLUSTERED (IdMantenimientoHabitacion),
+    CONSTRAINT FK_MantenimientoHabitacion_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
     CONSTRAINT FK_MantenimientoHabitacion_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion)
 );
+GO
+
 
 USE ZooMA
 GO
+
 CREATE TABLE ControlAnimal (
-    IdControl INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdControl INT NOT NULL IDENTITY(1,1),
     Reporte VARCHAR(255) NULL,
     IdTareas INT NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     IdAnimales INT NOT NULL,
-	CONSTRAINT FK_ControlAnimal_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
+    CONSTRAINT PK_ControlAnimal_IdControl PRIMARY KEY CLUSTERED (IdControl),
+    CONSTRAINT FK_ControlAnimal_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
     CONSTRAINT FK_ControlAnimal_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
 );
+GO
+
 
 USE ZooMA
 GO
+
 CREATE TABLE Usuario (
-    IdUsuario INT NOT NULL PRIMARY KEY,
+    IdUsuario INT NOT NULL IDENTITY(1,1),
     Contraseña VARCHAR(20) NOT NULL,
     Estado BIT NOT NULL DEFAULT 1,
+    CONSTRAINT PK_Usuario_IdUsuario PRIMARY KEY CLUSTERED (IdUsuario),
     CONSTRAINT FK_Usuario_IdEmpleado FOREIGN KEY (IdUsuario) REFERENCES Empleado (IdEmpleado)
 );
+GO
 
 USE ZooMA
 GO
 CREATE TABLE Rol (
-    IdRol INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    nombre VARCHAR(20) NOT NULL
+    IdRol INT NOT NULL IDENTITY(1,1),
+    nombre VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_Rol_IdRol PRIMARY KEY CLUSTERED (IdRol)
 );
+GO
+
 
 USE ZooMA
 GO
+
 CREATE TABLE RolUsuario (
-    IdRolUsario INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdRolUsuario INT NOT NULL IDENTITY(1,1),
     IdRol INT NOT NULL,
     IdUsuario INT NOT NULL,
     FechaInicio DATE NOT NULL,
     FechaFin DATE NULL,
-    CONSTRAINT FK_RolUsario_IdUsuario  FOREIGN KEY (IdUsuario ) REFERENCES Usuario (IdUsuario ),
-    CONSTRAINT FK_RolUsario_IdRol FOREIGN KEY (IdRol) REFERENCES Rol (IdRol)
+    CONSTRAINT PK_RolUsuario_IdRolUsuario PRIMARY KEY CLUSTERED (IdRolUsuario),
+    CONSTRAINT FK_RolUsuario_IdUsuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario),
+    CONSTRAINT FK_RolUsuario_IdRol FOREIGN KEY (IdRol) REFERENCES Rol (IdRol) 
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE VentaEntrada (
-    IdVentaEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdVentaEntrada INT NOT NULL IDENTITY(1,1),
     Fechaventa DATETIME NOT NULL,
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
     IdEmpleado INT NOT NULL,
+    CONSTRAINT PK_VentaEntrada_IdVentaEntrada PRIMARY KEY CLUSTERED (IdVentaEntrada),
     CONSTRAINT FK_VentaEntrada_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
-    CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
+    CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes) 
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE TipoEntrada (
-    IdTipoEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdTipoEntrada INT NOT NULL IDENTITY(1,1),
     NombreEnt VARCHAR(20) NOT NULL,
-    Precio MONEY NOT NULL
+    Precio MONEY NOT NULL,
+    CONSTRAINT PK_TipoEntrada_IdTipoEntrada PRIMARY KEY CLUSTERED (IdTipoEntrada)
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE Entrada (
-    IdEntrada INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdEntrada INT NOT NULL IDENTITY(1,1),
     fechaVencimiento DATE NOT NULL,
     descuento INT NOT NULL,
     IdTipoEntrada INT NOT NULL,
-    CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) REFERENCES TipoEntrada (IdTipoEntrada) 
+    CONSTRAINT PK_Entrada_IdEntrada PRIMARY KEY CLUSTERED (IdEntrada),
+    CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) 
+        REFERENCES TipoEntrada (IdTipoEntrada)
 );
+GO
+
 
 USE ZooMA
 GO
+
 CREATE TABLE DetalleVenta (
     IdDetalleVenta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     IdEntrada INT NOT NULL,
     IdVentaEntrada INT NOT NULL,
     Cantidad INT NOT NULL,
     Precio MONEY NOT NULL,
-    CONSTRAINT FK_DetalleVenta_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada),
-	CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) REFERENCES Entrada (IdEntrada),
+    CONSTRAINT FK_DetalleVenta_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) 
+        REFERENCES VentaEntrada (IdVentaEntrada),
+    CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) 
+        REFERENCES Entrada (IdEntrada)
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE CalificacionRecorrido (
-    IdCalificacionRecorrido INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdCalificacionRecorrido INT NOT NULL IDENTITY(1,1),
     Nota INT NOT NULL,
-	SugerenciaMejora VARCHAR (255) NULL
+    SugerenciaMejora VARCHAR(255) NULL,
+    CONSTRAINT PK_CalificacionRecorrido_IdCalificacionRecorrido PRIMARY KEY CLUSTERED (IdCalificacionRecorrido)
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE CalificacionServicioAlCliente (
-    IdCalificacionServicioAlCliente INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdCalificacionServicioAlCliente INT NOT NULL IDENTITY(1,1),
     Nota INT NOT NULL,
-	SugerenciaMejora VARCHAR (255) NULL
+    SugerenciaMejora VARCHAR(255) NULL,
+    CONSTRAINT PK_CalificacionServicioAlCliente_IdCalificacionServicioAlCliente PRIMARY KEY CLUSTERED (IdCalificacionServicioAlCliente)
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE CalificacionVisita (
-    IdCalificacionVisita INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdCalificacionVisita INT NOT NULL IDENTITY(1,1),
+    Nota INT NOT NULL,
     Fecha DATE NOT NULL,
-    IdVentaEntrada INT NOT NULL,
-	IdCalificacionServicioAlCliente INT NOT NULL,
-	IdCalificacionRecorrido INT NOT NULL,
-	CONSTRAINT FK_CalificacionVisita_IdCalificacionServicioAlCliente FOREIGN KEY (IdCalificacionServicioAlCliente) REFERENCES CalificacionServicioAlCliente (IdCalificacionServicioAlCliente),
-	CONSTRAINT FK_CalificacionVisita_IdCalificacionRecorrido FOREIGN KEY (IdCalificacionRecorrido) REFERENCES CalificacionRecorrido (IdCalificacionRecorrido),
-    CONSTRAINT FK_CalificacionVisita_IdVentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES VentaEntrada (IdVentaEntrada)
+    IdVisitantes INT NOT NULL,
+    IdCalificacionServicioAlCliente INT NOT NULL,
+    IdCalificacionRecorrido INT NOT NULL,
+    CONSTRAINT PK_CalificacionVisita_IdCalificacionVisita PRIMARY KEY CLUSTERED (IdCalificacionVisita),
+    CONSTRAINT FK_CalificacionVisita_IdCalificacionServicioAlCliente 
+        FOREIGN KEY (IdCalificacionServicioAlCliente) 
+        REFERENCES CalificacionServicioAlCliente (IdCalificacionServicioAlCliente),
+    CONSTRAINT FK_CalificacionVisita_IdCalificacionRecorrido 
+        FOREIGN KEY (IdCalificacionRecorrido) 
+        REFERENCES CalificacionRecorrido (IdCalificacionRecorrido),
+    CONSTRAINT FK_CalificacionVisita_IdVisitantes 
+        FOREIGN KEY (IdVisitantes) 
+        REFERENCES Visitantes (IdVisitantes)
 );
-
+GO
 
 
 USE ZooMA
 GO
 CREATE TABLE Alimentos (
-    IdAlimentos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR (20) NOT NULL
+    IdAlimentos INT NOT NULL IDENTITY(1,1),
+    Nombre VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_Alimentos_IdAlimentos PRIMARY KEY CLUSTERED (IdAlimentos)
 );
+GO
+
 
 USE ZooMA
 GO
 CREATE TABLE DietaAlimentos (
-    IdDietaAlimentos INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    IdDietaAlimentos INT NOT NULL IDENTITY(1,1),
     IdDieta INT NOT NULL,
-    IdAlimentos  INT NOT NULL,
+    IdAlimentos INT NOT NULL,
+    CONSTRAINT PK_DietaAlimentos_IdDietaAlimentos PRIMARY KEY CLUSTERED (IdDietaAlimentos),
     CONSTRAINT FK_DietaAlimentos_IdDieta FOREIGN KEY (IdDieta) REFERENCES Dieta (IdDieta),
     CONSTRAINT FK_DietaAlimentos_IdAlimentos FOREIGN KEY (IdAlimentos) REFERENCES Alimentos (IdAlimentos)
 );
+GO
 
---FIN Creación de tablas
 
-
+--Parte 3: Fin Creación de tablas
 
 --Parte 4: Tablas de Auditorias
 USE ZooMA
@@ -414,24 +502,6 @@ CREATE TABLE Audit_EstadoSalud (
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
-
-GO
-USE ZooMA
-GO
-CREATE TABLE Audit_VentaEntrada (
-    IdAudit INT PRIMARY KEY IDENTITY(1,1),
-    NombreTabla VARCHAR(20),
-    Operacion VARCHAR(10),
-    IdVentaEntrada INT,
-    Fechaventa DATE,
-    Horaventa TIME,
-    IdVisitante INT,
-    IdMetodoPago INT,
-    RealizadoPor VARCHAR(100),
-    FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
-
-GO
 
 USE ZooMA
 GO
@@ -468,6 +538,7 @@ CREATE TABLE Audit_TipoHabitacion (
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
+GO
 
 USE ZooMA
 GO
@@ -536,7 +607,7 @@ CREATE TABLE Audit_Puesto (
     NombreTabla VARCHAR(20),
     Operacion VARCHAR(10),
     IdPuesto INT,
-    Nombre VARCHAR(50),
+    Nombre VARCHAR(20),
     Salario FLOAT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
@@ -571,19 +642,19 @@ CREATE TABLE Audit_EstadoTarea (
 
 USE ZooMA
 GO
-CREATE TABLE Audit_CalificacionVisita (
+CREATE TABLE Audit_VentaEntrada (
     IdAudit INT PRIMARY KEY IDENTITY(1,1),
     NombreTabla VARCHAR(20),
     Operacion VARCHAR(10),
-    IdCalificacionVisita INT,
-    SugerenciaMejora VARCHAR(255),
-    Fecha DATE,
     IdVentaEntrada INT,
-	IdCalificacionRecorrido INT,
-	IdRecorrido INT,
+    Fechaventa DATE,
+    Horaventa TIME,
+    IdVisitante INT,
+    IdMetodoPago INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
+
 USE ZooMA
 GO
 CREATE TABLE Audit_MetodoPago (
@@ -596,6 +667,22 @@ CREATE TABLE Audit_MetodoPago (
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
 
+USE ZooMA
+GO
+CREATE TABLE Audit_CalificacionVisita (
+    IdAudit INT PRIMARY KEY IDENTITY(1,1),
+    NombreTabla VARCHAR(20),
+    Operacion VARCHAR(10),
+    IdCalificacionVisita INT,
+    Nota FLOAT,
+    SugerenciaMejora VARCHAR(255),
+    Fecha DATE,
+    IdVisitantes INT,
+	IdCalificacionRecorrido INT,
+	IdRecorrido INT,
+    RealizadoPor VARCHAR(100),
+    FechaDeEjecucion DATETIME DEFAULT GETDATE()
+);
 
 USE ZooMA
 GO
@@ -708,8 +795,7 @@ CREATE TABLE Audit_CalificacionRecorrido (
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
 );
---FIN Tablas Auditorias
-GO
+--Parte 4: Fin Tablas Auditorias
 
 --table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
 USE ZooMA;
