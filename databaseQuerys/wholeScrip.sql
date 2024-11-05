@@ -52,9 +52,9 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Animal_Data',
     FILENAME = 'C:\SQLData\Animal_Data.ndf',
-    SIZE = 185MB,
-    MAXSIZE = 700MB,
-    FILEGROWTH = 60MB
+    SIZE = 200MB,
+    MAXSIZE = 1000MB,
+    FILEGROWTH = 100MB
 ) TO FILEGROUP Animal
 GO
 
@@ -72,9 +72,9 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Zoo_Data',
     FILENAME = 'C:\SQLData\Zoo_Data.ndf',
-    SIZE = 10MB,
-    MAXSIZE = 40MB,
-    FILEGROWTH = 3MB
+    SIZE = 700MB,
+    MAXSIZE = 2GB,
+    FILEGROWTH = 300MB
 ) TO FILEGROUP Zoo
 GO
 
@@ -82,9 +82,9 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Empleado_Data',
     FILENAME = 'C:\SQLData\Empleado_Data.ndf',
-    SIZE = 90MB,
-    MAXSIZE = 75MB,
-    FILEGROWTH = 6MB
+    SIZE = 100MB,
+    MAXSIZE = 350MB,
+    FILEGROWTH = 50MB
 ) TO FILEGROUP Empleado
 GO
 
@@ -106,26 +106,27 @@ CREATE TABLE EstadoSalud (
     IdEstadoSalud INT NOT NULL IDENTITY(1,1),
     EstadoSalud VARCHAR(255) NOT NULL,
     CONSTRAINT PK_EstadoSalud_IdEstadoSalud PRIMARY KEY CLUSTERED (IdEstadoSalud)
-);
+) ON Animal
 GO
 
 USE ZooMA
 GO
-
 CREATE TABLE Especie (
     IdEspecie INT NOT NULL IDENTITY(1,1),
     NombreEsp VARCHAR(20) NOT NULL,
     CONSTRAINT PK_Especie_IdEspecie PRIMARY KEY CLUSTERED (IdEspecie)
-);
+)  ON Animal
+GO
+
 
 USE ZooMA
 GO
-
 CREATE TABLE TipoHabitacion (
     IdTipoHabitacion INT NOT NULL IDENTITY(1,1),
     NombreTH VARCHAR(75) NOT NULL,
     CONSTRAINT PK_TipoHabitacion_IdTipoHabitacion PRIMARY KEY CLUSTERED (IdTipoHabitacion)
-);
+) ON Habitacion
+GO
 
 
 USE ZooMA
@@ -136,7 +137,8 @@ CREATE TABLE ZOO (
     Direccion VARCHAR(100) NOT NULL,
     DescripcionZoo VARCHAR(255) NOT NULL,
     CONSTRAINT PK_ZOO_IdZoo PRIMARY KEY CLUSTERED (IdZoo)
-);
+) ON ZOO
+GO
 
 
 USE ZooMA
@@ -145,7 +147,9 @@ CREATE TABLE EstadoHabitacion (
     IdEstadoHabitacion INT NOT NULL IDENTITY(1,1),
     Estado VARCHAR(50) NOT NULL,
     CONSTRAINT PK_EstadoHabitacion_IdEstadoHabitacion PRIMARY KEY CLUSTERED (IdEstadoHabitacion)
-);
+) ON Habitacion
+GO
+
 
 USE ZooMA
 GO
@@ -161,7 +165,8 @@ CREATE TABLE Habitacion (
         REFERENCES TipoHabitacion (IdTipoHabitacion),
     CONSTRAINT FK_HabitacionEstadoHabitacion FOREIGN KEY (IdEstadoHabitacion) 
         REFERENCES EstadoHabitacion (IdEstadoHabitacion) 
-);
+)  ON Habitacion
+GO
 
 USE ZooMA
 GO
@@ -174,30 +179,30 @@ CREATE TABLE Visitantes (
     CorreoElectronico VARCHAR(50) NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
     CONSTRAINT PK_Visitantes_IdVisitantes PRIMARY KEY CLUSTERED (IdVisitantes)
-);
+) ON ZOO
+GO
 
 USE ZooMA
 GO
-
 CREATE TABLE MetodoPago (
     IdMetodoPago INT NOT NULL IDENTITY(1,1),
     Metodopago VARCHAR(50) NOT NULL,
     CONSTRAINT PK_MetodoPago_IdMetodoPago PRIMARY KEY CLUSTERED (IdMetodoPago)
-);
+) ON ZOO
+GO
 
 USE ZooMA
 GO
-
 CREATE TABLE Dieta (
     IdDieta INT NOT NULL IDENTITY(1,1),
     NombreDiet VARCHAR(20) NOT NULL,
     CONSTRAINT PK_Dieta_IdDieta PRIMARY KEY CLUSTERED (IdDieta)
-);
+) ON Animal
+GO
 
 
 USE ZooMA
 GO
-
 CREATE TABLE Animales (
     IdAnimales INT NOT NULL IDENTITY(1,1),
     NombreAni VARCHAR(20) NOT NULL,
@@ -218,7 +223,9 @@ CREATE TABLE Animales (
         REFERENCES Dieta (IdDieta),
     CONSTRAINT FK_Animales_IdEspecies FOREIGN KEY (IdEspecie) 
         REFERENCES Especie (IdEspecie) 
-);
+) ON Animal
+GO
+
 
 USE ZooMA
 GO
@@ -237,7 +244,7 @@ CREATE TABLE HistorialMovimientos (
         REFERENCES Habitacion (IdHabitacion),
     CONSTRAINT FK_HistorialMovimientos_IdHabitacionActual FOREIGN KEY (IdHabitacionActual) 
         REFERENCES Habitacion (IdHabitacion) 
-);
+) ON Habitacion
 GO
 
 
@@ -248,7 +255,7 @@ CREATE TABLE Puesto (
     Nombre VARCHAR(20) NOT NULL,
     Salario FLOAT NOT NULL,
     CONSTRAINT PK_Puesto_IdPuesto PRIMARY KEY CLUSTERED (IdPuesto)
-);
+) ON Empleado
 GO
 
 
@@ -266,7 +273,7 @@ CREATE TABLE Empleado (
     CONSTRAINT PK_Empleado_IdEmpleado PRIMARY KEY CLUSTERED (IdEmpleado),
     CONSTRAINT FK_Empleado_IdZoo FOREIGN KEY (IdZoo) REFERENCES ZOO (IdZoo),
     CONSTRAINT FK_Empleado_IdPuesto FOREIGN KEY (IdPuesto) REFERENCES Puesto (IdPuesto) 
-);
+) ON Empleado
 GO
 
 
@@ -276,7 +283,7 @@ CREATE TABLE EstadoTarea (
     IdEstadoTarea INT NOT NULL IDENTITY(1,1),
     Nombre VARCHAR(20) NOT NULL,
     CONSTRAINT PK_EstadoTarea_IdEstadoTarea PRIMARY KEY CLUSTERED (IdEstadoTarea)
-);
+) ON Empleado
 GO
 
 
@@ -290,7 +297,7 @@ CREATE TABLE Tareas (
     CONSTRAINT PK_Tareas_IdTareas PRIMARY KEY CLUSTERED (IdTareas),
     CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_TareasEstadoTareas_IdEstadoTarea FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
-);
+) ON Empleado
 GO
 
 USE ZooMA
@@ -304,13 +311,12 @@ CREATE TABLE MantenimientoHabitacion (
     CONSTRAINT PK_MantenimientoHabitacion_IdMantenimientoHabitacion PRIMARY KEY CLUSTERED (IdMantenimientoHabitacion),
     CONSTRAINT FK_MantenimientoHabitacion_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
     CONSTRAINT FK_MantenimientoHabitacion_IdHabitacion FOREIGN KEY (IdHabitacion) REFERENCES Habitacion (IdHabitacion)
-);
+) ON Habitacion
 GO
 
 
 USE ZooMA
 GO
-
 CREATE TABLE ControlAnimal (
     IdControl INT NOT NULL IDENTITY(1,1),
     Reporte VARCHAR(255) NULL,
@@ -320,7 +326,7 @@ CREATE TABLE ControlAnimal (
     CONSTRAINT PK_ControlAnimal_IdControl PRIMARY KEY CLUSTERED (IdControl),
     CONSTRAINT FK_ControlAnimal_IdTareas FOREIGN KEY (IdTareas) REFERENCES Tareas (IdTareas),
     CONSTRAINT FK_ControlAnimal_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
-);
+) ON Animal
 GO
 
 
@@ -333,7 +339,7 @@ CREATE TABLE Usuario (
     Estado BIT NOT NULL DEFAULT 1,
     CONSTRAINT PK_Usuario_IdUsuario PRIMARY KEY CLUSTERED (IdUsuario),
     CONSTRAINT FK_Usuario_IdEmpleado FOREIGN KEY (IdUsuario) REFERENCES Empleado (IdEmpleado)
-);
+) ON Empleado
 GO
 
 USE ZooMA
@@ -342,7 +348,7 @@ CREATE TABLE Rol (
     IdRol INT NOT NULL IDENTITY(1,1),
     nombre VARCHAR(20) NOT NULL,
     CONSTRAINT PK_Rol_IdRol PRIMARY KEY CLUSTERED (IdRol)
-);
+) ON Empleado
 GO
 
 
@@ -358,7 +364,7 @@ CREATE TABLE RolUsuario (
     CONSTRAINT PK_RolUsuario_IdRolUsuario PRIMARY KEY CLUSTERED (IdRolUsuario),
     CONSTRAINT FK_RolUsuario_IdUsuario FOREIGN KEY (IdUsuario) REFERENCES Usuario (IdUsuario),
     CONSTRAINT FK_RolUsuario_IdRol FOREIGN KEY (IdRol) REFERENCES Rol (IdRol) 
-);
+) ON Empleado
 GO
 
 
@@ -374,7 +380,7 @@ CREATE TABLE VentaEntrada (
     CONSTRAINT FK_VentaEntrada_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
     CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes) 
-);
+) ON ZOO
 GO
 
 
@@ -385,7 +391,7 @@ CREATE TABLE TipoEntrada (
     NombreEnt VARCHAR(20) NOT NULL,
     Precio MONEY NOT NULL,
     CONSTRAINT PK_TipoEntrada_IdTipoEntrada PRIMARY KEY CLUSTERED (IdTipoEntrada)
-);
+) ON ZOO
 GO
 
 
@@ -399,7 +405,7 @@ CREATE TABLE Entrada (
     CONSTRAINT PK_Entrada_IdEntrada PRIMARY KEY CLUSTERED (IdEntrada),
     CONSTRAINT FK_Entrada_IdTipoEntrada FOREIGN KEY (IdTipoEntrada) 
         REFERENCES TipoEntrada (IdTipoEntrada)
-);
+) ON ZOO
 GO
 
 
@@ -416,7 +422,7 @@ CREATE TABLE DetalleVenta (
         REFERENCES VentaEntrada (IdVentaEntrada),
     CONSTRAINT FK_DetalleVenta_IdEntrada FOREIGN KEY (IdEntrada) 
         REFERENCES Entrada (IdEntrada)
-);
+) ON ZOO
 GO
 
 
@@ -427,7 +433,7 @@ CREATE TABLE CalificacionRecorrido (
     Nota INT NOT NULL,
     SugerenciaMejora VARCHAR(255) NULL,
     CONSTRAINT PK_CalificacionRecorrido_IdCalificacionRecorrido PRIMARY KEY CLUSTERED (IdCalificacionRecorrido)
-);
+) ON ZOO
 GO
 
 
@@ -438,7 +444,7 @@ CREATE TABLE CalificacionServicioAlCliente (
     Nota INT NOT NULL,
     SugerenciaMejora VARCHAR(255) NULL,
     CONSTRAINT PK_CalificacionServicioAlCliente_IdCalificacionServicioAlCliente PRIMARY KEY CLUSTERED (IdCalificacionServicioAlCliente)
-);
+) ON ZOO
 GO
 
 
@@ -461,7 +467,7 @@ CREATE TABLE CalificacionVisita (
     CONSTRAINT FK_CalificacionVisita_IdVisitantes 
         FOREIGN KEY (IdVisitantes) 
         REFERENCES Visitantes (IdVisitantes)
-);
+) ON ZOO
 GO
 
 
@@ -471,7 +477,7 @@ CREATE TABLE Alimentos (
     IdAlimentos INT NOT NULL IDENTITY(1,1),
     Nombre VARCHAR(20) NOT NULL,
     CONSTRAINT PK_Alimentos_IdAlimentos PRIMARY KEY CLUSTERED (IdAlimentos)
-);
+) ON Animal
 GO
 
 
@@ -484,7 +490,7 @@ CREATE TABLE DietaAlimentos (
     CONSTRAINT PK_DietaAlimentos_IdDietaAlimentos PRIMARY KEY CLUSTERED (IdDietaAlimentos),
     CONSTRAINT FK_DietaAlimentos_IdDieta FOREIGN KEY (IdDieta) REFERENCES Dieta (IdDieta),
     CONSTRAINT FK_DietaAlimentos_IdAlimentos FOREIGN KEY (IdAlimentos) REFERENCES Alimentos (IdAlimentos)
-);
+) ON Animal
 GO
 
 
@@ -501,7 +507,8 @@ CREATE TABLE Audit_EstadoSalud (
     EstadoSalud VARCHAR(255),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -513,7 +520,8 @@ CREATE TABLE Audit_Especie (
     NombreEsp VARCHAR(20),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -525,7 +533,8 @@ CREATE TABLE Audit_Dieta (
     NombreDiet VARCHAR(20),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -537,8 +546,9 @@ CREATE TABLE Audit_TipoHabitacion (
     NombreTH VARCHAR(75),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
 GO
+
 
 USE ZooMA
 GO
@@ -554,7 +564,8 @@ CREATE TABLE Audit_Visitantes (
 	Telefono INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -567,7 +578,8 @@ CREATE TABLE Audit_TipoEntrada (
     Precio MONEY,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -581,7 +593,8 @@ CREATE TABLE Audit_EstadoHabitacion (
     Fecha DATE,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -598,7 +611,8 @@ CREATE TABLE Audit_Empleado (
     IdZoo INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -611,7 +625,8 @@ CREATE TABLE Audit_Puesto (
     Salario FLOAT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -626,7 +641,8 @@ CREATE TABLE Audit_Tareas (
     IdEstadoTarea INT NOT NULL,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -638,7 +654,8 @@ CREATE TABLE Audit_EstadoTarea (
     Nombre VARCHAR(20),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -653,7 +670,8 @@ CREATE TABLE Audit_VentaEntrada (
     IdMetodoPago INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -665,7 +683,8 @@ CREATE TABLE Audit_MetodoPago (
     MetodoPago VARCHAR(255),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -682,7 +701,8 @@ CREATE TABLE Audit_CalificacionVisita (
 	IdRecorrido INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -694,7 +714,8 @@ CREATE TABLE Audit_Rol (
     Nombre VARCHAR(20),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -707,7 +728,8 @@ CREATE TABLE Audit_Usuario (
     Estado BIT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -723,7 +745,8 @@ CREATE TABLE Audit_Habitacion (
     IdEstadoHabitacion INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -737,7 +760,8 @@ CREATE TABLE Audit_ZOO (
     DescripcionZoo VARCHAR(255),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+)ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -755,7 +779,8 @@ CREATE TABLE Audit_Animales (
     IdZoo INT,
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 
 USE ZooMA
@@ -768,7 +793,8 @@ CREATE TABLE Audit_Alimentos (
     Nombre VARCHAR(20),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -781,7 +807,8 @@ CREATE TABLE Audit_CalificacionServicioAlCliente (
 	SugerenciaMejora VARCHAR (255),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
 
 USE ZooMA
 GO
@@ -794,7 +821,9 @@ CREATE TABLE Audit_CalificacionRecorrido (
 	SugerenciaMejora VARCHAR (255),
     RealizadoPor VARCHAR(100),
     FechaDeEjecucion DATETIME DEFAULT GETDATE()
-);
+) ON Auditorias
+GO
+
 --Parte 4: Fin Tablas Auditorias
 
 --table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
