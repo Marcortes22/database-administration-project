@@ -7125,7 +7125,7 @@ DECLARE @CedulaCreador VARCHAR(20) = '504420108';
 
 -- Insertar un registro en la tabla ZOO
 EXEC SP_INGRESAR_ZOO 
-    @NombreZoo = 'Zoo Maravillas', 
+    @NombreZoo = 'Zoo Mundo Animal', 
     @Direccion = 'Avenida de los Animales 123', 
     @DescripcionZoo = 'Un zoológico dedicado a la conservación de la fauna', 
     @Cedula = @CedulaCreador;
