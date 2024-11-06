@@ -188,6 +188,10 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
         INSERT INTO ControlAnimal (IdTareas, IdAnimales, Nombre)
         VALUES (@IdTarea, @IdAnimales, @Nombre)
+
+
+         INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, idEmpleado)
+        VALUES (@IdTarea, 1,1,@IdEmpleado)
 		COMMIT TRANSACTION
         
         
@@ -243,12 +247,17 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         END 
 
         INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
-        VALUES (@IdEmpleado, 2,1,GETDATE() );  
+        VALUES (@IdEmpleado, 1,1,GETDATE() );  
 
         SET @IdTarea = SCOPE_IDENTITY();
 
         INSERT INTO MantenimientoHabitacion (IdTareas, IdHabitacion, Nombre)
         VALUES (@IdTarea, @IdHabitacion, @Nombre)
+
+
+         INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
+        VALUES (@IdTarea, 1,1,@IdEmpleado)
+
 		COMMIT TRANSACTION
         
         
@@ -276,8 +285,10 @@ CREATE PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA(
 AS
 BEGIN
 EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
-
+BEGIN TRANSACTION;
     BEGIN TRY
+
+    Declare @IdTipoTarea INT;
 
 		IF(@IdEstadoTarea IS NULL OR @IdTarea IS NULL  OR @Cedula = '')
 		BEGIN
@@ -296,6 +307,8 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 		
 		DECLARE @IdEmpleadoEncargado INT
 
+        SET @IdTipoTarea = (SELECT IdTipoTarea FROM Tareas WHERE IdTareas = @IdTarea)
+
 		SET @IdEmpleadoEncargado = (SELECT IdEmpleado FROM Tareas WHERE IdTareas = @IdTarea)
 		print(@IdEmpleadoEncargado + ' ' + @Cedula)
         IF (@IdEmpleadoEncargado <> @Cedula)
@@ -306,11 +319,16 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 		UPDATE Tareas
 		SET IdEstadoTarea = @IdEstadoTarea
 		WHERE IdTareas = @IdTarea
+
+        INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
+        VALUES (@IdTarea, @IdEstadoTarea, @IdTipoTarea, @Cedula)
+
+        COMMIT TRANSACTION;
         
         
     END TRY
     BEGIN CATCH
-        
+        ROLLBACK TRANSACTION;
         DECLARE @ErrorMessage VARCHAR(100);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);

@@ -1077,7 +1077,83 @@ BEGIN
 END
 GO
 
+IF OBJECT_ID('SP_ACTUALIZAR_HABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_HABITACION;
+GO
 
+CREATE PROCEDURE SP_ACTUALIZAR_HABITACION(
+    @IdHabitacion INT,
+    @NombreHab VARCHAR(20),
+    @Direccion VARCHAR(255),
+    @Capacidad INT,
+    @IdTipoHabitacion INT,
+    @IdEstadoHabitacion INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+    EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    
+    BEGIN TRY
+        -- Validación de campos vacíos
+        IF (@NombreHab = '' AND @Direccion = '' AND @Capacidad = '' AND @IdTipoHabitacion IS NULL AND @IdEstadoHabitacion IS NULL)
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        IF ( @Cedula = '' OR @IdHabitacion IS NULL)
+        BEGIN
+            RAISERROR ('Se necesita el id de la habitacion a editar y el de la persona editora', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        
+        -- Verificación de que la habitación exista
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+            RAISERROR ('La habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        BEGIN
+            RAISERROR ('El estado de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        
+        -- Verificación de que el tipo de habitación exista
+        IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
+        BEGIN
+            RAISERROR ('El tipo de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        
+        -- Actualización de los datos de la habitación
+        UPDATE Habitacion
+        SET NombreHab = ISNULL(@NombreHab, NombreHab),
+            Direccion = ISNULL(@Direccion, Direccion),              
+            Capacidad = ISNULL(@Capacidad, Capacidad),
+            IdEstadoHabitacion = ISNULL(@IdEstadoHabitacion,IdEstadoHabitacion),
+            IdTipoHabitacion = ISNULL(@IdTipoHabitacion,IdTipoHabitacion)
+        WHERE IdHabitacion = @IdHabitacion;
+        
+        COMMIT TRANSACTION;
+        SELECT 'Habitación actualizada correctamente: ' + @NombreHab AS 'Mensaje de Confirmación';
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
 
 USE ZooMA
 GO

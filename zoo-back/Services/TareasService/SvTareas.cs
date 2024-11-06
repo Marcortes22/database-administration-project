@@ -64,23 +64,24 @@ namespace Services.TareasService
             }
         }
 
-        public async Task<BaseResponse<Tarea>> GetTasksByEmpleadoId(int id)
+        public async Task<BaseResponse<List<Tarea>>> GetTasksByEmpleadoId(int id)
         {
             try
             {
-                var data =  myDbContext.Tareas
+                var data = myDbContext.Tareas
            .Include(t => t.IdEmpleadoNavigation)  // Cargar empleado relacionado
            .Include(t => t.IdTipoTareaNavigation)  // Cargar tipo de tarea
            .Include(t => t.ControlAnimals)  // Cargar lista de ControlAnimal
            .Include(t => t.MantenimientoHabitacions)  // Cargar lista de MantenimientoHabitacion
            .Include(t => t.IdEstadoTareaNavigation)  // Cargar el estado de la tarea (1:1 opcional)
-           .FirstOrDefault(t => t.IdEmpleado == id);
+           .Where(t => t.IdEmpleado == id)
+           .ToList();
 
-                return new BaseResponse<Tarea>(data, true, "");
+                return new BaseResponse<List<Tarea>>(data, true, "");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<Tarea>(default, false, ex.Message);
+                return new BaseResponse<List<Tarea>>(default, false, ex.Message);
             }
 
 

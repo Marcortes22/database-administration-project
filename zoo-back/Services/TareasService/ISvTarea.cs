@@ -12,7 +12,7 @@ namespace Services.TareasService
     public interface ISvTarea
     {
         Task<BaseResponse<List<Tarea>>> GetAll();
-        Task<BaseResponse<Tarea>> GetTasksByEmpleadoId(int id);
+        Task<BaseResponse<List<Tarea>>> GetTasksByEmpleadoId(int id);
         Task<BaseResponse<Tarea>> AtualizarEstado(ChangeTaskStateDto cambiarEstadoTareaDto,int cedulaCreador);
 
 

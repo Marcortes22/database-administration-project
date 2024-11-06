@@ -204,7 +204,7 @@ CREATE TABLE HistorialMovimientos (
     realizadoPor INT NOT NULL,
     CONSTRAINT FK_HistorialMovimientos_IdAnimales FOREIGN KEY (IdAnimales) REFERENCES Animales (IdAnimales)
 );
-
+GO
 
 
 
@@ -254,7 +254,26 @@ CREATE TABLE Tareas (
     CONSTRAINT FK_Tareas_IdTipoTarea FOREIGN KEY (IdTipoTarea) REFERENCES TipoTarea (IdTipoTarea),
     CONSTRAINT FK_TareasEstadoTareaS FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
 );
+GO
+USE ZooMA
+GO
+CREATE TABLE HistorialEstadoTarea (
+    IdHistorialEstadoTarea INT PRIMARY KEY IDENTITY(1,1),
+    IdTarea INT NOT NULL,
+    IdEstadoTarea INT NOT NULL,
+    IdTipoTarea INT NOT NULL,
+    IdEmpleado INT NOT NULL,	
+    Fecha DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_HistorialEstadoTarea_Tarea FOREIGN KEY (IdTarea)REFERENCES Tareas (IdTareas),
 
+    CONSTRAINT FK_HistorialEstadoTarea_EstadoTarea FOREIGN KEY (IdEstadoTarea)REFERENCES EstadoTarea (IdEstadoTarea),
+
+    CONSTRAINT FK_HistorialEstadoTarea_TipoTarea FOREIGN KEY (IdTipoTarea)REFERENCES TipoTarea (IdTipoTarea),
+
+    CONSTRAINT FK_HistorialEstadoTarea_Empleado FOREIGN KEY (IdEmpleado)REFERENCES Empleado (IdEmpleado)
+
+);
+GO
 USE ZooMA
 GO
 CREATE TABLE MantenimientoHabitacion (
@@ -315,6 +334,7 @@ CREATE TABLE VentaEntrada (
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
     IdEmpleado INT NOT NULL,
+    IVA MONEY DEFAULT 0.13,
     CONSTRAINT FK_VentaEntrada_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
     CONSTRAINT FK_VentaEntrada_IdVisitantes FOREIGN KEY (IdVisitantes) REFERENCES Visitantes (IdVisitantes)
