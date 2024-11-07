@@ -9,7 +9,7 @@ CREATE DATABASE ZooMA
 ON PRIMARY (
     NAME = 'ZooMA_Data',
     FILENAME = 'C:\SQLData\ZooMA_Data.mdf',
-    SIZE = 3400MB,
+    SIZE = 2600MB,
     MAXSIZE = 7GB,
     FILEGROWTH = 1020MB
 ) LOG ON (
@@ -52,7 +52,7 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Animal_Data',
     FILENAME = 'C:\SQLData\Animal_Data.ndf',
-    SIZE = 200MB,
+    SIZE = 210MB,
     MAXSIZE = 1000MB,
     FILEGROWTH = 100MB
 ) TO FILEGROUP Animal
@@ -62,7 +62,7 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Habitacion_Data',
     FILENAME = 'C:\SQLData\Habitacion_Data.ndf',
-    SIZE = 26MB,
+    SIZE = 30MB,
     MAXSIZE = 104MB,
     FILEGROWTH = 8MB
 ) TO FILEGROUP Habitacion
@@ -72,7 +72,7 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Zoo_Data',
     FILENAME = 'C:\SQLData\Zoo_Data.ndf',
-    SIZE = 700MB,
+    SIZE = 900MB,
     MAXSIZE = 2GB,
     FILEGROWTH = 300MB
 ) TO FILEGROUP Zoo
@@ -82,9 +82,9 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Empleado_Data',
     FILENAME = 'C:\SQLData\Empleado_Data.ndf',
-    SIZE = 100MB,
-    MAXSIZE = 350MB,
-    FILEGROWTH = 50MB
+    SIZE = 380MB,
+    MAXSIZE = 800MB,
+    FILEGROWTH = 80MB
 ) TO FILEGROUP Empleado
 GO
 
@@ -92,13 +92,13 @@ ALTER DATABASE ZooMA
 ADD FILE (
     NAME = 'Auditorias_Data',
     FILENAME = 'C:\SQLData\Auditorias_Data.ndf',
-    SIZE = 1062MB,
+    SIZE = 1080MB,
     MAXSIZE = 4GB,
-    FILEGROWTH = 319MB
+    FILEGROWTH = 400MB
 ) TO FILEGROUP Auditorias
 GO
 --Parte 2: Fin FileGroup
-
+	
 --Parte 3: Creación de tablas
 USE ZooMA
 GO
