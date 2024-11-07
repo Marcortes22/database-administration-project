@@ -1,4 +1,13 @@
 USE ZooMA
+
+--UNIDAD DE MEDIDA POR DEFECTO
+
+INSERT INTO UnidadMedida (Nombre)
+VALUES ('Gramos'),
+       ('Litros'),
+       ('Unidad'),
+
+
 GO
 DECLARE @CedulaCreador VARCHAR(20) = '504420108';
 
@@ -539,59 +548,63 @@ EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Recuperación', @Cedula = @CedulaC
 
 
 -- Alimentos específicos para dietas de animales en el zoológico
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de venado', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de cerdo', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de conejo', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de codorniz', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Larvas', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Gusanos de seda', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Saltamontes', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Grillos', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Miel de flores', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Plátanos', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Papayas', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Mangos', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Manzanas', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Peras', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Sandías', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Melones', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Zanahorias', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Calabazas', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Betabel', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pepinos', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Tomates', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Brotes de alfalfa', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Raíces comestibles', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Heno fresco', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pasto', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Piensos para aves', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Semillas de girasol', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Semillas de sésamo', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Maíz', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Arroz integral', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Avena', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Nueces mixtas', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Avellanas', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Almendras', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Alimento para peces', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de codorniz', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de gallina', @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Polen', @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de venado', @Cedula = @CedulaCreador,@IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de cerdo', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de conejo', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de codorniz', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Larvas', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Gusanos de seda', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Saltamontes', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Grillos', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Miel de flores', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Plátanos', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Papayas', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Mangos', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Manzanas', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Peras', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Sandías', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Melones', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Zanahorias', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Calabazas', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Betabel', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pepinos', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Tomates', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Brotes de alfalfa', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Raíces comestibles', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Heno fresco', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pasto', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Piensos para aves', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Semillas de girasol', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Semillas de sésamo', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Maíz', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Arroz integral', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Avena', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Nueces mixtas', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Avellanas', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Almendras', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Alimento para peces', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de codorniz', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de gallina', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Polen', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 
 
 
 DECLARE @Alimentos AlimentosDeDietaTableType;
 
 -- Dieta 1: Dieta Carnívora
-INSERT INTO @Alimentos (IdAlimentos) VALUES (2), (3), (4), (5); -- Carne de venado, cerdo, conejo, codorniz
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) VALUES (2,500), (3,250), (4,100), (5,1); -- Carne de venado, cerdo, conejo, codorniz
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta Carnívora', 
     @Cedula = @CedulaCreador, 
     @Alimentos = @Alimentos;
 
 -- Dieta 2: Dieta Insectívora
+D-- Dieta 2: Dieta Insectívora
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (6), (7), (8); -- Larvas, Gusanos de seda, Saltamontes
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (6, 50),      -- Larvas (50 gramos)
+       (7, 40),      -- Gusanos de seda (40 gramos)
+       (8, 30);      -- Saltamontes (30 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta Insectívora', 
     @Cedula = @CedulaCreador, 
@@ -599,7 +612,12 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 3: Dieta Frutal
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (11), (12), (13), (14), (15); -- Plátanos, Papayas, Mangos, Manzanas, Peras
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (11, 2),      -- Plátanos (2 piezas)
+       (12, 1),      -- Papayas (1 pieza)
+       (13, 1),      -- Mangos (1 pieza)
+       (14, 150),    -- Manzanas (150 gramos)
+       (15, 100);    -- Peras (100 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta Frutal', 
     @Cedula = @CedulaCreador, 
@@ -607,7 +625,11 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 4: Dieta Mixta
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (10), (11), (25), (27); -- Miel de flores, Plátanos, Heno fresco, Piensos para aves
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (10, 200),    -- Miel de flores (200 gramos)
+       (11, 2),      -- Plátanos (2 piezas)
+       (25, 100),    -- Heno fresco (100 gramos)
+       (27, 300);    -- Piensos para aves (300 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta Mixta', 
     @Cedula = @CedulaCreador, 
@@ -615,7 +637,11 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 5: Dieta Herbívora
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (18), (19), (20), (21); -- Zanahorias, Calabazas, Betabel, Pepinos
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (18, 100),    -- Zanahorias (100 gramos)
+       (19, 200),    -- Calabazas (200 gramos)
+       (20, 150),    -- Betabel (150 gramos)
+       (21, 120);    -- Pepinos (120 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta Herbívora', 
     @Cedula = @CedulaCreador, 
@@ -623,7 +649,10 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 6: Dieta para Aves
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (28), (29), (30); -- Semillas de girasol, Semillas de sésamo, Maíz
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (28, 50),     -- Semillas de girasol (50 gramos)
+       (29, 30),     -- Semillas de sésamo (30 gramos)
+       (30, 200);    -- Maíz (200 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta para Aves', 
     @Cedula = @CedulaCreador, 
@@ -631,7 +660,9 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 7: Dieta para Peces
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (36), (37); -- Alimento para peces, Huevos de codorniz
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (36, 100),    -- Alimento para peces (100 gramos)
+       (37, 5);      -- Huevos de codorniz (5 piezas)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta para Peces', 
     @Cedula = @CedulaCreador, 
@@ -639,7 +670,11 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 8: Dieta de Semillas
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (28), (29), (31), (33); -- Semillas de girasol, Semillas de sésamo, Arroz integral, Nueces mixtas
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (28, 50),     -- Semillas de girasol (50 gramos)
+       (29, 30),     -- Semillas de sésamo (30 gramos)
+       (31, 100),    -- Arroz integral (100 gramos)
+       (33, 50);     -- Nueces mixtas (50 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta de Semillas', 
     @Cedula = @CedulaCreador, 
@@ -647,7 +682,11 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 9: Dieta de Verduras
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (18), (21), (22), (24); -- Zanahorias, Pepinos, Tomates, Raíces comestibles
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (18, 100),    -- Zanahorias (100 gramos)
+       (21, 120),    -- Pepinos (120 gramos)
+       (22, 150),    -- Tomates (150 gramos)
+       (24, 80);     -- Raíces comestibles (80 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta de Verduras', 
     @Cedula = @CedulaCreador, 
@@ -655,7 +694,11 @@ EXEC SP_INGRESAR_DIETA
 
 -- Dieta 10: Dieta Energética
 DELETE FROM @Alimentos;
-INSERT INTO @Alimentos (IdAlimentos) VALUES (30), (31), (32), (33); -- Maíz, Arroz integral, Avena, Nueces mixtas
+INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
+VALUES (30, 200),    -- Maíz (200 gramos)
+       (31, 100),    -- Arroz integral (100 gramos)
+       (32, 100),    -- Avena (100 gramos)
+       (33, 50);     -- Nueces mixtas (50 gramos)
 EXEC SP_INGRESAR_DIETA 
     @NombreDiet = 'Dieta Energética', 
     @Cedula = @CedulaCreador, 

@@ -18,7 +18,8 @@ GO
  GO
 CREATE TYPE AlimentosDeDietaTableType AS TABLE
 (
-    IdAlimentos INT NOT NULL
+    IdAlimentos INT NOT NULL,
+    Cantidad DECIMAL(10, 2) 
 );
 
 

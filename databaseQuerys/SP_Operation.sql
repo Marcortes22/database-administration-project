@@ -118,8 +118,8 @@ BEGIN
         
         SET @IdDieta = SCOPE_IDENTITY();
 
-        INSERT INTO DietaAlimentos (IdDieta, IdAlimentos) 
-        SELECT @IdDieta, IdAlimentos FROM @Alimentos;
+        INSERT INTO DietaAlimentos (IdDieta, IdAlimentos,Cantidad) 
+        SELECT @IdDieta, IdAlimentos,Cantidad FROM @Alimentos;
 
         COMMIT TRANSACTION;
         SELECT 'Dieta registrada correctamente: ' + @NombreDiet AS 'Mensaje de Confirmación';

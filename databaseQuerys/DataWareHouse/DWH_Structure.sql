@@ -69,6 +69,7 @@ GO
   CREATE TABLE Dim_Alimentos (
     IdAlimento INT,
     Nombre VARCHAR(62) NULL,
+    UnidadMedica VARCHAR(50)  NULL
 )
 GO
 
@@ -165,3 +166,13 @@ CREATE TABLE Fact_CalificacionVisita (
     SugerenciasServicioCliente VARCHAR(255), 
     NotaFinal DECIMAL(5, 2)
 );
+
+--AGREGAR EL CAMPO CANTIDAD Y LA TABLA UNIDAD DE MEDIDA PARA PODER CLASIFICARLO
+--CONSIDERAR AGREGAR EL CAMPO FECHA INICIO Y FIN EN ESTA TABLA
+CREATE TABLE Fact_DietaAlimentos(
+  IdDietaAlimento INT PRIMARY KEY,
+  IdDieta INT,
+  IdAlimento INT,
+  Estado BIT DEFAULT 1,
+
+)

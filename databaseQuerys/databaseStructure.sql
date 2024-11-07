@@ -225,7 +225,13 @@ CREATE TABLE Animales (
         REFERENCES Especie (IdEspecie) 
 ) ON Animal
 GO
-
+USE ZooMA
+GO
+CREATE TABLE TipoTarea (
+    IdTipoTarea INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    NombreTT VARCHAR(20) NOT NULL
+);
+GO
 
 USE ZooMA
 GO
@@ -245,7 +251,11 @@ CREATE TABLE HistorialMovimientos (
     CONSTRAINT FK_HistorialMovimientos_IdHabitacionActual FOREIGN KEY (IdHabitacionActual) 
         REFERENCES Habitacion (IdHabitacion) 
 ) ON Habitacion
+
 GO
+
+
+
 
 
 USE ZooMA
@@ -294,11 +304,34 @@ CREATE TABLE Tareas (
     IdEmpleado INT NOT NULL,
     IdTipoTarea INT NOT NULL,
     IdEstadoTarea INT NOT NULL,
+    Fecha DATETIME DEFAULT GETDATE(),
     CONSTRAINT PK_Tareas_IdTareas PRIMARY KEY CLUSTERED (IdTareas),
     CONSTRAINT FK_Tareas_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_TareasEstadoTareas_IdEstadoTarea FOREIGN KEY (IdEstadoTarea) REFERENCES EstadoTarea (IdEstadoTarea)
 ) ON Empleado
 GO
+
+GO
+USE ZooMA
+GO
+CREATE TABLE HistorialEstadoTarea (
+    IdHistorialEstadoTarea INT PRIMARY KEY CLUSTERED IDENTITY(1,1),
+    IdTarea INT NOT NULL,
+    IdEstadoTarea INT NOT NULL,
+    IdTipoTarea INT NOT NULL,
+    IdEmpleado INT NOT NULL,	
+    Fecha DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_HistorialEstadoTarea_Tarea FOREIGN KEY (IdTarea)REFERENCES Tareas (IdTareas),
+
+    CONSTRAINT FK_HistorialEstadoTarea_EstadoTarea FOREIGN KEY (IdEstadoTarea)REFERENCES EstadoTarea (IdEstadoTarea),
+
+    CONSTRAINT FK_HistorialEstadoTarea_TipoTarea FOREIGN KEY (IdTipoTarea)REFERENCES TipoTarea (IdTipoTarea),
+
+    CONSTRAINT FK_HistorialEstadoTarea_Empleado FOREIGN KEY (IdEmpleado)REFERENCES Empleado (IdEmpleado)
+
+);
+GO
+
 
 USE ZooMA
 GO
@@ -376,6 +409,7 @@ CREATE TABLE VentaEntrada (
     IdVisitantes INT NOT NULL,
     IdMetodoPago INT NOT NULL,
     IdEmpleado INT NOT NULL,
+    IVA MONEY DEFAULT 0.13,
     CONSTRAINT PK_VentaEntrada_IdVentaEntrada PRIMARY KEY CLUSTERED (IdVentaEntrada),
     CONSTRAINT FK_VentaEntrada_IdEmpleado FOREIGN KEY (IdEmpleado) REFERENCES Empleado (IdEmpleado),
     CONSTRAINT FK_VentaEntrada_IdMetodoPago FOREIGN KEY (IdMetodoPago) REFERENCES MetodoPago (IdMetodoPago),
@@ -454,7 +488,7 @@ CREATE TABLE CalificacionVisita (
     IdCalificacionVisita INT NOT NULL IDENTITY(1,1),
     Nota INT NOT NULL,
     Fecha DATE NOT NULL,
-    IdVisitantes INT NOT NULL,
+    IdVentaEntrada INT NOT NULL,
     IdCalificacionServicioAlCliente INT NOT NULL,
     IdCalificacionRecorrido INT NOT NULL,
     CONSTRAINT PK_CalificacionVisita_IdCalificacionVisita PRIMARY KEY CLUSTERED (IdCalificacionVisita),
@@ -464,9 +498,9 @@ CREATE TABLE CalificacionVisita (
     CONSTRAINT FK_CalificacionVisita_IdCalificacionRecorrido 
         FOREIGN KEY (IdCalificacionRecorrido) 
         REFERENCES CalificacionRecorrido (IdCalificacionRecorrido),
-    CONSTRAINT FK_CalificacionVisita_IdVisitantes 
-        FOREIGN KEY (IdVisitantes) 
-        REFERENCES Visitantes (IdVisitantes)
+    CONSTRAINT FK_CalificacionVisita_VentaEntrada 
+        FOREIGN KEY (IdVentaEntrada) 
+        REFERENCES VentaEntrada (IdVentaEntrada)
 ) ON ZOO
 GO
 
@@ -487,6 +521,7 @@ CREATE TABLE DietaAlimentos (
     IdDietaAlimentos INT NOT NULL IDENTITY(1,1),
     IdDieta INT NOT NULL,
     IdAlimentos INT NOT NULL,
+    Cantidad DECIMAL(10, 2) ,
     CONSTRAINT PK_DietaAlimentos_IdDietaAlimentos PRIMARY KEY CLUSTERED (IdDietaAlimentos),
     CONSTRAINT FK_DietaAlimentos_IdDieta FOREIGN KEY (IdDieta) REFERENCES Dieta (IdDieta),
     CONSTRAINT FK_DietaAlimentos_IdAlimentos FOREIGN KEY (IdAlimentos) REFERENCES Alimentos (IdAlimentos)
