@@ -18,7 +18,7 @@ export const useCambiarEstadoTarea = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(`http://localhost:5153/api/Tareas/caambiarEstado`, {
+      const response = await fetch(`http://localhost:5153/api/Tareas/caambiarEstado-`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

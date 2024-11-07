@@ -3,15 +3,18 @@
 import { useState } from 'react';
 import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
 import { useRegistrarHabitacion } from '@/Hooks/useRegistrarHabitacion';
+import { useEstadosHabitacion } from '@/Hooks/useEstadoHabitacion';
 
 export default function AddHabitat() {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
   const [capacidad, setCapacidad] = useState('');
   const [tipoHabitat, setTipoHabitat] = useState('');
+  const [estadoHabitacion, setEstadoHabitacion] = useState('');
 
   const { tiposHabitacion, loading, error } = useTiposHabitacion();
-  const { registrarHabitacion } = useRegistrarHabitacion(); // Usamos el hook
+  const {estados} = useEstadosHabitacion();
+  const { registrarHabitacion } = useRegistrarHabitacion(); 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,13 +24,15 @@ export default function AddHabitat() {
       direccion,
       capacidad: parseInt(capacidad),
       idTipoHabitacion: parseInt(tipoHabitat),
+      idEstadoHabitacion: parseInt(estadoHabitacion),
     };
 
-    registrarHabitacion(nuevaHabitacion); // Llamamos al hook
+    registrarHabitacion(nuevaHabitacion);
+    window.history.back();
   };
 
   const handleCancel = () => {
-    window.history.back(); // Retroceder a la página anterior
+    window.history.back(); 
   };
 
   return (
@@ -93,6 +98,24 @@ export default function AddHabitat() {
               </select>
             )}
           </div>
+
+          <div>
+            <label className="block text-sm font-medium">Estado de Habitación</label>
+            <select
+             className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={estadoHabitacion}
+              onChange={(e) => setEstadoHabitacion(e.target.value)}
+              required
+            >
+              <option value="">Seleccione un tipo</option>
+                {estados?.map((estado) => (
+                  <option key={estado.idEstadoHabitacion} value={estado.idEstadoHabitacion}>
+                    {estado.estado}
+                  </option>
+                ))}
+              </select>
+          </div>
+
         </div>
 
         <div className="flex justify-between mt-6">
