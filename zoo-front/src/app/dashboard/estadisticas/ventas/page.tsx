@@ -81,7 +81,7 @@ export default function VentasReportTable() {
   };
 
   return (
-    <div className="mt-4">
+    <div className="text-center mt-4">
       <h2 className="text-2xl font-semibold mb-4">Reporte de Ventas</h2>
       <div className="flex space-x-4">
         <button
