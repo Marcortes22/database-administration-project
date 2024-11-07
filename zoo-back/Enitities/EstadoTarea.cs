@@ -9,5 +9,7 @@ public partial class EstadoTarea
 
     public string Nombre { get; set; } = null!;
 
+    public virtual ICollection<HistorialEstadoTarea> HistorialEstadoTareas { get; set; } = new List<HistorialEstadoTarea>();
+
     public virtual ICollection<Tarea> Tareas { get; set; } = new List<Tarea>();
 }

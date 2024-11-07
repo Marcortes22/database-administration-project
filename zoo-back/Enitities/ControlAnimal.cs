@@ -11,9 +11,9 @@ public partial class ControlAnimal
 
     public int IdTareas { get; set; }
 
-    public int IdAnimales { get; set; }
-
     public string Nombre { get; set; } = null!;
+
+    public int IdAnimales { get; set; }
 
     public virtual Animale IdAnimalesNavigation { get; set; } = null!;
 

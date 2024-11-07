@@ -17,6 +17,8 @@ public partial class Tarea
 
     public virtual ICollection<ControlAnimal> ControlAnimals { get; set; } = new List<ControlAnimal>();
 
+    public virtual ICollection<HistorialEstadoTarea> HistorialEstadoTareas { get; set; } = new List<HistorialEstadoTarea>();
+
     public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
 
     public virtual EstadoTarea IdEstadoTareaNavigation { get; set; } = null!;

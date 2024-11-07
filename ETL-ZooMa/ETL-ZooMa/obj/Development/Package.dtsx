@@ -11,8 +11,8 @@
   DTS:LocaleID="5130"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="113"
-  DTS:VersionGUID="{ADF2184C-ECC6-4D4A-BA9D-6061C73FD874}">
+  DTS:VersionBuild="115"
+  DTS:VersionGUID="{BE53FA21-076C-465F-8949-F9C16824F785}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -10719,6 +10719,254 @@ FROM   dbo.Visitantes</property>
               </outputs>
             </component>
             <component
+              refId="Package\Data Flow Fact\Fuente Calificacion Visita"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Fuente Calificacion Visita"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT dbo.CalificacionVisita.IdCalificacionVisita, dbo.CalificacionVisita.IdVentaEntrada, dbo.CalificacionServicioAlCliente.Nota AS NotaServicioCliente, dbo.CalificacionServicioAlCliente.SugerenciaMejora AS SugerenciasServicioCliente, dbo.CalificacionRecorrido.Nota AS NotaRecorrido, 
+             dbo.CalificacionRecorrido.SugerenciaMejora AS SugerenciasRecorrido, (dbo.CalificacionServicioAlCliente.Nota + dbo.CalificacionRecorrido.Nota) / 2 AS NotaFinal, dbo.VentaEntrada.Fechaventa AS Fecha
+FROM   dbo.CalificacionRecorrido, dbo.CalificacionVisita, dbo.CalificacionServicioAlCliente, dbo.VentaEntrada
+WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita.IdCalificacionRecorrido AND dbo.CalificacionVisita.IdCalificacionServicioAlCliente = dbo.CalificacionServicioAlCliente.IdCalificacionServicioAlCliente AND 
+             dbo.CalificacionVisita.IdVentaEntrada = dbo.VentaEntrada.IdVentaEntrada</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Fact\Fuente Calificacion Visita.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[marco.ZooMA]"
+                  connectionManagerRefId="Package.ConnectionManagers[marco.ZooMA]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[IdCalificacionVisita]"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]"
+                      name="IdCalificacionVisita"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[IdVentaEntrada]"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]"
+                      name="IdVentaEntrada"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[NotaServicioCliente]"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]"
+                      name="NotaServicioCliente"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasServicioCliente]"
+                      length="255"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]"
+                      name="SugerenciasServicioCliente"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaRecorrido]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[NotaRecorrido]"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaRecorrido]"
+                      name="NotaRecorrido"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasRecorrido]"
+                      length="255"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]"
+                      name="SugerenciasRecorrido"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaFinal]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[NotaFinal]"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaFinal]"
+                      name="NotaFinal"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[Fecha]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha]"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[Fecha]"
+                      name="Fecha"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[IdCalificacionVisita]"
+                      dataType="i4"
+                      name="IdCalificacionVisita" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[IdVentaEntrada]"
+                      dataType="i4"
+                      name="IdVentaEntrada" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[NotaServicioCliente]"
+                      dataType="i4"
+                      name="NotaServicioCliente" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasServicioCliente]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="SugerenciasServicioCliente" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[NotaRecorrido]"
+                      dataType="i4"
+                      name="NotaRecorrido" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasRecorrido]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="SugerenciasRecorrido" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[NotaFinal]"
+                      dataType="i4"
+                      name="NotaFinal" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].ExternalColumns[Fecha]"
+                      dataType="dbTimeStamp"
+                      name="Fecha" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[IdCalificacionVisita]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[IdCalificacionVisita]"
+                      name="IdCalificacionVisita" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[IdVentaEntrada]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[IdVentaEntrada]"
+                      name="IdVentaEntrada" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[NotaServicioCliente]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[NotaServicioCliente]"
+                      name="NotaServicioCliente" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[SugerenciasServicioCliente]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[SugerenciasServicioCliente]"
+                      name="SugerenciasServicioCliente" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[NotaRecorrido]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[NotaRecorrido]"
+                      name="NotaRecorrido" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[SugerenciasRecorrido]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[SugerenciasRecorrido]"
+                      name="SugerenciasRecorrido" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[NotaFinal]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[NotaFinal]"
+                      name="NotaFinal" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[Fecha]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[Fecha]"
+                      name="Fecha" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Data Flow Fact\Fuente Detalle Venta"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
@@ -12051,7 +12299,7 @@ where [refTable].[IdCalificacionVisita] = ?</property>
                   containsID="true"
                   dataType="System.String"
                   description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
-                  name="ParameterMap">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]};</property>
+                  name="ParameterMap">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]};</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies the column code page to use when code page information is unavailable from the data source."
@@ -12078,7 +12326,7 @@ where [refTable].[IdCalificacionVisita] = ?</property>
                       refId="Package\Data Flow Fact\Lookup 3.Inputs[Lookup Input].Columns[IdCalificacionVisita]"
                       cachedDataType="i4"
                       cachedName="IdCalificacionVisita"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]">
                       <properties>
                         <property
                           dataType="System.String"
@@ -12522,254 +12770,6 @@ where [refTable].[IdCalificacionVisita] = ?</property>
                       refId="Package\Data Flow Fact\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Data Flow Fact\OLE DB Destination 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\Data Flow Fact\OLE DB Source"
-              componentClassID="Microsoft.OLEDBSource"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              description="OLE DB Source"
-              name="OLE DB Source"
-              usesDispositions="true"
-              version="7">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset"></property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT dbo.CalificacionVisita.IdCalificacionVisita, dbo.CalificacionVisita.IdVentaEntrada, dbo.CalificacionServicioAlCliente.Nota AS NotaServicioCliente, dbo.CalificacionServicioAlCliente.SugerenciaMejora AS SugerenciasServicioCliente, dbo.CalificacionRecorrido.Nota AS NotaRecorrido, 
-             dbo.CalificacionRecorrido.SugerenciaMejora AS SugerenciasRecorrido, (dbo.CalificacionServicioAlCliente.Nota + dbo.CalificacionRecorrido.Nota) / 2 AS NotaFinal, dbo.VentaEntrada.Fechaventa AS Fecha
-FROM   dbo.CalificacionRecorrido, dbo.CalificacionVisita, dbo.CalificacionServicioAlCliente, dbo.VentaEntrada
-WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita.IdCalificacionRecorrido AND dbo.CalificacionVisita.IdCalificacionServicioAlCliente = dbo.CalificacionServicioAlCliente.IdCalificacionServicioAlCliente AND 
-             dbo.CalificacionVisita.IdVentaEntrada = dbo.VentaEntrada.IdVentaEntrada</property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">2</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Data Flow Fact\OLE DB Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[marco.ZooMA]"
-                  connectionManagerRefId="Package.ConnectionManagers[marco.ZooMA]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output]"
-                  name="OLE DB Source Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdCalificacionVisita]"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]"
-                      name="IdCalificacionVisita"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdVentaEntrada]"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]"
-                      name="IdVentaEntrada"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NotaServicioCliente]"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]"
-                      name="NotaServicioCliente"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasServicioCliente]"
-                      length="255"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]"
-                      name="SugerenciasServicioCliente"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaRecorrido]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NotaRecorrido]"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaRecorrido]"
-                      name="NotaRecorrido"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasRecorrido]"
-                      length="255"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]"
-                      name="SugerenciasRecorrido"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaFinal]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NotaFinal]"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaFinal]"
-                      name="NotaFinal"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fecha]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Fecha]"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fecha]"
-                      name="Fecha"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdCalificacionVisita]"
-                      dataType="i4"
-                      name="IdCalificacionVisita" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdVentaEntrada]"
-                      dataType="i4"
-                      name="IdVentaEntrada" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NotaServicioCliente]"
-                      dataType="i4"
-                      name="NotaServicioCliente" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasServicioCliente]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      name="SugerenciasServicioCliente" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NotaRecorrido]"
-                      dataType="i4"
-                      name="NotaRecorrido" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SugerenciasRecorrido]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      name="SugerenciasRecorrido" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NotaFinal]"
-                      dataType="i4"
-                      name="NotaFinal" />
-                    <externalMetadataColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Fecha]"
-                      dataType="dbTimeStamp"
-                      name="Fecha" />
-                  </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output]"
-                  isErrorOut="true"
-                  name="OLE DB Source Error Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdCalificacionVisita]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdCalificacionVisita]"
-                      name="IdCalificacionVisita" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdVentaEntrada]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdVentaEntrada]"
-                      name="IdVentaEntrada" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NotaServicioCliente]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NotaServicioCliente]"
-                      name="NotaServicioCliente" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SugerenciasServicioCliente]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SugerenciasServicioCliente]"
-                      name="SugerenciasServicioCliente" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NotaRecorrido]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NotaRecorrido]"
-                      name="NotaRecorrido" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SugerenciasRecorrido]"
-                      codePage="1252"
-                      dataType="str"
-                      length="255"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SugerenciasRecorrido]"
-                      name="SugerenciasRecorrido" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NotaFinal]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NotaFinal]"
-                      name="NotaFinal" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Fecha]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Fecha]"
-                      name="Fecha" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -13588,7 +13588,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       refId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input].Columns[IdCalificacionVisita]"
                       cachedDataType="i4"
                       cachedName="IdCalificacionVisita"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13604,7 +13604,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       refId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input].Columns[IdVentaEntrada]"
                       cachedDataType="i4"
                       cachedName="IdVentaEntrada"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13620,7 +13620,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       refId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input].Columns[NotaServicioCliente]"
                       cachedDataType="i4"
                       cachedName="NotaServicioCliente"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13638,7 +13638,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       cachedDataType="str"
                       cachedLength="255"
                       cachedName="SugerenciasServicioCliente"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13654,7 +13654,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       refId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input].Columns[NotaRecorrido]"
                       cachedDataType="i4"
                       cachedName="NotaRecorrido"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaRecorrido]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaRecorrido]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13672,7 +13672,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       cachedDataType="str"
                       cachedLength="255"
                       cachedName="SugerenciasRecorrido"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13688,7 +13688,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       refId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input].Columns[NotaFinal]"
                       cachedDataType="i4"
                       cachedName="NotaFinal"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaFinal]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaFinal]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13704,7 +13704,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                       refId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input].Columns[Fecha]"
                       cachedDataType="dbTimeStamp"
                       cachedName="Fecha"
-                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fecha]">
+                      lineageId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[Fecha]">
                       <properties>
                         <property
                           dataType="System.Int32"
@@ -13736,7 +13736,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdCalificacionVisita]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13750,7 +13750,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[IdVentaEntrada]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13763,7 +13763,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaServicioCliente]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13778,7 +13778,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasServicioCliente]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13791,7 +13791,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaRecorrido]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaRecorrido]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13806,7 +13806,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[SugerenciasRecorrido]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13819,7 +13819,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[NotaFinal]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[NotaFinal]}</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -13832,7 +13832,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
-                          name="SortColumnId">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Fecha]}</property>
+                          name="SortColumnId">#{Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output].Columns[Fecha]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -13881,7 +13881,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
               refId="Package\Data Flow Fact.Paths[OLE DB Source Output3]"
               endId="Package\Data Flow Fact\Lookup 3.Inputs[Lookup Input]"
               name="OLE DB Source Output"
-              startId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output]" />
+              startId="Package\Data Flow Fact\Fuente Calificacion Visita.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\Data Flow Fact.Paths[Sort Output]"
               endId="Package\Data Flow Fact\Fact_Tarea.Inputs[OLE DB Destination Input]"
@@ -16884,43 +16884,31 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="150.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\OLE DB Source"
-          TopLeft="1206.12495437451,65.9000057029722" />
+          Size="196.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Fuente Calificacion Visita"
+          TopLeft="1151.1249568332,65.2500057339666" />
         <NodeLayout
           Size="181.333333333334,42.6666666666667"
           Id="Package\Data Flow Fact\OLE DB Destination 1"
-          TopLeft="1264.9999434501,484.899976878167" />
+          TopLeft="1155.62494833954,512.199975576402" />
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
           Id="Package\Data Flow Fact\Lookup 3"
           TopLeft="1182.49994713813,179.399991445542" />
         <EdgeLayout
           Id="Package\Data Flow Fact.Paths[OLE DB Source Output3]"
-          TopLeft="1281.45828770784,108.566672369639">
+          TopLeft="1246.645785319,107.916672400633">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-37.6250072363766,70.8333190759028"
+              EndConnector="0,71.4833190449084"
               Start="0,0"
-              End="-37.6250072363766,63.3333190759028">
+              End="0,63.9833190449084">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.4166595379514" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,31.4166595379514"
-                    Point2="0,35.4166595379514"
-                    Point3="-4,35.4166595379514" />
-                  <mssgle:LineSegment
-                    End="-33.6250072363766,35.4166595379514" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-33.6250072363766,35.4166595379514"
-                    Point2="-37.6250072363766,35.4166595379514"
-                    Point3="-37.6250072363766,39.4166595379514" />
-                  <mssgle:LineSegment
-                    End="-37.6250072363766,63.3333190759028" />
+                    End="0,63.9833190449084" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -16932,69 +16920,45 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
         <NodeLayout
           Size="108,42.6666666666667"
           Id="Package\Data Flow Fact\Sort 3"
-          TopLeft="1233.12494487502,332.79998413086" />
+          TopLeft="1186.24994697049,344.499983572961" />
         <EdgeLayout
           Id="Package\Data Flow Fact.Paths[Lookup No Match Output3]"
-          TopLeft="1243.83328047147,222.066658112208">
+          TopLeft="1242.04161372098,222.066658112208">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="43.2916644035533,110.733326018652"
+              EndConnector="0,122.433325460752"
               Start="0,0"
-              End="43.2916644035533,103.233326018652">
+              End="0,114.933325460752">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,51.3666630093258" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,51.3666630093258"
-                    Point2="0,55.3666630093258"
-                    Point3="4,55.3666630093258" />
-                  <mssgle:LineSegment
-                    End="39.2916644035533,55.3666630093258" />
-                  <mssgle:CubicBezierSegment
-                    Point1="39.2916644035533,55.3666630093258"
-                    Point2="43.2916644035533,55.3666630093258"
-                    Point3="43.2916644035533,59.3666630093258" />
-                  <mssgle:LineSegment
-                    End="43.2916644035533,103.233326018652" />
+                    End="0,114.933325460752" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-34.1605545169733,60.3666630093258,111.6127734375,11.609375"
+              BoundingBox="-55.80638671875,51.6619752303761,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Data Flow Fact.Paths[Sort Output3]"
-          TopLeft="1287.12494487502,375.466650797527">
+          TopLeft="1243.27078098835,387.166650239627">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="68.5416652417432,109.43332608064"
+              EndConnector="0,125.033325336774"
               Start="0,0"
-              End="68.5416652417432,101.93332608064">
+              End="0,117.533325336774">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,50.7166630403202" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,50.7166630403202"
-                    Point2="0,54.7166630403202"
-                    Point3="4,54.7166630403202" />
-                  <mssgle:LineSegment
-                    End="64.5416652417432,54.7166630403202" />
-                  <mssgle:CubicBezierSegment
-                    Point1="64.5416652417432,54.7166630403202"
-                    Point2="68.5416652417432,54.7166630403202"
-                    Point3="68.5416652417432,58.7166630403202" />
-                  <mssgle:LineSegment
-                    End="68.5416652417432,101.93332608064" />
+                    End="0,117.533325336774" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -17139,7 +17103,7 @@ WHERE dbo.CalificacionRecorrido.IdCalificacionRecorrido = dbo.CalificacionVisita
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\OLE DB Source">
+    design-time-name="Package\Data Flow Fact\Fuente Calificacion Visita">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -13,7 +13,7 @@ public partial class AuditPuesto
 
     public int? IdPuesto { get; set; }
 
-    public string Nombre { get; set; } = null!;
+    public string? Nombre { get; set; }
 
     public double? Salario { get; set; }
 

@@ -31,6 +31,9 @@ using Services.ControlAnimalService;
 using Services.MantenimientoHabService;
 using Services.TareasService;
 using Services.CalificacionVisitaService;
+using Services.ReportesServices;
+using Services.VentasReportesService;
+using Services.CalificacionVisitaReportes;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,6 +71,10 @@ builder.Services.AddScoped<ISvControlAnimal, SvControlAnimal>();
 builder.Services.AddScoped<ISvMantenimientoHab, SvMantenimientoHab>();
 builder.Services.AddScoped<ISvTarea, SvTareas>();
 builder.Services.AddScoped<ISvCalificacionVisita, SvCalificacionVisita>();
+builder.Services.AddScoped<ISvTareasReportes, SvTareasReportes>();
+builder.Services.AddScoped<ISvVentasReportes, SvVentaReportes>();
+builder.Services.AddScoped<ISvCalificacionReporte, SvCalificacionReporte>();
+
 
 builder.Services.AddCors(options => {
     options.AddPolicy("ReactApp", policyBuilder =>
