@@ -1,19 +1,20 @@
 import { useEditarHabitacion } from '@/Hooks/useEditarHabitacion';
+import { useEstadosHabitacion } from '@/Hooks/useEstadoHabitacion';
 import { useTiposHabitacion } from '@/Hooks/useTipoHabitacion';
 import { Habitacion } from '@/Types/next-auth-types/Habitacion';
 import React, { useState, useEffect } from 'react';
- // Importamos el hook
 import toast from 'react-hot-toast';
 
 interface ModalEditHabitacionProps {
   habitacion: Habitacion | null;
-  onClose: () => void; // Función para cerrar el modal
-  onSave: () => void;  // Función para refrescar la tabla después de guardar
+  onClose: () => void;
+  onSave: () => void;
 }
 
 export const ModalEditHabitacion: React.FC<ModalEditHabitacionProps> = ({ habitacion, onClose, onSave }) => {
   const { editarHabitacion, loading } = useEditarHabitacion();
-  const { tiposHabitacion, loading: loadingTipos } = useTiposHabitacion(); // Obtenemos los tipos de habitación
+  const { tiposHabitacion, loading: loadingTipos } = useTiposHabitacion();
+  const { estados, loading: loadingEstados } = useEstadosHabitacion();
   const [formData, setFormData] = useState<Habitacion | null>(habitacion);
 
   useEffect(() => {
@@ -25,8 +26,8 @@ export const ModalEditHabitacion: React.FC<ModalEditHabitacionProps> = ({ habita
       editarHabitacion(formData.idHabitacion, formData)
         .then(() => {
           toast.success('Habitación editada correctamente');
-          onSave(); // Refrescar la lista de habitaciones
-          onClose(); // Cerrar el modal
+          onSave();
+          onClose();
         })
         .catch(() => {
           toast.error('Error al editar la habitación');
@@ -83,6 +84,24 @@ export const ModalEditHabitacion: React.FC<ModalEditHabitacionProps> = ({ habita
                 tiposHabitacion.map((tipo) => (
                   <option key={tipo.idTipoHabitacion} value={tipo.idTipoHabitacion}>
                     {tipo.nombreTh}
+                  </option>
+                ))
+              )}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Estado de Habitación</label>
+            <select
+              className="w-full p-2 border rounded"
+              value={formData.idEstadoHabitacion}
+              onChange={(e) => setFormData({ ...formData, idEstadoHabitacion: parseInt(e.target.value) })}
+            >
+              {loadingEstados ? (
+                <option>Cargando estados de habitación...</option>
+              ) : (
+                estados.map((estado) => (
+                  <option key={estado.idEstadoHabitacion} value={estado.idEstadoHabitacion}>
+                    {estado.estado}
                   </option>
                 ))
               )}

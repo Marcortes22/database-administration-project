@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import toast from 'react-hot-toast';
 import { DecodedToken } from '@/Types/next-auth-types/DecodedToken';
 import { Tarea } from '@/Types/next-auth-types/Tarea';
@@ -33,7 +33,7 @@ export const useTareasByEmpleado = () => {
           throw new Error(result.message || 'Error al obtener las tareas');
         }
 
-        setTareas(result.data ? [result.data] : []);
+        setTareas(result.data || []); // Asigna result.data directamente
       } catch (error) {
         setError('Error al conectar con el servidor');
         toast.error('Error al obtener las tareas');
