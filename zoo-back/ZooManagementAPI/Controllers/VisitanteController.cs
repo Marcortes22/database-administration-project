@@ -50,7 +50,7 @@ namespace ZooManagementAPI.Controllers
 
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "SELLER")]
         [HttpPost]
         public async Task<IActionResult> Create(VisitanteCreateDto visitanteCreateDto)
         {
