@@ -181,8 +181,8 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
             RAISERROR ('El empleado seleccionado no es veterinario, por lo tanto no puede realizar esta tarea', 16, 1);
         END 
 
-        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
-        VALUES (@IdEmpleado, 1,1,GETDATE() );  --se agrega con 1 el cual es el estado pendieente y tarea medica
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
+        VALUES (@IdEmpleado, 1,1);  --se agrega con 1 el cual es el estado pendieente y tarea medica
 
         SET @IdTarea = SCOPE_IDENTITY();
 
@@ -246,8 +246,8 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
             RAISERROR ('El empleado seleccionado no es Cuidador de habitads, por lo tanto no puede realizar esta tarea', 16, 1);
         END 
 
-        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea,FechaCreacion)
-        VALUES (@IdEmpleado, 1,1,GETDATE() );  
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
+        VALUES (@IdEmpleado, 1,1);  
 
         SET @IdTarea = SCOPE_IDENTITY();
 

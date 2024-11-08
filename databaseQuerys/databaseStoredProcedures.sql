@@ -1366,8 +1366,8 @@ BEGIN
             RETURN;
             END
 
-        INSERT INTO Alimentos (Nombre)
-        VALUES (@Nombre);
+        INSERT INTO Alimentos (Nombre, IdUnidadMedida)
+        VALUES (@Nombre, @IdUnidadMedida);
         COMMIT TRANSACTION;
         SELECT 'Alimento registrado correctamente: ' + @Nombre AS 'Mensaje de Confirmación';
         
@@ -1381,6 +1381,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 USE ZooMA
 GO

@@ -504,21 +504,24 @@ CREATE TABLE CalificacionVisita (
 ) ON ZOO
 GO
 
-
+CREATE TABLE UnidadMedida(
+    IdUnidadMedida INT PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(50)
+)
+GO
 USE ZooMA
 GO
 CREATE TABLE Alimentos (
     IdAlimentos INT NOT NULL IDENTITY(1,1),
     Nombre VARCHAR(20) NOT NULL,
-    CONSTRAINT PK_Alimentos_IdAlimentos PRIMARY KEY CLUSTERED (IdAlimentos)
+    IdUnidadMedida INT NOT NULL,
+    CONSTRAINT PK_Alimentos_IdAlimentos PRIMARY KEY CLUSTERED (IdAlimentos),
+    CONSTRAINT FK_Alimentos_IdUnidadMedida FOREIGN KEY (IdUnidadMedida) 
+        REFERENCES UnidadMedida (IdUnidadMedida)
 ) ON Animal
 GO
 
 
-CREATE TABLE UnidadMedida(
-    IdUnidadMedida INT PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(50)
-)
 
 GO
 USE ZooMA

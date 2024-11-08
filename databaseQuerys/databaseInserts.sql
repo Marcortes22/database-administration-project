@@ -5,8 +5,7 @@ USE ZooMA
 INSERT INTO UnidadMedida (Nombre)
 VALUES ('Gramos'),
        ('Litros'),
-       ('Unidad'),
-
+       ('Unidad')
 
 GO
 DECLARE @CedulaCreador VARCHAR(20) = '504420108';
@@ -599,7 +598,7 @@ EXEC SP_INGRESAR_DIETA
     @Alimentos = @Alimentos;
 
 -- Dieta 2: Dieta Insectívora
-D-- Dieta 2: Dieta Insectívora
+-- Dieta 2: Dieta Insectívora
 DELETE FROM @Alimentos;
 INSERT INTO @Alimentos (IdAlimentos, Cantidad) 
 VALUES (6, 50),      -- Larvas (50 gramos)
