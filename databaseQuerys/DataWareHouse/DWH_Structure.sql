@@ -69,7 +69,7 @@ GO
   CREATE TABLE Dim_Alimentos (
     IdAlimento INT PRIMARY KEY CLUSTERED, 
     Nombre VARCHAR(62) NULL,
-    UnidadMedica VARCHAR(50)  NULL
+    UnidadMedida VARCHAR(50)  NULL
 )
 GO
 
@@ -178,9 +178,8 @@ CREATE TABLE Fact_DietaAlimentos(
   IdDietaAlimento INT PRIMARY KEY CLUSTERED,
   IdDieta INT,
   IdAlimento INT,
-  Cantidad DECIMAL(10, 2) NOT NULL,
   Estado BIT DEFAULT 1,
-  FechaRegistro DATETIME DEFAULT GETDATE(),
+  Cantidad DECIMAL(10, 2) NOT NULL,
   CONSTRAINT FK_Dieta FOREIGN KEY (IdDieta) REFERENCES Dim_Dieta(IdDieta),
   CONSTRAINT FK_Alimento FOREIGN KEY (IdAlimento) REFERENCES Dim_Alimentos(IdAlimento)
 )

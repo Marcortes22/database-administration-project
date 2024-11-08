@@ -372,3 +372,83 @@ GROUP BY
 
 	-- select * from  Vw_PromedioNotaFinalPorMes ORDER BY 
   --   Anio, Mes;
+
+
+
+  go
+---VISTAS DE ALIMENTOS
+
+
+DROP VIEW IF EXISTS Vw_TotalAlimentosPorDieta;
+GO
+CREATE VIEW Vw_TotalAlimentosPorDieta AS
+SELECT 
+    D.Nombre AS Dieta,
+    A.Nombre AS Alimento,
+	A.UnidadMedida,
+    SUM(FA.Cantidad) AS CantidadTotal
+FROM 
+    ZooMa_Data_Warehouse.dbo.Fact_DietaAlimentos FA
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Dieta D ON FA.IdDieta = D.IdDieta
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Alimentos A ON FA.IdAlimento = A.IdAlimento
+    WHERE FA.Estado = 1
+GROUP BY 
+    D.Nombre, A.Nombre, A.UnidadMedida;
+GO
+
+
+--select * from Vw_TotalAlimentosPorDieta order by Dieta DESC
+
+
+
+
+
+
+
+
+
+
+DROP VIEW IF EXISTS Vw_AlimentosMasUtilizados;
+GO
+CREATE VIEW Vw_AlimentosMasUtilizados AS
+SELECT 
+    A.Nombre AS Alimento,
+    A.UnidadMedida AS UnidadMedida,
+    SUM(FA.Cantidad) AS CantidadTotal,
+    COUNT(DISTINCT FA.IdDieta) AS NumeroDietas
+FROM 
+    ZooMa_Data_Warehouse.dbo.Fact_DietaAlimentos FA
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Alimentos A ON FA.IdAlimento = A.IdAlimento
+
+GROUP BY 
+    A.Nombre, A.UnidadMedida
+
+GO
+
+
+
+-- select * from Vw_AlimentosMasUtilizados  ORDER BY 
+--     CantidadTotal DESC;
+
+
+
+
+DROP VIEW IF EXISTS Vw_PromedioCantidadAlimentosPorDieta;
+GO
+CREATE VIEW Vw_PromedioCantidadAlimentosPorDieta AS
+SELECT 
+    A.Nombre AS Alimento,
+    AVG(FA.Cantidad) AS PromedioCantidad
+FROM 
+    ZooMa_Data_Warehouse.dbo.Fact_DietaAlimentos FA
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Alimentos A ON FA.IdAlimento = A.IdAlimento
+GROUP BY 
+    A.Nombre;
+GO
+
+
+--select * from Vw_PromedioCantidadAlimentosPorDieta order by PromedioCantidad desc
