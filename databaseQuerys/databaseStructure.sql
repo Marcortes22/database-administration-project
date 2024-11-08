@@ -172,7 +172,7 @@ USE ZooMA
 GO
 
 CREATE TABLE Visitantes (
-    IdVisitantes INT NOT NULL IDENTITY(1,1),
+    IdVisitantes INT NOT NULL,
     NombreVist VARCHAR(20) NOT NULL,
     Apell1Vist VARCHAR(20) NOT NULL,
     Apell2Vist VARCHAR(20) NOT NULL,
@@ -273,7 +273,7 @@ GO
 USE ZooMA
 GO
 CREATE TABLE Empleado (
-    IdEmpleado INT NOT NULL IDENTITY(1,1),
+    IdEmpleado INT NOT NULL,
     Nombre VARCHAR(20) NOT NULL,
     Apellido1 VARCHAR(20) NOT NULL,
     Apellido2 VARCHAR(20) NOT NULL,
@@ -367,7 +367,7 @@ USE ZooMA
 GO
 
 CREATE TABLE Usuario (
-    IdUsuario INT NOT NULL IDENTITY(1,1),
+    IdUsuario INT NOT NULL,
     Contraseña VARCHAR(20) NOT NULL,
     Estado BIT NOT NULL DEFAULT 1,
     CONSTRAINT PK_Usuario_IdUsuario PRIMARY KEY CLUSTERED (IdUsuario),
@@ -515,6 +515,12 @@ CREATE TABLE Alimentos (
 GO
 
 
+CREATE TABLE UnidadMedida(
+    IdUnidadMedida INT PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(50)
+)
+
+GO
 USE ZooMA
 GO
 CREATE TABLE DietaAlimentos (
@@ -731,7 +737,7 @@ CREATE TABLE Audit_CalificacionVisita (
     Nota FLOAT,
     SugerenciaMejora VARCHAR(255),
     Fecha DATE,
-    IdVisitantes INT,
+    IdVentaEntrada INT,
 	IdCalificacionRecorrido INT,
 	IdRecorrido INT,
     RealizadoPor VARCHAR(100),

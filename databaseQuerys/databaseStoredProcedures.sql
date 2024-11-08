@@ -1342,12 +1342,15 @@ IF OBJECT_ID('SP_INGRESAR_ALIMENTOS', 'P') IS NOT NULL
 GO
 CREATE PROCEDURE SP_INGRESAR_ALIMENTOS (
     @Nombre VARCHAR(20),
+    @IdUnidadMedida INT,
     @Cedula VARCHAR(20)
+
 )
 AS
 BEGIN
     BEGIN TRANSACTION;
     BEGIN TRY
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
         IF (@Nombre IS NULL OR @Nombre = '' OR @Cedula = '')
         BEGIN
@@ -1356,9 +1359,15 @@ BEGIN
             RETURN;
         END
 
+        IF NOT EXISTS(SELECT 1 FROM UnidadMedida WHERE IdUnidadMedida = @IdUnidadMedida)
+            BEGIN
+            RAISERROR ('No existe la unidad de medida', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+            END
+
         INSERT INTO Alimentos (Nombre)
         VALUES (@Nombre);
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         COMMIT TRANSACTION;
         SELECT 'Alimento registrado correctamente: ' + @Nombre AS 'Mensaje de Confirmación';
         
