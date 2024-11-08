@@ -547,7 +547,7 @@ EXEC SP_INGRESAR_ESTADO_SALUD @estadoSalud = 'Recuperación', @Cedula = @CedulaC
 
 
 -- Alimentos específicos para dietas de animales en el zoológico
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de venado', @Cedula = @CedulaCreador,@IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de venado', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de cerdo', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de conejo', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Carne de codorniz', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
@@ -566,8 +566,8 @@ EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Melones', @Cedula = @CedulaCreador, @IdUni
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Zanahorias', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Calabazas', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Betabel', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pepinos', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
-EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Tomates', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Pepinos', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Tomates', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Brotes de alfalfa', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Raíces comestibles', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Heno fresco', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
@@ -585,6 +585,7 @@ EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Alimento para peces', @Cedula = @CedulaCre
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de codorniz', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Huevos de gallina', @Cedula = @CedulaCreador, @IdUnidadMedida = 3;
 EXEC SP_INGRESAR_ALIMENTOS @Nombre = 'Polen', @Cedula = @CedulaCreador, @IdUnidadMedida = 1;
+
 
 
 

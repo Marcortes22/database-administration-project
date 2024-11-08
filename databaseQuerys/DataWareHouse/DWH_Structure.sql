@@ -16,7 +16,7 @@ MAXSIZE=500Mb,
 FILEGROWTH=50Mb)
 go 
 
-USE ZooMADataWarehouse
+USE ZooMA_Data_Warehouse
 GO
 CREATE TABLE Dim_empleado (
     Id INT IDENTITY(1,1) PRIMARY KEY CLUSTERED,
@@ -183,6 +183,4 @@ CREATE TABLE Fact_DietaAlimentos(
   FechaRegistro DATETIME DEFAULT GETDATE(),
   CONSTRAINT FK_Dieta FOREIGN KEY (IdDieta) REFERENCES Dim_Dieta(IdDieta),
   CONSTRAINT FK_Alimento FOREIGN KEY (IdAlimento) REFERENCES Dim_Alimentos(IdAlimento)
-
-
 )

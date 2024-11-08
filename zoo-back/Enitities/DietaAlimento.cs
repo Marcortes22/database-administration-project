@@ -11,6 +11,8 @@ public partial class DietaAlimento
 
     public int IdAlimentos { get; set; }
 
+    public decimal? Cantidad { get; set; }
+
     public virtual Alimento IdAlimentosNavigation { get; set; } = null!;
 
     public virtual Dietum IdDietaNavigation { get; set; } = null!;

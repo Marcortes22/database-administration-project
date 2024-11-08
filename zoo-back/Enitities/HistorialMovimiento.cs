@@ -20,4 +20,8 @@ public partial class HistorialMovimiento
     public int RealizadoPor { get; set; }
 
     public virtual Animale IdAnimalesNavigation { get; set; } = null!;
+
+    public virtual Habitacion IdHabitacionActualNavigation { get; set; } = null!;
+
+    public virtual Habitacion IdHabitacionAnteriorNavigation { get; set; } = null!;
 }

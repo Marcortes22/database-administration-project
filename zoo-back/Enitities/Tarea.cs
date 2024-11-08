@@ -13,7 +13,7 @@ public partial class Tarea
 
     public int IdEstadoTarea { get; set; }
 
-    public DateTime FechaCreacion { get; set; }
+    public DateTime? Fecha { get; set; }
 
     public virtual ICollection<ControlAnimal> ControlAnimals { get; set; } = new List<ControlAnimal>();
 

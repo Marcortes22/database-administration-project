@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">MARCO</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoe16DRWerE6PZL/7BhK/SQAAAAACAAAAAAAQZgAAAAEAACAAAAA/iaUO9LsYJFOM6HDq3VBNDWegxv5UDAL259K90xuHWAAAAAAOgAAAAAIAACAAAACxb1GY6TRQpp3HQThSj2L+EFz8LNiI7X8egpL3l4iA0ZAAAABgSWk9yLd73DZNjl8NgWSI/KpDfiUGMnnWxI6aijEd6wfR/MNOaGYYF3glOIduYVoPNWum+Yau5THaQQaDTX1bbK2xKqE+w9JEp9Wpye4FnNkwuLhiyblsVJ8lS2IQk679FzI9j6wZ/9KAqEwn40NtFRZNyV1/rPGxFD7WPzcwjsp1elsuZBEc82nFfhihjr5AAAAAteLO1mgPn7SXKKXdCu4AF5Ktab0eim8NamMR5YZ2Y4vrS+xiMlEQYqsxtbGEFWD+UdbnPrvoQeI8zEV7iXpq8Q==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoe16DRWerE6PZL/7BhK/SQAAAAACAAAAAAAQZgAAAAEAACAAAACFVWaRwckzfq4q9UIGTt4guPEMZwpB7qUWLNcOcjYg+QAAAAAOgAAAAAIAACAAAAAD2aMQFGUFq2lXnIhLCatMAbwGwupiz55gFCvfXAP7PJAAAADjwTJLKTuZAEeop126IrpAhDNlCCBVXoZ7tGMkS0shOBN3idCybrPEvnn7LlOhpmmEP+GF5qHJUhs1oM+8w6+IQ02mruD4deety/MAPenjgPok8v34Mozy4kDJnPImPQFmyx1MnWTyCog30tnqijNYwyWtd99uruoSeHqrEqTjoFsxcf5tVA24a1AYhGvy3+xAAAAAO3/aj6jh1+xRkGA+eTAD8NCunHluX4dE4cBeaKhAurxYnBC7MjKAxZatcRaBCKAEO61cmaZ6LJCB/wVcjVPFnw==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -42,10 +42,10 @@
                 <SSIS:Property SSIS:Name="Name">Package</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">116</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">129</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{DC42A01D-FD1E-43F4-890F-79F2A065254D}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{379BB627-BE23-44AD-ABED-67BF0D21E855}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
@@ -78,7 +78,7 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                    <SSIS:Property SSIS:Name="Value">Data Source=marco;Initial Catalog=ZooMA;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">Data Source=marco;Initial Catalog=ZooMA;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{EAD7F873-ED0F-4F62-B56D-BE52C95CB0A3}marco.ZooMA;</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
@@ -226,7 +226,7 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                    <SSIS:Property SSIS:Name="Value">Data Source=marco;Initial Catalog=ZooMa_Data_Warehouse;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">Data Source=marco;Initial Catalog=ZooMa_Data_Warehouse;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}marco.ZooMa_Data_Warehouse;</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>

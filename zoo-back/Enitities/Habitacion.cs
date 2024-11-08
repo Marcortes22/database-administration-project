@@ -19,6 +19,10 @@ public partial class Habitacion
 
     public virtual ICollection<Animale> Animales { get; set; } = new List<Animale>();
 
+    public virtual ICollection<HistorialMovimiento> HistorialMovimientoIdHabitacionActualNavigations { get; set; } = new List<HistorialMovimiento>();
+
+    public virtual ICollection<HistorialMovimiento> HistorialMovimientoIdHabitacionAnteriorNavigations { get; set; } = new List<HistorialMovimiento>();
+
     public virtual EstadoHabitacion IdEstadoHabitacionNavigation { get; set; } = null!;
 
     public virtual TipoHabitacion IdTipoHabitacionNavigation { get; set; } = null!;
