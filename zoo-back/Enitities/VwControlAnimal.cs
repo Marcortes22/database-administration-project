@@ -7,7 +7,7 @@ public partial class VwControlAnimal
 {
     public int IdControl { get; set; }
 
-    public string Reporte { get; set; } = null!;
+    public string? Reporte { get; set; }
 
     public int IdTareas { get; set; }
 

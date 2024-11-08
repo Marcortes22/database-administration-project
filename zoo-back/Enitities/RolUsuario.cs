@@ -5,7 +5,7 @@ namespace Entities;
 
 public partial class RolUsuario
 {
-    public int IdRolUsario { get; set; }
+    public int IdRolUsuario { get; set; }
 
     public int IdRol { get; set; }
 

@@ -9,5 +9,9 @@ public partial class Alimento
 
     public string Nombre { get; set; } = null!;
 
+    public int IdUnidadMedida { get; set; }
+
     public virtual ICollection<DietaAlimento> DietaAlimentos { get; set; } = new List<DietaAlimento>();
+
+    public virtual UnidadMedidum IdUnidadMedidaNavigation { get; set; } = null!;
 }

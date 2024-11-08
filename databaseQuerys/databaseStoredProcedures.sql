@@ -50,88 +50,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
-        SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR (@ErrorMessage, 16, 1);
-    END CATCH
-END
-GO
-
-USE ZooMA;
-GO
-
-IF OBJECT_ID('SP_ACTUALIZAR_HABITACION', 'P') IS NOT NULL
-   DROP PROCEDURE SP_ACTUALIZAR_HABITACION;
-GO
-
-CREATE PROCEDURE SP_ACTUALIZAR_HABITACION(
-    @IdHabitacion INT,
-    @NombreHab VARCHAR(20),
-    @Direccion VARCHAR(255),
-    @Capacidad INT,
-    @IdTipoHabitacion INT,
-    @IdEstadoHabitacion INT,
-    @Cedula VARCHAR(20)
-)
-AS
-BEGIN
-    EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
-    BEGIN TRANSACTION;
-    
-    BEGIN TRY
-        -- Validación de campos vacíos
-        IF (@NombreHab = '' AND @Direccion = '' AND @Capacidad = '' AND @IdTipoHabitacion IS NULL AND @IdEstadoHabitacion IS NULL)
-        BEGIN
-            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        IF ( @Cedula = '' OR @IdHabitacion IS NULL)
-        BEGIN
-            RAISERROR ('Se necesita el id de la habitacion a editar y el de la persona editora', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        
-        -- Verificación de que la habitación exista
-        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
-        BEGIN
-            RAISERROR ('La habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
-        BEGIN
-            RAISERROR ('El estado de habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        
-        -- Verificación de que el tipo de habitación exista
-        IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
-        BEGIN
-            RAISERROR ('El tipo de habitación no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        
-        -- Actualización de los datos de la habitación
-        UPDATE Habitacion
-        SET NombreHab = ISNULL(@NombreHab, NombreHab),
-            Direccion = ISNULL(@Direccion, Direccion),              
-            Capacidad = ISNULL(@Capacidad, Capacidad),
-            IdEstadoHabitacion = ISNULL(@IdEstadoHabitacion,IdEstadoHabitacion),
-            IdTipoHabitacion = ISNULL(@IdTipoHabitacion,IdTipoHabitacion)
-        WHERE IdHabitacion = @IdHabitacion;
-        
-        COMMIT TRANSACTION;
-        SELECT 'Habitación actualizada correctamente: ' + @NombreHab AS 'Mensaje de Confirmación';
-        
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -198,7 +117,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -373,7 +292,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -544,7 +463,7 @@ BEGIN
     BEGIN CATCH
 
        
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -596,7 +515,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -691,7 +610,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -748,7 +667,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -795,137 +714,84 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
+GO
+
+
 GO
 
 USE ZooMA
 GO
-IF OBJECT_ID('SP_INGRESAR_TAREA', 'P') IS NOT NULL
-   DROP PROCEDURE SP_INGRESAR_TAREA;
+DROP PROC IF EXISTS SP_CREAR_CALIFICACION_VISITA
 GO
-CREATE PROCEDURE SP_INGRESAR_TAREA(
-    @Nombre VARCHAR(20),
-    @IdEmpleado INT,
-    @IdTipoTarea INT,
-    @Cedula VARCHAR(20)
-)
+CREATE PROC SP_CREAR_CALIFICACION_VISITA 
+@NotaRecorrido INT,
+@IdVentaEntrada INT,
+@SugerenciaMejoraRecorrido VARCHAR(200),
+@NotaServicioAlCliente INT,
+@SugerenciaMejoraServicioAlCliente VARCHAR(200),
+@Cedula VARCHAR(25)
 AS
+
 BEGIN
-    BEGIN TRANSACTION;
-    BEGIN TRY
-
-        IF (@Nombre = '' OR @IdEmpleado IS NULL OR @IdTipoTarea IS NULL OR @Cedula = '')
+BEGIN TRANSACTION
+BEGIN TRY
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+	IF(@NotaRecorrido IS NULL OR @NotaServicioAlCliente IS NULL OR @IdVentaEntrada IS NULL OR @SugerenciaMejoraRecorrido = '' OR @SugerenciaMejoraServicioAlCliente = '')
         BEGIN
-            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+        RAISERROR('No se permiten campos en blanco',16,1)
         END
 
-        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+
+        IF NOT EXISTS(SELECT 1 FROM VentaEntrada WHERE IdVentaEntrada = @IdVentaEntrada)
         BEGIN
-            RAISERROR ('El empleado no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+        RAISERROR('La venta no existe',16,1)
+		RETURN
         END
 
-        IF NOT EXISTS (SELECT 1 FROM TipoTarea WHERE IdTipoTarea = @IdTipoTarea)
+        IF EXISTS(SELECT 1 FROM CalificacionVisita WHERE IdVentaEntrada = @IdVentaEntrada)
         BEGIN
-            RAISERROR ('El tipo de tarea no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+        RAISERROR('La calificacion asociada a esta venta ya existe',16,1)
+		RETURN
         END
+		
+        DECLARE @IdCalificacionRecorrido INT, @IdCalificacionServicio INT
 
-        IF EXISTS (SELECT 1 FROM Tareas WHERE Nombre = @Nombre AND IdEmpleado = @IdEmpleado AND IdTipoTarea = @IdTipoTarea)
-        BEGIN
-            RAISERROR ('La tarea ya existe para este empleado y tipo de tarea', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
+        INSERT INTO CalificacionRecorrido(Nota, SugerenciaMejora)
+        VALUES(@NotaRecorrido, @SugerenciaMejoraRecorrido)
 
-        INSERT INTO Tareas (Nombre, IdEmpleado, IdTipoTarea)
-        VALUES (@Nombre, @IdEmpleado, @IdTipoTarea);
+        SET @IdCalificacionRecorrido = SCOPE_IDENTITY()
 
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
-        COMMIT TRANSACTION;
-        SELECT 'Tarea registrada correctamente: ' + @Nombre AS 'Mensaje de Confirmación';
+        INSERT INTO CalificacionServicioAlCliente(Nota, SugerenciaMejora)
+        VALUES(@NotaServicioAlCliente, @SugerenciaMejoraServicioAlCliente)
 
-    END TRY
-    BEGIN CATCH
+        SET @IdCalificacionServicio = SCOPE_IDENTITY()
 
-        ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
-        SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR (@ErrorMessage, 16, 1);
-    END CATCH
+
+
+        INSERT INTO CalificacionVisita(Fecha, IdVentaEntrada,IdCalificacionServicioAlCliente, IdCalificacionRecorrido)
+        VALUES(GETDATE(),@IdVentaEntrada,@IdCalificacionServicio, @IdCalificacionRecorrido)
+
+COMMIT TRANSACTION
+PRINT('Calificación creada exitosamente')
+
+END TRY
+
+
+BEGIN CATCH
+
+ROLLBACK TRANSACTION
+DECLARE @ERROR VARCHAR(100)
+SET @ERROR = ERROR_MESSAGE()
+RAISERROR(@ERROR,16,1)
+
+END CATCH
 END
-GO
 
-USE ZooMA
-GO
-IF OBJECT_ID('SP_INGRESAR_CALIFICACION_VISITA', 'P') IS NOT NULL
-   DROP PROCEDURE SP_INGRESAR_CALIFICACION_VISITA;
-GO
-CREATE PROCEDURE SP_INGRESAR_CALIFICACION_VISITA(
-    @Nota INT,
-    @Fecha DATE,
-    @IdVisitantes INT,
-    @IdCalificacionServicioAlCliente INT,
-    @IdCalificacionRecorrido INT,
-    @Cedula VARCHAR(20)
-)
-AS
-BEGIN
-    BEGIN TRANSACTION;
-    BEGIN TRY
-        IF (@Nota IS NULL OR @Fecha IS NULL OR @IdVisitantes IS NULL 
-            OR @IdCalificacionServicioAlCliente IS NULL OR @IdCalificacionRecorrido IS NULL OR @Cedula = '')
-        BEGIN
-            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-        IF NOT EXISTS (SELECT 1 FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
-        BEGIN
-            RAISERROR ('El visitante no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-        IF NOT EXISTS (SELECT 1 FROM CalificacionServicioAlCliente WHERE IdCalificacionServicioAlCliente = @IdCalificacionServicioAlCliente)
-        BEGIN
-            RAISERROR ('La calificación de servicio al cliente no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-        IF NOT EXISTS (SELECT 1 FROM CalificacionRecorrido WHERE IdCalificacionRecorrido = @IdCalificacionRecorrido)
-        BEGIN
-            RAISERROR ('La calificación de recorrido no existe', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-        INSERT INTO CalificacionVisita (Nota, Fecha, IdVisitantes, IdCalificacionServicioAlCliente, IdCalificacionRecorrido)
-        VALUES (@Nota, @Fecha, @IdVisitantes, @IdCalificacionServicioAlCliente, @IdCalificacionRecorrido);
-
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
-        COMMIT TRANSACTION;
-        SELECT 'Calificación de visita registrada correctamente. Nota: ' + CAST(@Nota AS VARCHAR)
-             
-
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
-        SELECT @ErrorMessage = ERROR_MESSAGE();
-        RAISERROR (@ErrorMessage, 16, 1);
-    END CATCH
-END
 GO
 
 USE ZooMA
@@ -969,7 +835,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1014,7 +880,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1084,7 +950,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
 
@@ -1146,7 +1012,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1211,7 +1077,83 @@ BEGIN
 END
 GO
 
+IF OBJECT_ID('SP_ACTUALIZAR_HABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_HABITACION;
+GO
 
+CREATE PROCEDURE SP_ACTUALIZAR_HABITACION(
+    @IdHabitacion INT,
+    @NombreHab VARCHAR(20),
+    @Direccion VARCHAR(255),
+    @Capacidad INT,
+    @IdTipoHabitacion INT,
+    @IdEstadoHabitacion INT,
+    @Cedula VARCHAR(20)
+)
+AS
+BEGIN
+    EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    
+    BEGIN TRY
+        -- Validación de campos vacíos
+        IF (@NombreHab = '' AND @Direccion = '' AND @Capacidad = '' AND @IdTipoHabitacion IS NULL AND @IdEstadoHabitacion IS NULL)
+        BEGIN
+            RAISERROR ('No se pueden ingresar campos en blanco', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        IF ( @Cedula = '' OR @IdHabitacion IS NULL)
+        BEGIN
+            RAISERROR ('Se necesita el id de la habitacion a editar y el de la persona editora', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        
+        -- Verificación de que la habitación exista
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+            RAISERROR ('La habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoHabitacion WHERE IdEstadoHabitacion = @IdEstadoHabitacion)
+        BEGIN
+            RAISERROR ('El estado de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        
+        -- Verificación de que el tipo de habitación exista
+        IF NOT EXISTS (SELECT 1 FROM TipoHabitacion WHERE IdTipoHabitacion = @IdTipoHabitacion)
+        BEGIN
+            RAISERROR ('El tipo de habitación no existe', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+        
+        -- Actualización de los datos de la habitación
+        UPDATE Habitacion
+        SET NombreHab = ISNULL(@NombreHab, NombreHab),
+            Direccion = ISNULL(@Direccion, Direccion),              
+            Capacidad = ISNULL(@Capacidad, Capacidad),
+            IdEstadoHabitacion = ISNULL(@IdEstadoHabitacion,IdEstadoHabitacion),
+            IdTipoHabitacion = ISNULL(@IdTipoHabitacion,IdTipoHabitacion)
+        WHERE IdHabitacion = @IdHabitacion;
+        
+        COMMIT TRANSACTION;
+        SELECT 'Habitación actualizada correctamente: ' + @NombreHab AS 'Mensaje de Confirmación';
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(4000);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
 
 USE ZooMA
 GO
@@ -1306,7 +1248,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1386,7 +1328,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1400,12 +1342,15 @@ IF OBJECT_ID('SP_INGRESAR_ALIMENTOS', 'P') IS NOT NULL
 GO
 CREATE PROCEDURE SP_INGRESAR_ALIMENTOS (
     @Nombre VARCHAR(20),
+    @IdUnidadMedida INT,
     @Cedula VARCHAR(20)
+
 )
 AS
 BEGIN
     BEGIN TRANSACTION;
     BEGIN TRY
+        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
         IF (@Nombre IS NULL OR @Nombre = '' OR @Cedula = '')
         BEGIN
@@ -1414,9 +1359,15 @@ BEGIN
             RETURN;
         END
 
-        INSERT INTO Alimentos (Nombre)
-        VALUES (@Nombre);
-        EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+        IF NOT EXISTS(SELECT 1 FROM UnidadMedida WHERE IdUnidadMedida = @IdUnidadMedida)
+            BEGIN
+            RAISERROR ('No existe la unidad de medida', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+            END
+
+        INSERT INTO Alimentos (Nombre, IdUnidadMedida)
+        VALUES (@Nombre, @IdUnidadMedida);
         COMMIT TRANSACTION;
         SELECT 'Alimento registrado correctamente: ' + @Nombre AS 'Mensaje de Confirmación';
         
@@ -1424,12 +1375,13 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
 GO
+
 
 USE ZooMA
 GO
@@ -1469,7 +1421,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1516,7 +1468,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1551,7 +1503,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1592,7 +1544,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1631,7 +1583,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1672,7 +1624,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1712,7 +1664,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1775,7 +1727,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1814,7 +1766,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1864,7 +1816,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1898,7 +1850,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1940,7 +1892,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -1982,7 +1934,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2023,7 +1975,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2065,7 +2017,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2107,7 +2059,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2148,7 +2100,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2191,7 +2143,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2226,14 +2178,12 @@ BEGIN
 
         SELECT 
             IdTareas, 
-            Nombre,
             IdEmpleado,
             IdTipoTarea
         FROM 
             Tareas 
         WHERE 
             (@IdTareas IS NULL OR IdTareas = @IdTareas) AND
-            (@Nombre IS NULL OR Nombre LIKE '%' + @Nombre + '%') AND
             (@IdEmpleado IS NULL OR IdEmpleado = @IdEmpleado) AND
             (@IdTipoTarea IS NULL OR IdTipoTarea = @IdTipoTarea)
 
@@ -2242,7 +2192,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2283,7 +2233,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2324,7 +2274,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2365,7 +2315,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2415,7 +2365,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2466,7 +2416,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2568,7 +2518,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2618,7 +2568,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2671,7 +2621,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2732,7 +2682,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2793,7 +2743,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2853,7 +2803,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -2913,7 +2863,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -2961,7 +2911,7 @@ BEGIN
     BEGIN CATCH
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3019,7 +2969,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 		
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3078,7 +3028,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3129,7 +3079,7 @@ BEGIN
 
     BEGIN TRY
         UPDATE Tareas
-        SET Nombre = @Nombre,
+        SET 
             IdEmpleado = @IdEmpleado,
             IdTipoTarea = @IdTipoTarea
         WHERE IdTareas = @IdTareas;
@@ -3141,7 +3091,7 @@ BEGIN
     BEGIN CATCH
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3190,7 +3140,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3241,7 +3191,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3340,7 +3290,7 @@ BEGIN
     BEGIN CATCH
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3387,7 +3337,7 @@ BEGIN
     BEGIN CATCH
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3436,7 +3386,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3490,7 +3440,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3727,7 +3677,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3781,7 +3731,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3836,7 +3786,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3890,7 +3840,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3944,7 +3894,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -3983,11 +3933,7 @@ BEGIN
         RETURN;
     END
 
-    IF EXISTS (SELECT 1 FROM CalificacionVisita WHERE IdVisitantes = @IdVisitantes)
-    BEGIN
-        RAISERROR ('No se puede eliminar el cliente, ya que está asociado a registros de calificacion visita', 16, 1);
-        RETURN;
-    END
+   
 
     IF NOT EXISTS (SELECT 1 FROM Visitantes WHERE IdVisitantes = @IdVisitantes)
     BEGIN
@@ -4065,7 +4011,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4115,7 +4061,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4169,7 +4115,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4220,7 +4166,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4271,7 +4217,7 @@ BEGIN
 
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 
@@ -4324,7 +4270,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4373,7 +4319,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4423,7 +4369,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
@@ -4472,7 +4418,7 @@ BEGIN
     BEGIN CATCH
         ROLLBACK TRANSACTION;
 
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorMessage NVARCHAR(200) = ERROR_MESSAGE();
         DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
         DECLARE @ErrorState INT = ERROR_STATE();
 

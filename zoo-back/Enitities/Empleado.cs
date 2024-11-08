@@ -19,6 +19,8 @@ public partial class Empleado
 
     public int IdZoo { get; set; }
 
+    public virtual ICollection<HistorialEstadoTarea> HistorialEstadoTareas { get; set; } = new List<HistorialEstadoTarea>();
+
     public virtual Puesto IdPuestoNavigation { get; set; } = null!;
 
     public virtual Zoo IdZooNavigation { get; set; } = null!;

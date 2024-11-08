@@ -5,4 +5,5 @@ export interface Habitacion {
   direccion: string;
   capacidad: number;
   idTipoHabitacion: number;
+  idEstadoHabitacion: number;
 }

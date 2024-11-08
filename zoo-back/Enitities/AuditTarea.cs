@@ -19,6 +19,8 @@ public partial class AuditTarea
 
     public int? IdEmpleado { get; set; }
 
+    public int IdEstadoTarea { get; set; }
+
     public string? RealizadoPor { get; set; }
 
     public DateTime? FechaDeEjecucion { get; set; }

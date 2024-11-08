@@ -19,7 +19,7 @@ public partial class AuditCalificacionVisitum
 
     public DateOnly? Fecha { get; set; }
 
-    public int? IdVisitantes { get; set; }
+    public int? IdVentaEntrada { get; set; }
 
     public int? IdCalificacionRecorrido { get; set; }
 

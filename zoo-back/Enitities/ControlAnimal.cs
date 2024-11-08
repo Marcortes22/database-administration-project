@@ -7,9 +7,11 @@ public partial class ControlAnimal
 {
     public int IdControl { get; set; }
 
-    public string Reporte { get; set; } = null!;
+    public string? Reporte { get; set; }
 
     public int IdTareas { get; set; }
+
+    public string Nombre { get; set; } = null!;
 
     public int IdAnimales { get; set; }
 

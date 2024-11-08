@@ -11,7 +11,7 @@ public partial class CalificacionVisitum
 
     public DateOnly Fecha { get; set; }
 
-    public int IdVisitantes { get; set; }
+    public int IdVentaEntrada { get; set; }
 
     public int IdCalificacionServicioAlCliente { get; set; }
 
@@ -21,5 +21,5 @@ public partial class CalificacionVisitum
 
     public virtual CalificacionServicioAlCliente IdCalificacionServicioAlClienteNavigation { get; set; } = null!;
 
-    public virtual Visitante IdVisitantesNavigation { get; set; } = null!;
+    public virtual VentaEntradum IdVentaEntradaNavigation { get; set; } = null!;
 }

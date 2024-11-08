@@ -61,7 +61,7 @@ namespace Services.EmpleadoService
         {
             try
             {
-                var idTipoHabitacion = new SqlParameter("@idTipoHabitacion", id);
+            
 
                 var data =  myDbContext.VwEmpleados.FirstOrDefault(x=> x.IdEmpleado == id);
 

@@ -11,14 +11,15 @@ CREATE TYPE DetalleVentaTableType AS TABLE
 
 );
 
-
+GO
 
 --table type para la tabla DetalleVenta (permite pasar una tabla como parametro)
  DROP TYPE if exists AlimentosDeDietaTableType
  GO
 CREATE TYPE AlimentosDeDietaTableType AS TABLE
 (
-    IdAlimentos INT NOT NULL
+    IdAlimentos INT NOT NULL,
+    Cantidad DECIMAL(10, 2) 
 );
 
 

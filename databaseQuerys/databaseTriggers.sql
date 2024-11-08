@@ -862,7 +862,6 @@ END
 GO
 
 
-
 USE ZooMA
 GO
 IF OBJECT_ID('trg_Audit_CalificacionVisita', 'TR') IS NOT NULL
@@ -882,35 +881,35 @@ BEGIN
     SET @User = SYSTEM_USER;
 
     -- INSERT
-    IF EXISTS (SELECT IdCalificacionVisita, Nota, fecha, IdVisitantes FROM inserted)
-       AND NOT EXISTS (SELECT IdCalificacionVisita, Nota, fecha, IdVisitantes FROM deleted)
+    IF EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM inserted)
+       AND NOT EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM deleted)
     BEGIN
         SET @Operacion = 'INSERT';
 
-        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, Nota, fecha, IdVisitantes, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, fecha, IdVisitantes, @Cedula, GETDATE()
+        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- UPDATE
-    IF EXISTS (SELECT IdCalificacionVisita, Nota, fecha, IdVisitantes FROM inserted)
-       AND EXISTS (SELECT IdCalificacionVisita, Nota, fecha, IdVisitantes FROM deleted)
+    IF EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM inserted)
+       AND EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM deleted)
     BEGIN
         SET @Operacion = 'UPDATE';
 
-        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, Nota, fecha, IdVisitantes, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, fecha, IdVisitantes, @Cedula, GETDATE()
+        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, @Cedula, GETDATE()
         FROM inserted;
     END
 
     -- DELETE
-    IF EXISTS (SELECT IdCalificacionVisita, Nota, fecha, IdVisitantes FROM deleted)
-       AND NOT EXISTS (SELECT IdCalificacionVisita, Nota, fecha, IdVisitantes FROM inserted)
+    IF EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM deleted)
+       AND NOT EXISTS (SELECT IdCalificacionVisita, fecha, IdVentaEntrada FROM inserted)
     BEGIN
         SET @Operacion = 'DELETE';
 
-        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, Nota, fecha, IdVisitantes, RealizadoPor, FechaDeEjecucion)
-        SELECT @TableName, @Operacion, IdCalificacionVisita, Nota, fecha, IdVisitantes, @Cedula, GETDATE()
+        INSERT INTO Audit_CalificacionVisita (NombreTabla, Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, RealizadoPor, FechaDeEjecucion)
+        SELECT @TableName, @Operacion, IdCalificacionVisita, fecha, IdVentaEntrada, @Cedula, GETDATE()
         FROM deleted;
     END
 END
@@ -1026,3 +1025,5 @@ BEGIN
 END
 GO
 --FIN Trigger
+
+

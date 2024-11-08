@@ -265,7 +265,6 @@ Create View Vw_Tareas
 as
 Select
 IdTareas,
-Nombre,
 IdEmpleado
 from Tareas 
 GO
@@ -305,9 +304,8 @@ Create View Vw_CalificacionVisita
 as
 Select
 IdCalificacionVisita,
-Nota,
 fecha,
-IdVisitantes
+IdVentaEntrada
 from CalificacionVisita
 GO
 

@@ -18,6 +18,7 @@ namespace ZooManagementAPI.Controllers
             _svControlAnimal = svControlAnimal;
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateControlAnimalDto controlAnimalDto)
         {

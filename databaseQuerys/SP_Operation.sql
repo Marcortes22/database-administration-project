@@ -118,8 +118,8 @@ BEGIN
         
         SET @IdDieta = SCOPE_IDENTITY();
 
-        INSERT INTO DietaAlimentos (IdDieta, IdAlimentos) 
-        SELECT @IdDieta, IdAlimentos FROM @Alimentos;
+        INSERT INTO DietaAlimentos (IdDieta, IdAlimentos,Cantidad) 
+        SELECT @IdDieta, IdAlimentos,Cantidad FROM @Alimentos;
 
         COMMIT TRANSACTION;
         SELECT 'Dieta registrada correctamente: ' + @NombreDiet AS 'Mensaje de Confirmación';
@@ -176,18 +176,22 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
             RAISERROR ('El animal no existe', 16, 1);
         END
 		
-        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.Nombre = 'Veterinario')
+        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.IdPuesto = 1)
         BEGIN
             RAISERROR ('El empleado seleccionado no es veterinario, por lo tanto no puede realizar esta tarea', 16, 1);
         END 
 
         INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
-        VALUES (@IdEmpleado, 1,1 );  --se agrega con 1 el cual es el estado pendieente y tarea medica
+        VALUES (@IdEmpleado, 1,1);  --se agrega con 1 el cual es el estado pendieente y tarea medica
 
         SET @IdTarea = SCOPE_IDENTITY();
 
         INSERT INTO ControlAnimal (IdTareas, IdAnimales, Nombre)
         VALUES (@IdTarea, @IdAnimales, @Nombre)
+
+
+         INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, idEmpleado)
+        VALUES (@IdTarea, 1,1,@IdEmpleado)
 		COMMIT TRANSACTION
         
         
@@ -199,3 +203,136 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         RAISERROR (@ErrorMessage, 16, 1);
     END CATCH
 END
+
+
+GO
+use ZooMA
+GO
+IF OBJECT_ID('SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION', 'P') IS NOT NULL
+   DROP PROCEDURE SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION;
+GO
+go
+CREATE PROCEDURE SP_AGREGAR_TAREA_MANTENIMIENTO_HABITACION(
+	@IdEmpleado INT,
+    @IdHabitacion INT,
+    @Nombre VARCHAR(50),
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        DECLARE @IdTarea INT;
+
+		IF(@IdEmpleado IS NULL OR @IdHabitacion IS NULL OR @Nombre = '' OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Empleado WHERE IdEmpleado = @IdEmpleado)
+        BEGIN
+            RAISERROR ('El empleado no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM Habitacion WHERE IdHabitacion = @IdHabitacion)
+        BEGIN
+            RAISERROR ('La habitacion no existe', 16, 1);
+        END
+		
+        IF NOT EXISTS(SELECT 1 FROM Empleado E INNER JOIN Puesto P ON E.IdPuesto = P.IdPuesto  WHERE IdEmpleado = @IdEmpleado AND P.IdPuesto = 2)
+        BEGIN
+            RAISERROR ('El empleado seleccionado no es Cuidador de habitads, por lo tanto no puede realizar esta tarea', 16, 1);
+        END 
+
+        INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
+        VALUES (@IdEmpleado, 1,1);  
+
+        SET @IdTarea = SCOPE_IDENTITY();
+
+        INSERT INTO MantenimientoHabitacion (IdTareas, IdHabitacion, Nombre)
+        VALUES (@IdTarea, @IdHabitacion, @Nombre)
+
+
+         INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
+        VALUES (@IdTarea, 1,1,@IdEmpleado)
+
+		COMMIT TRANSACTION
+        
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+GO
+
+use ZooMA
+GO
+IF OBJECT_ID('SP_ACTUALIZAR_ESTADO_TAREA', 'P') IS NOT NULL
+   DROP PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA;
+GO
+go
+CREATE PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA(
+    @IdEstadoTarea INT,
+	@IdTarea INT,
+	@Cedula VARCHAR(25)
+)
+AS
+BEGIN
+EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
+BEGIN TRANSACTION;
+    BEGIN TRY
+
+    Declare @IdTipoTarea INT;
+
+		IF(@IdEstadoTarea IS NULL OR @IdTarea IS NULL  OR @Cedula = '')
+		BEGIN
+			 RAISERROR ('No se permiten espacios en blanco', 16, 1);
+		END
+
+        IF NOT EXISTS (SELECT 1 FROM Tareas WHERE IdTareas = @IdTarea)
+        BEGIN
+            RAISERROR ('La tarea no existe', 16, 1);
+        END
+
+        IF NOT EXISTS (SELECT 1 FROM EstadoTarea WHERE IdEstadoTarea = @IdEstadoTarea)
+        BEGIN
+            RAISERROR ('El estado tarea no existe', 16, 1);
+        END
+		
+		DECLARE @IdEmpleadoEncargado INT
+
+        SET @IdTipoTarea = (SELECT IdTipoTarea FROM Tareas WHERE IdTareas = @IdTarea)
+
+		SET @IdEmpleadoEncargado = (SELECT IdEmpleado FROM Tareas WHERE IdTareas = @IdTarea)
+		print(@IdEmpleadoEncargado + ' ' + @Cedula)
+        IF (@IdEmpleadoEncargado <> @Cedula)
+        BEGIN
+            RAISERROR ('Solamente el encargado de la tarea puede cambiar su estado', 16, 1);
+        END 
+
+		UPDATE Tareas
+		SET IdEstadoTarea = @IdEstadoTarea
+		WHERE IdTareas = @IdTarea
+
+        INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
+        VALUES (@IdTarea, @IdEstadoTarea, @IdTipoTarea, @Cedula)
+
+        COMMIT TRANSACTION;
+        
+        
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        DECLARE @ErrorMessage VARCHAR(100);
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        RAISERROR (@ErrorMessage, 16, 1);
+    END CATCH
+END
+
+
