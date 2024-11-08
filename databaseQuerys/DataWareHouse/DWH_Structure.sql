@@ -25,7 +25,7 @@ CREATE TABLE Dim_empleado (
     Correo VARCHAR(50) NULL,
     Salario FLOAT NULL,
     Puesto VARCHAR(50) NULL,
-    Fecha DATE NULL DEFAULT GETDATE(),
+    Fecha DATE DEFAULT GETDATE(),
     Actual BIT NOT NULL
 );
 GO
