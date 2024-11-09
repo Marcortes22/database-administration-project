@@ -32,9 +32,9 @@ GO
 
   CREATE TABLE Dim_Visitantes (
     IdVisitantes INT PRIMARY KEY CLUSTERED,
-    NombreCompleto VARCHAR(64) NULL,
+    NombreCompleto NVARCHAR(64) NULL,
     CorreoElectronico VARCHAR(50),
-    TELEFONO INT NULL,
+    TELEFONO VARCHAR(30) NULL,
 )
 
 GO

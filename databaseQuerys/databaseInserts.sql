@@ -21,7 +21,7 @@ EXEC SP_INGRESAR_ZOO
 -- Insertar registros en la tabla Puesto
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario', @Salario = 2000.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Cuidador de Habitaciones', @Salario = 1200.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_PUESTO @Nombre = 'Secretaria', @Salario = 1100.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Administrador', @Salario = 1100.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Guía de Zoológico', @Salario = 1300.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Encargado de Alimentación', @Salario = 1250.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario Asistente', @Salario = 1500.00, @Cedula = @CedulaCreador;
@@ -45,7 +45,7 @@ EXEC SP_REGISTER
     @Apellido1 = 'Cortes', 
     @Apellido2 = 'Castillo', 
     @Correo = 'marcortes.stiven@gmail.com', 
-    @IdPuesto = 1, 
+    @IdPuesto = 3, 
     @Contraseña = 'cortes10', 
     @IdRol = 1, 
     @RolFechaInicio = '2024-01-01', 
@@ -59,7 +59,7 @@ EXEC SP_REGISTER
     @Apellido1 = 'Fernández', 
     @Apellido2 = 'Martínez', 
     @Correo = 'laura.fernandez@gmail.com', 
-    @IdPuesto = 2, 
+    @IdPuesto = 3, 
     @Contraseña = 'laura123', 
     @IdRol = 1, 
     @RolFechaInicio = '2024-01-01', 
@@ -115,9 +115,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'López', 
     @Apellido2 = 'Jiménez', 
     @Correo = 'sofia.lopez@gmail.com', 
-    @IdPuesto = 6, 
+    @IdPuesto = 1, 
     @Contraseña = 'sofia123', 
-    @IdRol = 3, 
+    @IdRol = 2, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = null, 
     @Cedula = @CedulaCreador; 
@@ -129,9 +129,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'Hernández', 
     @Apellido2 = 'Rivas', 
     @Correo = 'pedro.hernandez@gmail.com', 
-    @IdPuesto = 1, 
+    @IdPuesto = 2, 
     @Contraseña = 'pedro123', 
-    @IdRol = 1, 
+    @IdRol = 2, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
     @Cedula = @CedulaCreador;
@@ -157,9 +157,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'Vega', 
     @Apellido2 = 'Mora', 
     @Correo = 'elena.vega@gmail.com', 
-    @IdPuesto = 3,
+    @IdPuesto = 1,
     @Contraseña = 'elena123', 
-    @IdRol = 3, 
+    @IdRol = 2, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
     @Cedula = @CedulaCreador;  
@@ -171,7 +171,7 @@ EXEC SP_REGISTER
     @Apellido1 = 'Salas', 
     @Apellido2 = 'Pérez', 
     @Correo = 'natalia.salas@gmail.com', 
-    @IdPuesto = 4, 
+    @IdPuesto = 2, 
     @Contraseña = 'natalia123', 
     @IdRol = 2, 
     @RolFechaInicio = '2024-01-01', 
@@ -185,9 +185,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'Mendez', 
     @Apellido2 = 'Reyes', 
     @Correo = 'ricardo.mendez@gmail.com', 
-    @IdPuesto = 5, 
+    @IdPuesto = 2, 
     @Contraseña = 'ricardo123', 
-    @IdRol = 1, 
+    @IdRol = 2, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
     @Cedula = @CedulaCreador;
@@ -199,9 +199,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'Cáceres', 
     @Apellido2 = 'González', 
     @Correo = 'gabriel.caceres@gmail.com', 
-    @IdPuesto = 6, 
+    @IdPuesto = 1, 
     @Contraseña = 'gabriel123', 
-    @IdRol = 3, 
+    @IdRol = 2, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
     @Cedula = @CedulaCreador;  

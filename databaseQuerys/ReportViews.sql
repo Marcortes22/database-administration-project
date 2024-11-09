@@ -441,13 +441,14 @@ GO
 CREATE VIEW Vw_PromedioCantidadAlimentosPorDieta AS
 SELECT 
     A.Nombre AS Alimento,
+    A.UnidadMedida,
     AVG(FA.Cantidad) AS PromedioCantidad
 FROM 
     ZooMa_Data_Warehouse.dbo.Fact_DietaAlimentos FA
 INNER JOIN 
     ZooMa_Data_Warehouse.dbo.Dim_Alimentos A ON FA.IdAlimento = A.IdAlimento
 GROUP BY 
-    A.Nombre;
+    A.Nombre, A.UnidadMedida;
 GO
 
 

@@ -32,13 +32,14 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
         IF(select count(*) from @Detalles) = 0
         BEGIN
-            RAISERROR ('No se han ingresado detalles', 16, 1);
+            RAISERROR ('No se han agregado entradas a la venta', 16, 1);
         END
 
         IF  EXISTS(SELECT 1 FROM @Detalles D  WHERE NOT EXISTS (SELECT 1 FROM Entrada E WHERE E.IdEntrada = D.IdEntrada))
         BEGIN
             RAISERROR ('Uno o mas id de entrada no son validas', 16, 1);
         END 
+
         INSERT INTO VentaEntrada (Fechaventa, IdVisitantes, IdMetodoPago, IdEmpleado)
         VALUES (GETDATE(), @IdVisitantes, @IdMetodoPago, @Cedula );
 
@@ -128,7 +129,7 @@ BEGIN
     BEGIN CATCH
 
         ROLLBACK TRANSACTION;
-        DECLARE @ErrorMessage VARCHAR(4000);
+        DECLARE @ErrorMessage VARCHAR(200);
         SELECT @ErrorMessage = ERROR_MESSAGE();
         RAISERROR ('Ha ocurrido un error: ', 16, 1, @ErrorMessage);
     END CATCH
@@ -255,7 +256,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         VALUES (@IdTarea, @IdHabitacion, @Nombre)
 
 
-         INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
+        INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
         VALUES (@IdTarea, 1,1,@IdEmpleado)
 
 		COMMIT TRANSACTION
