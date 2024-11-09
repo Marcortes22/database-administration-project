@@ -16,7 +16,7 @@ export default function EntradasVendidasTable({ data }: EntradasVendidasTablePro
         <thead>
           <tr>
             <th className="py-2 px-4 border-b">Total de Entradas Vendidas</th>
-            <th className="py-2 px-4 border-b">Monto Total de Ventas</th>
+            <th className="py-2 px-4 border-b">Monto Total de Ventas (sin IVA)</th>
           </tr>
         </thead>
         <tbody>

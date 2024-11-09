@@ -130,11 +130,6 @@ export default function VentasReportTable() {
         className={`px-4 py-2 rounded ${selectedReport === 'tipoEntrada' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}>
           Ventas por Tipo Entrada
           </button>
-          <button 
-        onClick={() => handleReportChange('entradaYtipo')} 
-        className={`px-4 py-2 rounded ${selectedReport === 'entradaYtipo' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}>
-          Ventas por Entrada y Tipo
-          </button>
       </div>
       {renderTable()}
     </div>

@@ -25,6 +25,7 @@ export const useEditarHabitacion = () => {
       }
 
       toast.success('Habitación actualizada exitosamente');
+      window.location.reload();
     } catch (error) {
       setError('Error al actualizar la habitación');
       toast.error('Error al actualizar la habitación');

@@ -1,16 +1,15 @@
 // Components/FormularioCalificacionVisita.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useCalificacionVisita } from '@/Hooks/useCalificacionVisita';
-import { useVisitantes } from '@/Hooks/useVisitante';
 import { CalificacionVisita } from '@/Types/next-auth-types/CalificaciónVisita';
-
+import { useVentasSinCalificacion } from '@/Hooks/useEntradaSinCalificacion';
 
 export default function FormularioCalificacionVisita() {
   const { enviarCalificacion, loading } = useCalificacionVisita();
-  const { visitantes, loading: loadingVisitantes, error: errorVisitantes } = useVisitantes();
-  
+  const { ventasSinCalificacion, loading: loadingVentas, error: errorVentas } = useVentasSinCalificacion();
+
   const [calificacion, setCalificacion] = useState<CalificacionVisita>({
     idVentaEntrada: 0,
     notaRecorrido: 0,
@@ -52,14 +51,14 @@ export default function FormularioCalificacionVisita() {
             <option value="" disabled>
               Selecciona un visitante
             </option>
-            {loadingVisitantes ? (
+            {loadingVentas ? (
               <option>Cargando visitantes...</option>
-            ) : errorVisitantes ? (
+            ) : errorVentas ? (
               <option>Error al cargar visitantes</option>
             ) : (
-              visitantes.map((visitante) => (
-                <option key={visitante.idVisitantes} value={visitante.idVisitantes}>
-                  {visitante.nombreVist} {visitante.apell1Vist} {visitante.apell2Vist}
+              ventasSinCalificacion.map((venta) => (
+                <option key={venta.idVentaEntrada} value={venta.idVentaEntrada}>
+                  {venta.nombre} - {new Date(venta.fechaventa).toLocaleDateString()}
                 </option>
               ))
             )}
