@@ -45,7 +45,7 @@ export default function AppNavbar() {
     { name: 'Tareas', path: '/dashboard/estadisticas/tareas' },
     { name: 'Calificaciones', path: '/dashboard/estadisticas/calificaciones' },
     { name: 'Alimentos', path: '/dashboard/estadisticas/alimentos' },
-    { name: 'Historial', path: '/dashboard/estadisticas/historial' },
+    { name: 'Movimientos', path: '/dashboard/estadisticas/historial' },
 
   ];
 
