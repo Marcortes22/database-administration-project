@@ -11,7 +11,7 @@ export default function FormularioCalificacionVisita() {
   const { ventasSinCalificacion, loading: loadingVentas, error: errorVentas } = useVentasSinCalificacion();
 
   const [calificacion, setCalificacion] = useState<CalificacionVisita>({
-    idVentaEntrada: 0,
+    idVentaEntrada: "", // Cambiado a cadena vacía para que no seleccione un registro automáticamente
     notaRecorrido: 0,
     sugerenciaMejoraRecorrido: '',
     notaServicioAlCliente: 0,
@@ -49,7 +49,7 @@ export default function FormularioCalificacionVisita() {
             className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             <option value="" disabled>
-              Selecciona un visitante
+              Seleccione una entrada
             </option>
             {loadingVentas ? (
               <option>Cargando visitantes...</option>
