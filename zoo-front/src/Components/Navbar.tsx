@@ -32,7 +32,7 @@ export default function AppNavbar() {
 
   const routes = [
     { name: 'Empleados', path: '/dashboard/empleados', roles: ['ADMIN'] },
-    { name: 'Animales', path: '/dashboard/animales', roles: ['ADMIN', 'USER'] },
+    { name: 'Animales', path: '/dashboard/animales', roles: ['ADMIN'] },
     { name: 'Venta de entradas', path: '/dashboard/ventas', roles: ['SELLER'] },
     { name: 'Habitats', path: '/dashboard/habitats', roles: ['ADMIN'] },
     { name: 'Tareas', path: '/dashboard/tareas', roles: ['ADMIN'] },
@@ -46,6 +46,7 @@ export default function AppNavbar() {
     { name: 'Calificaciones', path: '/dashboard/estadisticas/calificaciones' },
     { name: 'Alimentos', path: '/dashboard/estadisticas/alimentos' },
     { name: 'Historial', path: '/dashboard/estadisticas/historial' },
+
   ];
 
   const toggleStatisticsMenu = () => {
