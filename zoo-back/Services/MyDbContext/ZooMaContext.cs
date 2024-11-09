@@ -1759,6 +1759,9 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(62)
                 .IsUnicode(false);
             entity.Property(e => e.PromedioCantidad).HasColumnType("decimal(38, 6)");
+            entity.Property(e => e.UnidadMedida)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<VwPromedioNotaFinalPorMe>(entity =>

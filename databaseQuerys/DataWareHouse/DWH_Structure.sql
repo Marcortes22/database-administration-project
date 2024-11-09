@@ -155,6 +155,8 @@ CREATE TABLE Fact_DetalleVenta (
     Precio MONEY,
     Descuento MONEY,
     Total MONEY,
+    CONSTRAINT FK_VentaEntrada FOREIGN KEY (IdVentaEntrada) REFERENCES Fact_Venta(IdVenta),
+    CONSTRAINT FK_Entrada FOREIGN KEY (IdEntrada) REFERENCES Dim_Entrada(IdEntrada)
 );
 
 GO
@@ -183,3 +185,16 @@ CREATE TABLE Fact_DietaAlimentos(
   CONSTRAINT FK_Dieta FOREIGN KEY (IdDieta) REFERENCES Dim_Dieta(IdDieta),
   CONSTRAINT FK_Alimento FOREIGN KEY (IdAlimento) REFERENCES Dim_Alimentos(IdAlimento)
 )
+
+
+CREATE TABLE Fact_HistorialMovimientos (
+    IdHistorialMovimientos INT PRIMARY KEY,
+    IdAnimal INT NOT NULL,
+    IdHabitacionAnterior INT,
+    IdHabitacionActual INT,
+    FechaMovimiento DATETIME,
+    Motivo VARCHAR(255) NULL,
+    CONSTRAINT FK_Animal FOREIGN KEY (IdAnimal) REFERENCES Dim_Animal(IdAnimales),
+    CONSTRAINT FK_HabitacionAnterior FOREIGN KEY (IdHabitacionAnterior) REFERENCES Dim_Habitacion(IdHabitacion),
+    CONSTRAINT FK_HabitacionActual FOREIGN KEY (IdHabitacionActual) REFERENCES Dim_Habitacion(IdHabitacion)
+);
