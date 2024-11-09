@@ -35,6 +35,7 @@ using Services.ReportesServices;
 using Services.VentasReportesService;
 using Services.CalificacionVisitaReportes;
 using Services.AlimentoReportesService;
+using Services.HistorialMovimientoReportes;
 
 
 
@@ -77,6 +78,7 @@ builder.Services.AddScoped<ISvTareasReportes, SvTareasReportes>();
 builder.Services.AddScoped<ISvVentasReportes, SvVentaReportes>();
 builder.Services.AddScoped<ISvCalificacionReporte, SvCalificacionReporte>();
 builder.Services.AddScoped<ISvAlimentoReporte, SvAlimentoReporte>();
+builder.Services.AddScoped<ISvHistorialMovimientosReportes, SvHistorialMovientoReportes>();
 
 builder.Services.AddCors(options => {
     options.AddPolicy("ReactApp", policyBuilder =>

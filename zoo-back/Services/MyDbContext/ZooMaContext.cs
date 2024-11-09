@@ -127,6 +127,8 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<VwAnimale> VwAnimales { get; set; }
 
+    public virtual DbSet<VwAnimalesConMasMovimiento> VwAnimalesConMasMovimientos { get; set; }
+
     public virtual DbSet<VwCalificacionVisitum> VwCalificacionVisita { get; set; }
 
     public virtual DbSet<VwCalificacionesPorFecha> VwCalificacionesPorFechas { get; set; }
@@ -170,6 +172,8 @@ public partial class ZooMaContext : DbContext
     public virtual DbSet<VwHabitacion> VwHabitacions { get; set; }
 
     public virtual DbSet<VwHistorialMovimiento> VwHistorialMovimientos { get; set; }
+
+    public virtual DbSet<VwHistorialMovimientosPorAnimal> VwHistorialMovimientosPorAnimals { get; set; }
 
     public virtual DbSet<VwMantenimientoHabitacion> VwMantenimientoHabitacions { get; set; }
 
@@ -1366,6 +1370,17 @@ public partial class ZooMaContext : DbContext
                 .HasColumnName("nombreAni");
         });
 
+        modelBuilder.Entity<VwAnimalesConMasMovimiento>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vw_AnimalesConMasMovimientos");
+
+            entity.Property(e => e.NombreAnimal)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<VwCalificacionVisitum>(entity =>
         {
             entity
@@ -1649,6 +1664,29 @@ public partial class ZooMaContext : DbContext
             entity.Property(e => e.IdHistorialMovimientos).ValueGeneratedOnAdd();
             entity.Property(e => e.Motivo)
                 .HasMaxLength(255)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VwHistorialMovimientosPorAnimal>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vw_HistorialMovimientosPorAnimal");
+
+            entity.Property(e => e.Fecha)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.HabitacionActual)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.HabitacionAnterior)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Motivo)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.NombreAnimal)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 
