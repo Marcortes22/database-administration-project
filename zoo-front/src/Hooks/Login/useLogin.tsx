@@ -8,8 +8,8 @@ import toast from 'react-hot-toast';
 export default function useLogin() {
   const router = useRouter();
   const [error, setError] = useState('');
-  const [username, setUsername] = useState('504420108');
-  const [password, setPassword] = useState('cortes10');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
