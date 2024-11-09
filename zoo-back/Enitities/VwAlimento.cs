@@ -8,4 +8,6 @@ public partial class VwAlimento
     public int IdAlimentos { get; set; }
 
     public string Nombre { get; set; } = null!;
+
+    public string? UnidadMedida { get; set; }
 }

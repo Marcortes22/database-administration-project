@@ -131,9 +131,11 @@ GO
 Create View Vw_Alimentos
 as
 Select
-IdAlimentos,
-Nombre
-from Alimentos 
+A.IdAlimentos,
+A.Nombre,
+U.Nombre AS 'UnidadMedida'
+from Alimentos A 
+INNER JOIN UnidadMedida U ON A.IdUnidadMedida = U.IdUnidadMedida
 GO
 
 Use ZooMA

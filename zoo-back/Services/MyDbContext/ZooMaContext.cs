@@ -1330,9 +1330,11 @@ public partial class ZooMaContext : DbContext
                 .HasNoKey()
                 .ToView("Vw_Alimentos");
 
-            entity.Property(e => e.IdAlimentos).ValueGeneratedOnAdd();
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.UnidadMedida)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
