@@ -1,23 +1,18 @@
-// Hooks/useControlAnimalTareas.ts
+// Hooks/useMantenimientoHabitacionTareas.ts
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { ControlAnimalTarea } from '@/Types/next-auth-types/ControlAnimal';
+import { MantenimientoHabitacionTarea } from '@/Types/next-auth-types/MantenimientoHabitacion';
 import toast from 'react-hot-toast';
 
-export function useControlAnimalTareas() {
-  const [tareas, setTareas] = useState<ControlAnimalTarea[] | null>(null);
+export function useMantenimientoHabitacionTareas() {
+  const [tareas, setTareas] = useState<MantenimientoHabitacionTarea[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchTareas = async () => {
-      if (status === 'loading') {
-        // Espera a que la sesión esté completamente cargada
-        return;
-      }
-
       if (!session?.user?.access_token) {
         toast.error('No se encontró el token de autenticación');
         setLoading(false);
@@ -25,8 +20,7 @@ export function useControlAnimalTareas() {
       }
 
       try {
-        console.log('Token:', session.user.access_token); // Verificar si el token está disponible
-        const response = await axios.get('http://localhost:5153/api/Tareas/controlAnimal', {
+        const response = await axios.get('http://localhost:5153/api/Tareas/mantenimiento', {
           headers: {
             Authorization: `Bearer ${session.user.access_token}`,
           },
@@ -34,15 +28,14 @@ export function useControlAnimalTareas() {
 
         setTareas(response.data.data);
       } catch (error) {
-        toast.error('Error al cargar las tareas de control animal');
-        setError('Error al cargar las tareas de control animal.');
+        setError('Error al cargar las tareas de mantenimiento de habitación.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchTareas();
-  }, [session, status]);
+  }, [session]);
 
   return { tareas, loading, error };
 }
