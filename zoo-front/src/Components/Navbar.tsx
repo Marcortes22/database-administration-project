@@ -44,6 +44,7 @@ export default function AppNavbar() {
     { name: 'Ventas', path: '/dashboard/estadisticas/ventas' },
     { name: 'Tareas', path: '/dashboard/estadisticas/tareas' },
     { name: 'Calificaciones', path: '/dashboard/estadisticas/calificaciones' },
+    { name: 'Alimentos', path: '/dashboard/estadisticas/alimentos' },
   ];
 
   const toggleStatisticsMenu = () => {
