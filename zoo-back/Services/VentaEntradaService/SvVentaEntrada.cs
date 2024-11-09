@@ -63,5 +63,19 @@ namespace Services.VentaEntradaService
                 return new BaseResponse<VentaEntradum>(default, false, ex.Message);
             }
         }
+
+        public async Task<BaseResponse<List<VistaVentaSinCalificacione>>> GetAllVentasSinCalificaciones()
+        {
+            try
+            {
+                var data = myDbContext.VistaVentaSinCalificaciones.ToList();
+
+                return new BaseResponse<List<VistaVentaSinCalificacione>>(data, true, "");
+            }
+            catch (Exception err)
+            {
+                return new BaseResponse<List<VistaVentaSinCalificacione>>(default, false, err.Message);
+            }
+        }
     }
 }

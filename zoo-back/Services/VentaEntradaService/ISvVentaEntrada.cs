@@ -12,5 +12,7 @@ namespace Services.VentaEntradaService
     public interface ISvVentaEntrada
     {
         Task<BaseResponse<VentaEntradum>> Create(VentaCreateDto ventaCreateDto,  int cedulaCreador);
+
+        Task<BaseResponse<List<VistaVentaSinCalificacione>>> GetAllVentasSinCalificaciones();
     }
 }

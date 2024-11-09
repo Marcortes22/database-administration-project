@@ -366,6 +366,18 @@ as
 GO
 
 
+CREATE VIEW Vista_VentaSinCalificaciones
+AS
+SELECT 
+V.IdVentaEntrada,
+V.Fechaventa,
+E.Nombre
+FROM VentaEntrada V INNER JOIN Empleado E ON V.IdEmpleado = E.IdEmpleado
+LEFT JOIN 
+   CalificacionVisita CV ON V.IdVentaEntrada = CV.IdVentaEntrada
+WHERE 
+   CV.IdVentaEntrada IS NULL;
+
 
 
 --FIN VIEWS--

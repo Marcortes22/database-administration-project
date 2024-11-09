@@ -121,6 +121,10 @@ public partial class ZooMaContext : DbContext
 
     public virtual DbSet<Visitante> Visitantes { get; set; }
 
+    public virtual DbSet<VistaCalificacionesSinVentum> VistaCalificacionesSinVenta { get; set; }
+
+    public virtual DbSet<VistaVentaSinCalificacione> VistaVentaSinCalificaciones { get; set; }
+
     public virtual DbSet<VwAlimento> VwAlimentos { get; set; }
 
     public virtual DbSet<VwAlimentosMasUtilizado> VwAlimentosMasUtilizados { get; set; }
@@ -1324,6 +1328,29 @@ public partial class ZooMaContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Telefono)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VistaCalificacionesSinVentum>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_CalificacionesSinVenta");
+
+            entity.Property(e => e.NombreEmpleado)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VistaVentaSinCalificacione>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Vista_VentaSinCalificaciones");
+
+            entity.Property(e => e.Fechaventa).HasColumnType("datetime");
+            entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });

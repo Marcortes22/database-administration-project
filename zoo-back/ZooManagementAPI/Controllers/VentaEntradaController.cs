@@ -39,5 +39,24 @@ namespace ZooManagementAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        
+            [HttpGet("ventas-sin-calificaciones")]
+        public async Task<IActionResult> GetAllVentasSinCalificaciones()
+        {
+            var response = await _svVentaEntrada.GetAllVentasSinCalificaciones();
+
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            return BadRequest(response);
+        }
+
+
+
+
+
     }
 }
