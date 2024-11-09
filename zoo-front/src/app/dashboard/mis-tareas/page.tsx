@@ -91,7 +91,7 @@ export default function MisTareas() {
                       : 'bg-green-500 hover:bg-green-600'
                   } transition duration-300`}
                 >
-                  {loadingAction ? 'Aprobando...' : 'Aprobar'}
+                  {loadingAction ? 'Realizando...' : 'Marcar como lista'}
                 </button>
               </td>
             </tr>
