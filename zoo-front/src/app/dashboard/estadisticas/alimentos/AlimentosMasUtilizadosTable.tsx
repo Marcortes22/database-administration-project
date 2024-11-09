@@ -17,7 +17,7 @@ export default function AlimentosMasUtilizadosTable({ data }: AlimentosMasUtiliz
             <th className="px-6 py-3 text-center">Alimento</th>
             <th className="px-6 py-3 text-center">Unidad de Medida</th>
             <th className="px-6 py-3 text-center">Cantidad Total</th>
-            <th className="px-6 py-3 text-center">Número de Dietas</th>
+            <th className="px-6 py-3 text-center">Numero de veces utilizado</th>
           </tr>
         </thead>
         <tbody>

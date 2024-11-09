@@ -1,7 +1,6 @@
 // Components/CalificacionesPorFechaTable.tsx
 'use client';
 import { AlimentosPorDieta } from '@/Types/next-auth-types/AlimentosPorDieta';
-import { CalificacionesPorFecha } from '@/Types/next-auth-types/CalificacionVisitaPorFecha';
 import React from 'react';
 
 interface AlimentosPorDietaProps {
