@@ -5,6 +5,7 @@ export interface Dieta {
 
 export interface Alimento {
     idAlimento: number;
+    cantidad: number;
   }
   
   export interface CrearDieta {

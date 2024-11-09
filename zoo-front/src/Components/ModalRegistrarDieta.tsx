@@ -18,30 +18,43 @@ export default function ModalRegistrarDieta({
 
   const [dieta, setDieta] = useState({
     nombreDiet: '',
-    alimentos: [] as { idAlimento: number }[],
+    alimentos: [] as { idAlimento: number; cantidad: number }[],
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDieta({ ...dieta, [name]: value });
   };
 
   const handleAlimentoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = Number(e.target.value);
-    if (selectedId && !dieta.alimentos.find(a => a.idAlimento === selectedId)) {
+    if (selectedId && !dieta.alimentos.find((a) => a.idAlimento === selectedId)) {
       setDieta((prevState) => ({
         ...prevState,
-        alimentos: [...prevState.alimentos, { idAlimento: selectedId }],
+        alimentos: [...prevState.alimentos, { idAlimento: selectedId, cantidad: 0 }],
       }));
     }
+  };
+
+  const handleCantidadChange = (idAlimento: number, cantidad: number) => {
+    setDieta((prevState) => ({
+      ...prevState,
+      alimentos: prevState.alimentos.map((alimento) =>
+        alimento.idAlimento === idAlimento
+          ? { ...alimento, cantidad }
+          : alimento
+      ),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await registrarDieta(dieta);
-    onClose(); // Cerrar modal después de la operación
+    setDieta({
+      nombreDiet: '',
+      alimentos: [] as { idAlimento: number; cantidad: number }[],
+    });
+    onClose();
   };
 
   const handleRemoveAlimento = (id: number) => {
@@ -53,6 +66,9 @@ export default function ModalRegistrarDieta({
 
   const obtenerAlimento = (id: number) =>
     alimentos.find((alimento) => alimento.idAlimentos === id)?.nombre || 'Desconocido';
+
+  const obtenerUnidadMedida = (id: number) =>
+    alimentos.find((alimento) => alimento.idAlimentos === id)?.unidadMedida || 'Unidad';
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -127,19 +143,38 @@ export default function ModalRegistrarDieta({
                     </select>
                   </div>
 
-                  <div className="mt-2">
-                    <h4 className="text-gray-700 font-medium">Alimentos Seleccionados</h4>
-                    <ul className="space-y-1">
+                  <div className="mt-4">
+                    <h4 className="text-gray-700 font-medium mb-2">Alimentos Seleccionados</h4>
+                    <div className="grid grid-cols-3 text-gray-600 font-medium mb-2">
+                      <span>Alimento</span>
+                      <span>Cantidad</span>
+                      <span>Unidad de Medida</span>
+                    </div>
+                    <ul className="space-y-2">
                       {dieta.alimentos.map((alimento) => (
                         <li
                           key={alimento.idAlimento}
-                          className="flex justify-between items-center bg-gray-100 px-3 py-2 rounded-lg"
+                          className="flex items-center bg-gray-100 px-3 py-2 rounded-lg"
                         >
-                          <span>{obtenerAlimento(alimento.idAlimento)}</span>
+                          <span className="flex-1">{obtenerAlimento(alimento.idAlimento)}</span>
+                          <input
+                            type="number"
+                            value={alimento.cantidad}
+                            onChange={(e) =>
+                              handleCantidadChange(alimento.idAlimento, Number(e.target.value))
+                            }
+                            placeholder="Cantidad"
+                            className="w-20 px-2 py-1 border rounded-lg mx-4"
+                            min={0}
+                            required
+                          />
+                          <span className="text-gray-500 ml-2">
+                            {obtenerUnidadMedida(alimento.idAlimento)}
+                          </span>
                           <button
                             type="button"
                             onClick={() => handleRemoveAlimento(alimento.idAlimento)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 ml-4"
                           >
                             Eliminar
                           </button>
@@ -147,6 +182,7 @@ export default function ModalRegistrarDieta({
                       ))}
                     </ul>
                   </div>
+
 
                   <div className="flex justify-end space-x-4 mt-6">
                     <button
@@ -159,11 +195,10 @@ export default function ModalRegistrarDieta({
                     <button
                       type="submit"
                       disabled={loadingDieta}
-                      className={`px-4 py-2 rounded-lg text-white ${
-                        loadingDieta
+                      className={`px-4 py-2 rounded-lg text-white ${loadingDieta
                           ? 'bg-gray-400 cursor-not-allowed'
                           : 'bg-blue-500 hover:bg-blue-600'
-                      } transition duration-300`}
+                        } transition duration-300`}
                     >
                       {loadingDieta ? 'Guardando...' : 'Registrar Dieta'}
                     </button>
