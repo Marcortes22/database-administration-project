@@ -14,7 +14,7 @@ FROM
 INNER JOIN 
     ZooMa_Data_Warehouse.dbo.Dim_empleado DE ON FT.IdEmpleado = DE.IdEmpleado
 WHERE 
-    FT.IdEstadoTarea = 3 -- Estado de completado
+    FT.IdEstadoTarea = 3 AND DE.Actual = 1  -- Estado de completado
 GROUP BY 
     DE.IdEmpleado, DE.NombreCompleto, DE.Puesto;
 
@@ -107,24 +107,20 @@ GO
 
 
 
-
 DROP VIEW IF EXISTS Vw_PorcentajeTareasCompletadasPorTipo;
 GO
 CREATE VIEW Vw_PorcentajeTareasCompletadasPorTipo AS
 SELECT 
     TT.IdTipoTarea,
     TT.Nombre AS TipoTarea,
-    CAST(COUNT(CASE WHEN FT.IdEstadoTarea = 3 THEN 1 END) * 100.0 / COUNT(FT.IdTarea)as decimal(5,2)) AS PorcentajeCompletado-- hace un conteo de las tareas completadas y lo divide entre el total de tareas Y SE CASTEA A DECIMAL CON 2 DECIMALES
+    ROUND(COUNT(CASE WHEN FT.IdEstadoTarea = 3 THEN 1 END) * 100.0 / COUNT(FT.IdTarea), 2) AS PorcentajeCompletado
 FROM 
     ZooMa_Data_Warehouse.dbo.Fact_Tarea FT
 INNER JOIN 
     ZooMa_Data_Warehouse.dbo.Dim_TipoTarea TT ON FT.IdTipoTarea = TT.IdTipoTarea
-WHERE 
-    FT.Fecha = (SELECT MAX(Fecha)  -- toma solo la tarea mas reciente por su fecha, ya que se puede repetir el id de la tarea y solo cambia su estado
-                FROM ZooMa_Data_Warehouse.dbo.Fact_Tarea 
-                WHERE IdTarea = FT.IdTarea)
 GROUP BY 
     TT.IdTipoTarea, TT.Nombre;
+GO
 
 
 
@@ -310,64 +306,46 @@ DROP VIEW IF EXISTS Vw_PromedioCalificaciones;
 GO
 CREATE VIEW Vw_PromedioCalificaciones AS
 SELECT 
-    AVG(NotaRecorrido) AS PromedioNotaRecorrido,
-    AVG(NotaServicioCliente) AS PromedioNotaServicioCliente,
-    AVG(NotaFinal) AS PromedioNotaFinal
+    ROUND(AVG(NotaRecorrido), 0) AS PromedioNotaRecorrido,
+    ROUND(AVG(NotaServicioCliente), 0) AS PromedioNotaServicioCliente,
+    ROUND(AVG(NotaFinal), 0) AS PromedioNotaFinal
 FROM 
     ZooMa_Data_Warehouse.dbo.Fact_CalificacionVisita;
-	--select * from  Vw_PromedioCalificaciones
-
-
 GO
 
-  DROP VIEW IF EXISTS Vw_CalificacionesPorFecha;
+DROP VIEW IF EXISTS Vw_CalificacionesPorFecha;
 GO
 CREATE VIEW Vw_CalificacionesPorFecha AS
 SELECT 
     Fecha,
-    AVG(NotaRecorrido) AS PromedioNotaRecorrido,
-    AVG(NotaServicioCliente) AS PromedioNotaServicioCliente,
-    AVG(NotaFinal) AS PromedioNotaFinal
+    ROUND(AVG(NotaRecorrido), 0) AS PromedioNotaRecorrido,
+    ROUND(AVG(NotaServicioCliente), 0) AS PromedioNotaServicioCliente,
+    ROUND(AVG(NotaFinal), 0) AS PromedioNotaFinal
 FROM 
     ZooMa_Data_Warehouse.dbo.Fact_CalificacionVisita
 GROUP BY 
-    Fecha
-
-
-	-- select * from Vw_CalificacionesPorFecha ORDER BY 
-  --   Fecha;
+    Fecha;
 GO
 
 
 
-DROP VIEW IF EXISTS Vw_DistribucionCalificacionRecorrido;
-GO
-CREATE VIEW Vw_DistribucionCalificacionRecorrido AS
-SELECT 
-    NotaRecorrido,
-    COUNT(*) AS TotalVeces
-FROM 
-    ZooMa_Data_Warehouse.dbo.Fact_CalificacionVisita
-GROUP BY 
-    NotaRecorrido
 
-
-	-- select * from Vw_DistribucionCalificacionRecorrido  ORDER BY 
-  --   NotaRecorrido;
-
-  GO
+SET LANGUAGE Spanish;
 
 DROP VIEW IF EXISTS Vw_PromedioNotaFinalPorMes;
 GO
 CREATE VIEW Vw_PromedioNotaFinalPorMes AS
+
 SELECT 
     YEAR(Fecha) AS Anio,
-    MONTH(Fecha) AS Mes,
-    AVG(NotaFinal) AS PromedioNotaFinal
+    DATENAME(MONTH, Fecha) AS Mes,
+    ROUND(AVG(NotaFinal), 0) AS PromedioNotaFinal
 FROM 
     ZooMa_Data_Warehouse.dbo.Fact_CalificacionVisita
 GROUP BY 
-    YEAR(Fecha), MONTH(Fecha)
+    YEAR(Fecha), DATENAME(MONTH, Fecha);
+GO
+
 
 
 	-- select * from  Vw_PromedioNotaFinalPorMes ORDER BY 

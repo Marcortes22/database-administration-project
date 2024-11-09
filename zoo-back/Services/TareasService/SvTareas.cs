@@ -6,6 +6,7 @@ using Services.MantenimientoHabService.Dto;
 using Services.TareasService.Dto;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,48 +44,60 @@ namespace Services.TareasService
             }
         }
 
-        public async Task<BaseResponse<List<Tarea>>> GetAll()
+        public async Task<BaseResponse<List<VwTareasControlAnimal>>> GetAllControlAnimal()
         {
             try
             {
+                var data = myDbContext.VwTareasControlAnimals.ToList();
 
-                var data = myDbContext.Tareas
-                   .Include(t => t.IdEmpleadoNavigation)  // Cargar empleado relacionado
-        .Include(t => t.IdTipoTareaNavigation)  // Cargar tipo de tarea
-        .Include(t => t.ControlAnimals)  // Cargar lista de ControlAnimal
-        .Include(t => t.MantenimientoHabitacions)  // Cargar lista de MantenimientoHabitacion
-        .Include(t => t.IdEstadoTareaNavigation)  // Cargar el estado de la tarea (1:1 opcional)
-        .ToList();
-
-                return new BaseResponse<List<Tarea>>(data, true, "");
+                return new BaseResponse<List<VwTareasControlAnimal>>(data, true, "");
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                return new BaseResponse<List<Tarea>>(default, false, ex.Message);
+                return new BaseResponse<List<VwTareasControlAnimal>>(default, false, err.Message);
             }
         }
 
-        public async Task<BaseResponse<List<Tarea>>> GetTasksByEmpleadoId(int id)
+        public async Task<BaseResponse<List<VwTareasMantenimiento>>> GetAllMantenimiento()
         {
             try
             {
-                var data = myDbContext.Tareas
-           .Include(t => t.IdEmpleadoNavigation)  // Cargar empleado relacionado
-           .Include(t => t.IdTipoTareaNavigation)  // Cargar tipo de tarea
-           .Include(t => t.ControlAnimals)  // Cargar lista de ControlAnimal
-           .Include(t => t.MantenimientoHabitacions)  // Cargar lista de MantenimientoHabitacion
-           .Include(t => t.IdEstadoTareaNavigation)  // Cargar el estado de la tarea (1:1 opcional)
-           .Where(t => t.IdEmpleado == id)
-           .ToList();
+                var data = myDbContext.VwTareasMantenimientos.ToList();
 
-                return new BaseResponse<List<Tarea>>(data, true, "");
+                return new BaseResponse<List<VwTareasMantenimiento>>(data, true, "");
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                return new BaseResponse<List<Tarea>>(default, false, ex.Message);
+                return new BaseResponse<List<VwTareasMantenimiento>>(default, false, err.Message);
             }
+        }
 
+        public async Task<BaseResponse<List<VwTareasMantenimiento>>> GetTasksControlAnimalByEmpleadoId(int id)
+        {
+            try
+            {
+                var data = myDbContext.VwTareasMantenimientos.Where(x => x.IdEmpleado == id).ToList();
 
+                return new BaseResponse<List<VwTareasMantenimiento>>(data, true, "");
+            }
+            catch (Exception err)
+            {
+                return new BaseResponse<List<VwTareasMantenimiento>>(default, false, err.Message);
+            }
+        }
+
+        public async Task<BaseResponse<List<VwTareasControlAnimal>>> GetTasksMantenimientoByEmpleadoId(int id)
+        {
+            try
+            {
+                var data = myDbContext.VwTareasControlAnimals.Where(x=>x.IdEmpleado == id).ToList();
+
+                return new BaseResponse<List<VwTareasControlAnimal>>(data, true, "");
+            }
+            catch (Exception err)
+            {
+                return new BaseResponse<List<VwTareasControlAnimal>>(default, false, err.Message);
+            }
         }
     }
 }

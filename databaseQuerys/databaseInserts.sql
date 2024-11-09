@@ -22,7 +22,7 @@ EXEC SP_INGRESAR_ZOO
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario', @Salario = 2000.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Cuidador de Habitaciones', @Salario = 1200.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Administrador', @Salario = 1100.00, @Cedula = @CedulaCreador;
-EXEC SP_INGRESAR_PUESTO @Nombre = 'Guía de Zoológico', @Salario = 1300.00, @Cedula = @CedulaCreador;
+EXEC SP_INGRESAR_PUESTO @Nombre = 'Vendedora de entradas', @Salario = 1300.00, @Cedula = @CedulaCreador;EXEC SP_INGRESAR_PUESTO @Nombre = 'Guía de Zoológico', @Salario = 1300.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Encargado de Alimentación', @Salario = 1250.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Veterinario Asistente', @Salario = 1500.00, @Cedula = @CedulaCreador;
 EXEC SP_INGRESAR_PUESTO @Nombre = 'Técnico en Manejo Animal', @Salario = 1400.00, @Cedula = @CedulaCreador;
@@ -59,9 +59,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'Fernández', 
     @Apellido2 = 'Martínez', 
     @Correo = 'laura.fernandez@gmail.com', 
-    @IdPuesto = 3, 
+    @IdPuesto = 1, 
     @Contraseña = 'laura123', 
-    @IdRol = 1, 
+    @IdRol = 3, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
     @Cedula = @CedulaCreador; 
@@ -73,9 +73,9 @@ EXEC SP_REGISTER
     @Apellido1 = 'Pérez', 
     @Apellido2 = 'García', 
     @Correo = 'luis.perez@gmail.com', 
-    @IdPuesto = 3,
+    @IdPuesto = 1,
     @Contraseña = 'luis123', 
-    @IdRol = 2, 
+    @IdRol = 3, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
     @Cedula = @CedulaCreador;  
@@ -88,7 +88,20 @@ EXEC SP_REGISTER
     @Apellido2 = 'Moreno', 
     @Correo = 'ana.sanchez@gmail.com', 
     @IdPuesto = 4,
-    @Contraseña = 'ana123', 
+    @Contraseña = '123', 
+    @IdRol = 3, 
+    @RolFechaInicio = '2024-01-01', 
+    @RolFechaFin = '2024-12-31', 
+    @Cedula = @CedulaCreador;  
+-- Registro 4 - SELLER
+EXEC SP_REGISTER 
+    @IdEmpleado = '504420119', 
+    @Nombre = 'Pepe', 
+    @Apellido1 = 'Martines', 
+    @Apellido2 = 'Sanz', 
+    @Correo = 'pepe@gmail.com', 
+    @IdPuesto = 4,
+    @Contraseña = '123', 
     @IdRol = 3, 
     @RolFechaInicio = '2024-01-01', 
     @RolFechaFin = '2024-12-31', 
@@ -445,13 +458,15 @@ EXEC SP_INGRESAR_ENTRADA @fechaVencimiento = '2024-11-12', @descuento = 15, @IdT
 DECLARE @Detalles DetalleVentaTableType;
 
 
+DECLARE @CEDULAVENDEDOR VARCHAR(20) = '504420111';
 
+DECLARE @CEDULAVENDEDOR2 VARCHAR(20) = '504420119';
 -- Venta 1
 INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 2);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420101, 
     @IdMetodoPago = 1, -- Efectivo
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR, 
     @Detalles = @Detalles;
 
 -- Venta 2
@@ -460,7 +475,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (2, 1);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420102, 
     @IdMetodoPago = 2, -- Tarjeta Débito
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR, 
     @Detalles = @Detalles;
 
 -- Venta 3
@@ -469,7 +484,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 3);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420103, 
     @IdMetodoPago = 3, -- Tarjeta Crédito
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR, 
     @Detalles = @Detalles;
 
 -- Venta 4
@@ -478,7 +493,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (4, 1);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420104, 
     @IdMetodoPago = 4, -- Transferencia Bancaria
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR, 
     @Detalles = @Detalles;
 
 -- Venta 5
@@ -487,7 +502,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (5, 2);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420105, 
     @IdMetodoPago = 5, -- Pago Móvil
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR, 
     @Detalles = @Detalles;
 
 -- Venta 6
@@ -496,7 +511,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (6, 1);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420106, 
     @IdMetodoPago = 6, -- Cheque
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR2, 
     @Detalles = @Detalles;
 
 -- Venta 7
@@ -505,7 +520,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (7, 2);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420107, 
     @IdMetodoPago = 7, -- PayPal
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR2, 
     @Detalles = @Detalles;
 
 -- Venta 8
@@ -514,7 +529,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (5, 1);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420108, 
     @IdMetodoPago = 1, -- Efectivo
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR2, 
     @Detalles = @Detalles;
 
 -- Venta 9
@@ -523,7 +538,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (2, 3);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420109, 
     @IdMetodoPago = 2, -- Tarjeta Débito
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR2, 
     @Detalles = @Detalles;
 
 -- Venta 10
@@ -532,7 +547,7 @@ INSERT INTO @Detalles (IdEntrada, Cantidad) VALUES (3, 1);
 EXEC SP_EJECUTAR_VENTA 
     @IdVisitantes = 504420110, 
     @IdMetodoPago = 3, -- Tarjeta Crédito
-    @Cedula = @CedulaCreador, 
+    @Cedula = @CEDULAVENDEDOR2, 
     @Detalles = @Detalles;
 
 

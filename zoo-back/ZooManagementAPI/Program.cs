@@ -47,7 +47,8 @@ builder.Services.AddControllers().AddNewtonsoftJson(x =>
  x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddDbContext<ZooMaContext>(options =>
-            options.UseSqlServer("Data Source=localhost;Initial Catalog=ZooMA;Integrated Security=True;TrustServerCertificate=True;"));
+    options.UseSqlServer("Data Source=localhost;Initial Catalog=ZooMA;Integrated Security=True;TrustServerCertificate=True;Max Pool Size=100;"));
+
 
 
 builder.Services.AddScoped<ISvHabitacion, SvHabitacion>();

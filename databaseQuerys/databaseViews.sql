@@ -366,13 +366,15 @@ as
 GO
 
 
+drop view if exists Vista_VentaSinCalificaciones
+go
 CREATE VIEW Vista_VentaSinCalificaciones
 AS
 SELECT 
 V.IdVentaEntrada,
 V.Fechaventa,
-E.Nombre
-FROM VentaEntrada V INNER JOIN Empleado E ON V.IdEmpleado = E.IdEmpleado
+VS.NombreVist AS 'Nombre'
+FROM VentaEntrada V INNER JOIN Visitantes VS ON V.IdVisitantes = VS.IdVisitantes
 LEFT JOIN 
    CalificacionVisita CV ON V.IdVentaEntrada = CV.IdVentaEntrada
 WHERE 
@@ -380,4 +382,35 @@ WHERE
 
 
 
+
+
+
+
+
+
+DROP VIEW IF EXISTS Vw_TareasMantenimiento;
+GO
+CREATE VIEW Vw_TareasMantenimiento 
+AS
+SELECT T.IdTareas, MT.Nombre AS 'NombreTarea', EMP.Nombre 'NombreEmpleado', EMP.IdEmpleado, ET.Nombre 'Estado', 
+H.NombreHab AS 'NombreHab' FROM MantenimientoHabitacion MT INNER JOIN Tareas T ON T.IdTareas = MT.IdTareas
+INNER JOIN EstadoTarea ET ON T.IdEstadoTarea = ET.IdEstadoTarea
+INNER JOIN Empleado EMP ON EMP.IdEmpleado = T.IdEmpleado
+INNER JOIN Habitacion H ON H.IdHabitacion = MT.IdHabitacion
+
 --FIN VIEWS--
+
+
+go
+
+
+	DROP VIEW IF EXISTS Vw_TareasControlAnimal;
+GO
+CREATE VIEW Vw_TareasControlAnimal 
+AS
+SELECT T.IdTareas, CT.Nombre AS 'NombreTarea', EMP.Nombre 'NombreEmpleado',EMP.IdEmpleado, ET.Nombre 'Estado', AN.NombreAni
+ FROM ControlAnimal CT 
+INNER JOIN Tareas T ON T.IdTareas = CT.IdTareas
+INNER JOIN EstadoTarea ET ON T.IdEstadoTarea = ET.IdEstadoTarea
+INNER JOIN Empleado EMP ON EMP.IdEmpleado = T.IdEmpleado
+INNER JOIN Animales AN ON AN.IdAnimales = CT.IdAnimales

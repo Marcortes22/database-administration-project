@@ -18,12 +18,13 @@ namespace ZooManagementAPI.Controllers
             this.svTarea = svTarea;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+
+        [HttpGet("controlAnimal")]
+        public async Task<IActionResult> GetAllControlAnimal()
         {
             try
             {
-                var response = await svTarea.GetAll();
+                var response = await svTarea.GetAllControlAnimal();
                 return Ok(response);
             }
             catch (Exception e)
@@ -32,12 +33,42 @@ namespace ZooManagementAPI.Controllers
             }
         }
 
-        [HttpGet("tasksByEmpleado{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("mantenimiento")]
+        public async Task<IActionResult> GetAllMantenimiento()
         {
             try
             {
-                var response = await svTarea.GetTasksByEmpleadoId(id);
+                var response = await svTarea.GetAllMantenimiento();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+
+        [HttpGet("controlAnimal-empleado")]
+        public async Task<IActionResult> GetTasksControlAnimalByEmpleadoId(int id)
+        {
+            try
+            {
+                var response = await svTarea.GetTasksControlAnimalByEmpleadoId(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("mantenimiento-empleado")]
+        public async Task<IActionResult> GetTasksMantenimientoByEmpleadoId(int id)
+        {
+            try
+            {
+                var response = await svTarea.GetTasksMantenimientoByEmpleadoId(id);
                 return Ok(response);
             }
             catch (Exception e)

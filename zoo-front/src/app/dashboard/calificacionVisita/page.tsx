@@ -8,10 +8,14 @@ import { useVentasSinCalificacion } from '@/Hooks/useEntradaSinCalificacion';
 
 export default function FormularioCalificacionVisita() {
   const { enviarCalificacion, loading } = useCalificacionVisita();
-  const { ventasSinCalificacion, loading: loadingVentas, error: errorVentas } = useVentasSinCalificacion();
+  const {
+    ventasSinCalificacion,
+    loading: loadingVentas,
+    error: errorVentas,
+  } = useVentasSinCalificacion();
 
   const [calificacion, setCalificacion] = useState<CalificacionVisita>({
-    idVentaEntrada: "", // Cambiado a cadena vacía para que no seleccione un registro automáticamente
+    idVentaEntrada: '', // Cambiado a cadena vacía para que no seleccione un registro automáticamente
     notaRecorrido: 0,
     sugerenciaMejoraRecorrido: '',
     notaServicioAlCliente: 0,
@@ -19,7 +23,9 @@ export default function FormularioCalificacionVisita() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
     setCalificacion({
@@ -48,9 +54,7 @@ export default function FormularioCalificacionVisita() {
             required
             className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            <option value="">
-              Seleccione una entrada
-            </option>
+            <option value="">Seleccione una entrada</option>
             {loadingVentas ? (
               <option>Cargando visitantes...</option>
             ) : errorVentas ? (
@@ -58,16 +62,17 @@ export default function FormularioCalificacionVisita() {
             ) : (
               ventasSinCalificacion.map((venta) => (
                 <option key={venta.idVentaEntrada} value={venta.idVentaEntrada}>
-  {venta.nombre} - {venta.fecha} {venta.hora}
-</option>
-
+                  {venta.nombre} - {venta.fecha} {venta.hora}
+                </option>
               ))
             )}
           </select>
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium">Nota Recorrido (1-5)</label>
+          <label className="block text-gray-700 font-medium">
+            Nota Recorrido (1-5)
+          </label>
           <input
             type="number"
             name="notaRecorrido"
@@ -81,7 +86,9 @@ export default function FormularioCalificacionVisita() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium">Sugerencia para el Recorrido</label>
+          <label className="block text-gray-700 font-medium">
+            Sugerencia para el Recorrido
+          </label>
           <textarea
             name="sugerenciaMejoraRecorrido"
             value={calificacion.sugerenciaMejoraRecorrido}
@@ -92,7 +99,9 @@ export default function FormularioCalificacionVisita() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium">Nota Servicio al Cliente (1-5)</label>
+          <label className="block text-gray-700 font-medium">
+            Nota Servicio al Cliente (1-5)
+          </label>
           <input
             type="number"
             name="notaServicioAlCliente"
@@ -106,7 +115,9 @@ export default function FormularioCalificacionVisita() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium">Sugerencia para el Servicio al Cliente</label>
+          <label className="block text-gray-700 font-medium">
+            Sugerencia para el Servicio al Cliente
+          </label>
           <textarea
             name="sugerenciaMejoraServicioAlCliente"
             value={calificacion.sugerenciaMejoraServicioAlCliente}

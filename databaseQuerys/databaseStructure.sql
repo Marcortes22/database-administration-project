@@ -487,7 +487,6 @@ USE ZooMA
 GO
 CREATE TABLE CalificacionVisita (
     IdCalificacionVisita INT NOT NULL IDENTITY(1,1),
-    Nota INT NOT NULL,
     Fecha DATE NOT NULL,
     IdVentaEntrada INT NOT NULL,
     IdCalificacionServicioAlCliente INT NOT NULL,
