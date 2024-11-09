@@ -3,14 +3,16 @@ import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRegistrarDieta } from '@/Hooks/useRegistrarDieta';
 import { useAlimentos } from '@/Hooks/useAlimentos';
-import toast from 'react-hot-toast';
 
 interface ModalRegistrarDietaProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarDietaProps) {
+export default function ModalRegistrarDieta({
+  isOpen,
+  onClose,
+}: ModalRegistrarDietaProps) {
   const { alimentos, loading: loadingAlimentos } = useAlimentos();
   const { registrarDieta, loading: loadingDieta } = useRegistrarDieta();
 
@@ -35,22 +37,23 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
   };
 
   const handleCantidadChange = (idAlimento: number, cantidad: number) => {
-    const updatedAlimentos = dieta.alimentos.map((alimento) =>
-      alimento.idAlimento === idAlimento ? { ...alimento, cantidad } : alimento
-    );
-    setDieta({ ...dieta, alimentos: updatedAlimentos });
+    setDieta((prevState) => ({
+      ...prevState,
+      alimentos: prevState.alimentos.map((alimento) =>
+        alimento.idAlimento === idAlimento
+          ? { ...alimento, cantidad }
+          : alimento
+      ),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!dieta.nombreDiet || dieta.alimentos.length === 0) {
-      toast.error('Por favor, completa todos los campos.');
-      return;
-    }
-
     await registrarDieta(dieta);
-    toast.success('Dieta registrada correctamente');
+    setDieta({
+      nombreDiet: '',
+      alimentos: [] as { idAlimento: number; cantidad: number }[],
+    });
     onClose();
   };
 
@@ -63,6 +66,9 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
 
   const obtenerAlimento = (id: number) =>
     alimentos.find((alimento) => alimento.idAlimentos === id)?.nombre || 'Desconocido';
+
+  const obtenerUnidadMedida = (id: number) =>
+    alimentos.find((alimento) => alimento.idAlimentos === id)?.unidadMedida || 'Unidad';
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -91,13 +97,18 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-lg p-6 bg-white rounded-lg shadow-xl">
-                <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900">
+                <Dialog.Title
+                  as="h3"
+                  className="text-2xl font-semibold leading-6 text-gray-900"
+                >
                   Registrar Nueva Dieta
                 </Dialog.Title>
 
                 <form onSubmit={handleSubmit} className="space-y-4 mt-4">
                   <div>
-                    <label className="block text-gray-700 font-medium">Nombre de la Dieta</label>
+                    <label className="block text-gray-700 font-medium">
+                      Nombre de la Dieta
+                    </label>
                     <input
                       type="text"
                       name="nombreDiet"
@@ -109,7 +120,9 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 font-medium">Seleccionar Alimentos</label>
+                    <label className="block text-gray-700 font-medium">
+                      Seleccionar Alimentos
+                    </label>
                     <select
                       onChange={handleAlimentoChange}
                       className="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -119,7 +132,10 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
                         <option>Cargando alimentos...</option>
                       ) : (
                         alimentos.map((alimento) => (
-                          <option key={alimento.idAlimentos} value={alimento.idAlimentos}>
+                          <option
+                            key={alimento.idAlimentos}
+                            value={alimento.idAlimentos}
+                          >
                             {alimento.nombre}
                           </option>
                         ))
@@ -129,15 +145,16 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
 
                   <div className="mt-4">
                     <h4 className="text-gray-700 font-medium mb-2">Alimentos Seleccionados</h4>
-                    <div className="flex justify-between text-gray-600 font-medium mb-2">
+                    <div className="grid grid-cols-3 text-gray-600 font-medium mb-2">
                       <span>Alimento</span>
                       <span>Cantidad</span>
+                      <span>Unidad de Medida</span>
                     </div>
                     <ul className="space-y-2">
                       {dieta.alimentos.map((alimento) => (
                         <li
                           key={alimento.idAlimento}
-                          className="flex justify-between items-center bg-gray-100 px-3 py-2 rounded-lg"
+                          className="flex items-center bg-gray-100 px-3 py-2 rounded-lg"
                         >
                           <span className="flex-1">{obtenerAlimento(alimento.idAlimento)}</span>
                           <input
@@ -151,10 +168,13 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
                             min={0}
                             required
                           />
+                          <span className="text-gray-500 ml-2">
+                            {obtenerUnidadMedida(alimento.idAlimento)}
+                          </span>
                           <button
                             type="button"
                             onClick={() => handleRemoveAlimento(alimento.idAlimento)}
-                            className="text-red-500 hover:text-red-700"
+                            className="text-red-500 hover:text-red-700 ml-4"
                           >
                             Eliminar
                           </button>
@@ -175,7 +195,9 @@ export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarD
                     <button
                       type="submit"
                       disabled={loadingDieta}
-                      className={`px-4 py-2 rounded-lg text-white ${loadingDieta ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                      className={`px-4 py-2 rounded-lg text-white ${loadingDieta
+                          ? 'bg-gray-400 cursor-not-allowed'
+                          : 'bg-blue-500 hover:bg-blue-600'
                         } transition duration-300`}
                     >
                       {loadingDieta ? 'Guardando...' : 'Registrar Dieta'}
