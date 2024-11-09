@@ -11,8 +11,8 @@
   DTS:LocaleID="5130"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="129"
-  DTS:VersionGUID="{379BB627-BE23-44AD-ABED-67BF0D21E855}">
+  DTS:VersionBuild="132"
+  DTS:VersionGUID="{6F9B3D08-3A53-4D61-B502-6010A31C18FC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -10143,85 +10143,85 @@ FROM   dbo.Visitantes</property>
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output8]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output1]"
               endId="Package\Data Flow Dim\OLE DB Command 10.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 3.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output7]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output2]"
               endId="Package\Data Flow Dim\OLE DB Command 14.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 5.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output6]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output3]"
               endId="Package\Data Flow Dim\OLE DB Command 7.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 2.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output5]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output4]"
               endId="Package\Data Flow Dim\OLE DB Command 22.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 9.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output9]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output5]"
               endId="Package\Data Flow Dim\OLE DB Command 12.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 4.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output3]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output6]"
               endId="Package\Data Flow Dim\OLE DB Command 18.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 7.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output2]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output7]"
               endId="Package\Data Flow Dim\OLE DB Command 4.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 1.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output1]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output8]"
               endId="Package\Data Flow Dim\OLE DB Command 20.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 8.Outputs[Changing Attribute Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output4]"
+              refId="Package\Data Flow Dim.Paths[Changing Attribute Updates Output9]"
               endId="Package\Data Flow Dim\OLE DB Command 16.Inputs[OLE DB Command Input]"
               name="Changing Attribute Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 6.Outputs[Changing Attribute Updates Output]" />
             <path
               refId="Package\Data Flow Dim.Paths[Derived Column Output6]"
-              endId="Package\Data Flow Dim\Insert Dim_Habitacion.Inputs[OLE DB Destination Input]"
+              endId="Package\Data Flow Dim\OLE DB Command 5.Inputs[OLE DB Command Input]"
               name="Derived Column Output"
-              startId="Package\Data Flow Dim\Derived Column 4.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Derived Column Output4]"
-              endId="Package\Data Flow Dim\OLE DB Command 8.Inputs[OLE DB Command Input]"
-              name="Derived Column Output"
-              startId="Package\Data Flow Dim\Derived Column 5.Outputs[Derived Column Output]" />
+              startId="Package\Data Flow Dim\Derived Column 3.Outputs[Derived Column Output]" />
             <path
               refId="Package\Data Flow Dim.Paths[Derived Column Output5]"
-              endId="Package\Data Flow Dim\Sort.Inputs[Sort Input]"
-              name="Derived Column Output"
-              startId="Package\Data Flow Dim\Derived Column 1.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Derived Column Output2]"
-              endId="Package\Data Flow Dim\OLE DB Command.Inputs[OLE DB Command Input]"
-              name="Derived Column Output"
-              startId="Package\Data Flow Dim\Derived Column.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Derived Column Output1]"
-              endId="Package\Data Flow Dim\Insert Destination 2.Inputs[OLE DB Destination Input]"
-              name="Derived Column Output"
-              startId="Package\Data Flow Dim\Derived Column 7.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Derived Column Output]"
               endId="Package\Data Flow Dim\Insert DimAnimal.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
               startId="Package\Data Flow Dim\Derived Column 6.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Derived Column Output3]"
-              endId="Package\Data Flow Dim\OLE DB Command 5.Inputs[OLE DB Command Input]"
+              refId="Package\Data Flow Dim.Paths[Derived Column Output4]"
+              endId="Package\Data Flow Dim\Insert Destination 2.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
-              startId="Package\Data Flow Dim\Derived Column 3.Outputs[Derived Column Output]" />
+              startId="Package\Data Flow Dim\Derived Column 7.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Derived Column Output1]"
+              endId="Package\Data Flow Dim\OLE DB Command 8.Inputs[OLE DB Command Input]"
+              name="Derived Column Output"
+              startId="Package\Data Flow Dim\Derived Column 5.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Derived Column Output2]"
+              endId="Package\Data Flow Dim\Sort.Inputs[Sort Input]"
+              name="Derived Column Output"
+              startId="Package\Data Flow Dim\Derived Column 1.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Derived Column Output]"
+              endId="Package\Data Flow Dim\Insert Dim_Habitacion.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Data Flow Dim\Derived Column 4.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Derived Column Output3]"
+              endId="Package\Data Flow Dim\OLE DB Command.Inputs[OLE DB Command Input]"
+              name="Derived Column Output"
+              startId="Package\Data Flow Dim\Derived Column.Outputs[Derived Column Output]" />
             <path
               refId="Package\Data Flow Dim.Paths[Historical Attribute Inserts Output]"
               endId="Package\Data Flow Dim\Derived Column 5.Inputs[Derived Column Input]"
@@ -10238,107 +10238,112 @@ FROM   dbo.Visitantes</property>
               name="Historical Attribute Inserts Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 2.Outputs[Historical Attribute Inserts Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output7]"
-              endId="Package\Data Flow Dim\OLE DB Command 13.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 5.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output9]"
-              endId="Package\Data Flow Dim\OLE DB Command 11.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 4.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output8]"
-              endId="Package\Data Flow Dim\OLE DB Command 6.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 2.Outputs[Inferred Member Updates Output]" />
-            <path
               refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output6]"
-              endId="Package\Data Flow Dim\OLE DB Command 17.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 7.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output]"
-              endId="Package\Data Flow Dim\OLE DB Command 19.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 8.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output4]"
-              endId="Package\Data Flow Dim\OLE DB Command 15.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 6.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output3]"
               endId="Package\Data Flow Dim\OLE DB Command 21.Inputs[OLE DB Command Input]"
               name="Inferred Member Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 9.Outputs[Inferred Member Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output2]"
-              endId="Package\Data Flow Dim\OLE DB Command 3.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension 1.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output1]"
-              endId="Package\Data Flow Dim\OLE DB Command 1.Inputs[OLE DB Command Input]"
-              name="Inferred Member Updates Output"
-              startId="Package\Data Flow Dim\Slowly Changing Dimension.Outputs[Inferred Member Updates Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output5]"
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output9]"
               endId="Package\Data Flow Dim\OLE DB Command 9.Inputs[OLE DB Command Input]"
               name="Inferred Member Updates Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 3.Outputs[Inferred Member Updates Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output9]"
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output7]"
+              endId="Package\Data Flow Dim\OLE DB Command 3.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 1.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output5]"
+              endId="Package\Data Flow Dim\OLE DB Command 15.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 6.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output8]"
+              endId="Package\Data Flow Dim\OLE DB Command 1.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output3]"
+              endId="Package\Data Flow Dim\OLE DB Command 17.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 7.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output2]"
+              endId="Package\Data Flow Dim\OLE DB Command 6.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 2.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output1]"
+              endId="Package\Data Flow Dim\OLE DB Command 11.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 4.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output]"
+              endId="Package\Data Flow Dim\OLE DB Command 13.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 5.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Inferred Member Updates Output4]"
+              endId="Package\Data Flow Dim\OLE DB Command 19.Inputs[OLE DB Command Input]"
+              name="Inferred Member Updates Output"
+              startId="Package\Data Flow Dim\Slowly Changing Dimension 8.Outputs[Inferred Member Updates Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[New Output]"
               endId="Package\Data Flow Dim\Insert Destination.Inputs[OLE DB Destination Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 4.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output8]"
+              refId="Package\Data Flow Dim.Paths[New Output1]"
               endId="Package\Data Flow Dim\Union All.Inputs[Union All Input 1]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output7]"
+              refId="Package\Data Flow Dim.Paths[New Output2]"
               endId="Package\Data Flow Dim\Union All 2.Inputs[Union All Input 1]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 3.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output6]"
+              refId="Package\Data Flow Dim.Paths[New Output3]"
               endId="Package\Data Flow Dim\Insert Destination 1.Inputs[OLE DB Destination Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 5.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output3]"
+              refId="Package\Data Flow Dim.Paths[New Output4]"
               endId="Package\Data Flow Dim\Union All 1.Inputs[Union All Input 1]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 2.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output4]"
+              refId="Package\Data Flow Dim.Paths[New Output5]"
               endId="Package\Data Flow Dim\Derived Column 2.Inputs[Derived Column Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 1.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output1]"
+              refId="Package\Data Flow Dim.Paths[New Output6]"
               endId="Package\Data Flow Dim\Insert Destination 3.Inputs[OLE DB Destination Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 7.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output5]"
+              refId="Package\Data Flow Dim.Paths[New Output7]"
               endId="Package\Data Flow Dim\Insert Destination 4.Inputs[OLE DB Destination Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 8.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output]"
+              refId="Package\Data Flow Dim.Paths[New Output8]"
               endId="Package\Data Flow Dim\Insert Destination 5.Inputs[OLE DB Destination Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 9.Outputs[New Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[New Output2]"
+              refId="Package\Data Flow Dim.Paths[New Output9]"
               endId="Package\Data Flow Dim\Derived Column 7.Inputs[Derived Column Input]"
               name="New Output"
               startId="Package\Data Flow Dim\Slowly Changing Dimension 6.Outputs[New Output]" />
             <path
               refId="Package\Data Flow Dim.Paths[OLE DB Command Output2]"
+              endId="Package\Data Flow Dim\Union All.Inputs[Union All Input 2]"
+              name="OLE DB Command Output"
+              startId="Package\Data Flow Dim\OLE DB Command.Outputs[OLE DB Command Output]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[OLE DB Command Output]"
               endId="Package\Data Flow Dim\Union All 2.Inputs[Union All Input 2]"
               name="OLE DB Command Output"
               startId="Package\Data Flow Dim\OLE DB Command 8.Outputs[OLE DB Command Output]" />
@@ -10348,57 +10353,52 @@ FROM   dbo.Visitantes</property>
               name="OLE DB Command Output"
               startId="Package\Data Flow Dim\OLE DB Command 5.Outputs[OLE DB Command Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Command Output]"
-              endId="Package\Data Flow Dim\Union All.Inputs[Union All Input 2]"
-              name="OLE DB Command Output"
-              startId="Package\Data Flow Dim\OLE DB Command.Outputs[OLE DB Command Output]" />
-            <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output9]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 4.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Alimentos.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output8]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output1]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 7.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente MetodoPago.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output6]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output2]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 2.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Habitacion.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output7]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output3]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 3.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Animal.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output3]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output4]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 6.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Entrada.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output2]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output5]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Empleado.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output1]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output6]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 9.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente EstadoTarea.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output7]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 8.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente TipoTarea.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output4]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output8]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 5.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Dieta.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[OLE DB Source Output5]"
+              refId="Package\Data Flow Dim.Paths[OLE DB Source Output9]"
               endId="Package\Data Flow Dim\Slowly Changing Dimension 1.Inputs[Slowly Changing Dimension Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Dim\Fuente Visitante.Outputs[OLE DB Source Output]" />
@@ -10408,15 +10408,15 @@ FROM   dbo.Visitantes</property>
               name="Sort Output"
               startId="Package\Data Flow Dim\Sort.Outputs[Sort Output]" />
             <path
-              refId="Package\Data Flow Dim.Paths[Union All Output 1]"
-              endId="Package\Data Flow Dim\Derived Column 4.Inputs[Derived Column Input]"
-              name="Union All Output 1"
-              startId="Package\Data Flow Dim\Union All 1.Outputs[Union All Output 1]" />
-            <path
               refId="Package\Data Flow Dim.Paths[Union All Output 11]"
               endId="Package\Data Flow Dim\Derived Column 1.Inputs[Derived Column Input]"
               name="Union All Output 1"
               startId="Package\Data Flow Dim\Union All.Outputs[Union All Output 1]" />
+            <path
+              refId="Package\Data Flow Dim.Paths[Union All Output 1]"
+              endId="Package\Data Flow Dim\Derived Column 4.Inputs[Derived Column Input]"
+              name="Union All Output 1"
+              startId="Package\Data Flow Dim\Union All 1.Outputs[Union All Output 1]" />
             <path
               refId="Package\Data Flow Dim.Paths[Union All Output 12]"
               endId="Package\Data Flow Dim\Derived Column 6.Inputs[Derived Column Input]"
@@ -13139,6 +13139,163 @@ where [refTable].[IdDietaAlimentos] = ?</property>
               </outputs>
             </component>
             <component
+              refId="Package\Data Flow Fact\Lookup 6"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup 6"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Fact_HistorialMovimientos]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Fact_HistorialMovimientos]) [refTable]
+where [refTable].[IdHistorialMovimientos] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="IdHistorialMovimientos" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IdAnimal" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IdHabitacionAnterior" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IdHabitacionActual" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="FechaMovimiento" dataType="DT_DBTIMESTAMP" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Motivo" dataType="DT_STR" length="255" precision="0" scale="0" codePage="1252"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHistorialMovimientos]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Fact\Lookup 6.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[marco.ZooMa_Data_Warehouse]"
+                  connectionManagerRefId="Package.ConnectionManagers[marco.ZooMa_Data_Warehouse]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Fact\Lookup 6.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Fact\Lookup 6.Inputs[Lookup Input].Columns[IdHistorialMovimientos]"
+                      cachedDataType="i4"
+                      cachedName="IdHistorialMovimientos"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHistorialMovimientos]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">IdHistorialMovimientos</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Data Flow Fact\Lookup 6.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Match Output].Columns[IdHistorialMovimientos]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Match Output].Columns[IdHistorialMovimientos]"
+                      name="IdHistorialMovimientos"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">IdHistorialMovimientos</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Data Flow Fact\Lookup 6.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Data Flow Fact\Lookup 6.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Data Flow Fact\OLE DB Command"
               componentClassID="Microsoft.OLEDBCommand"
               contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
@@ -13757,6 +13914,393 @@ WHERE IdDietaAlimento = ?</property>
                       refId="Package\Data Flow Fact\OLE DB Destination 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Data Flow Fact\OLE DB Destination 2.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Fact\OLE DB Destination 3"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination 3"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Fact_HistorialMovimientos]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Fact\OLE DB Destination 3.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[marco.ZooMa_Data_Warehouse]"
+                  connectionManagerRefId="Package.ConnectionManagers[marco.ZooMa_Data_Warehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].Columns[IdHabitacionAnterior]"
+                      cachedDataType="i4"
+                      cachedName="IdHabitacionAnterior"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdHabitacionAnterior]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHabitacionAnterior]" />
+                    <inputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].Columns[IdHabitacionActual]"
+                      cachedDataType="i4"
+                      cachedName="IdHabitacionActual"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdHabitacionActual]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHabitacionActual]" />
+                    <inputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].Columns[Motivo]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Motivo"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[Motivo]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Motivo]" />
+                    <inputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].Columns[IdHistorialMovimientos]"
+                      cachedDataType="i4"
+                      cachedName="IdHistorialMovimientos"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdHistorialMovimientos]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHistorialMovimientos]" />
+                    <inputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].Columns[FechaMovimiento]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="FechaMovimiento"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[FechaMovimiento]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[FechaMovimiento]" />
+                    <inputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].Columns[IdAnimales]"
+                      cachedDataType="i4"
+                      cachedName="IdAnimales"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdAnimal]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdAnimales]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdHistorialMovimientos]"
+                      dataType="i4"
+                      name="IdHistorialMovimientos" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdAnimal]"
+                      dataType="i4"
+                      name="IdAnimal" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdHabitacionAnterior]"
+                      dataType="i4"
+                      name="IdHabitacionAnterior" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[IdHabitacionActual]"
+                      dataType="i4"
+                      name="IdHabitacionActual" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[FechaMovimiento]"
+                      dataType="dbTimeStamp"
+                      name="FechaMovimiento" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input].ExternalColumns[Motivo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Motivo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Fact\OLE DB Destination 3.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Destination 3.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Destination 3.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Destination 3.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Fact\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[HistorialMovimientos]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Fact\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[marco.ZooMA]"
+                  connectionManagerRefId="Package.ConnectionManagers[marco.ZooMA]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHistorialMovimientos]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdHistorialMovimientos]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHistorialMovimientos]"
+                      name="IdHistorialMovimientos"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[FechaMovimiento]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FechaMovimiento]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[FechaMovimiento]"
+                      name="FechaMovimiento"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHabitacionAnterior]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdHabitacionAnterior]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHabitacionAnterior]"
+                      name="IdHabitacionAnterior"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHabitacionActual]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdHabitacionActual]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdHabitacionActual]"
+                      name="IdHabitacionActual"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Motivo]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Motivo]"
+                      length="255"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Motivo]"
+                      name="Motivo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdAnimales]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdAnimales]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[IdAnimales]"
+                      name="IdAnimales"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[realizadoPor]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[realizadoPor]"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].Columns[realizadoPor]"
+                      name="realizadoPor"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdHistorialMovimientos]"
+                      dataType="i4"
+                      name="IdHistorialMovimientos" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FechaMovimiento]"
+                      dataType="dbTimeStamp"
+                      name="FechaMovimiento" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdHabitacionAnterior]"
+                      dataType="i4"
+                      name="IdHabitacionAnterior" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdHabitacionActual]"
+                      dataType="i4"
+                      name="IdHabitacionActual" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Motivo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Motivo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IdAnimales]"
+                      dataType="i4"
+                      name="IdAnimales" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[realizadoPor]"
+                      dataType="i4"
+                      name="realizadoPor" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdHistorialMovimientos]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdHistorialMovimientos]"
+                      name="IdHistorialMovimientos" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FechaMovimiento]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FechaMovimiento]"
+                      name="FechaMovimiento" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdHabitacionAnterior]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdHabitacionAnterior]"
+                      name="IdHabitacionAnterior" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdHabitacionActual]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdHabitacionActual]"
+                      name="IdHabitacionActual" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Motivo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Motivo]"
+                      name="Motivo" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdAnimales]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IdAnimales]"
+                      name="IdAnimales" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[realizadoPor]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[realizadoPor]"
+                      name="realizadoPor" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -14835,30 +15379,35 @@ WHERE IdDietaAlimento = ?</property>
               name="Lookup No Match Output"
               startId="Package\Data Flow Fact\Lookup.Outputs[Lookup No Match Output]" />
             <path
-              refId="Package\Data Flow Fact.Paths[Lookup No Match Output1]"
-              endId="Package\Data Flow Fact\Sort 1.Inputs[Sort Input]"
+              refId="Package\Data Flow Fact.Paths[Lookup No Match Output5]"
+              endId="Package\Data Flow Fact\OLE DB Command.Inputs[OLE DB Command Input]"
               name="Lookup No Match Output"
-              startId="Package\Data Flow Fact\Lookup 1.Outputs[Lookup No Match Output]" />
-            <path
-              refId="Package\Data Flow Fact.Paths[Lookup No Match Output2]"
-              endId="Package\Data Flow Fact\Sort 2.Inputs[Sort Input]"
-              name="Lookup No Match Output"
-              startId="Package\Data Flow Fact\Lookup 2.Outputs[Lookup No Match Output]" />
-            <path
-              refId="Package\Data Flow Fact.Paths[Lookup No Match Output3]"
-              endId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input]"
-              name="Lookup No Match Output"
-              startId="Package\Data Flow Fact\Lookup 3.Outputs[Lookup No Match Output]" />
+              startId="Package\Data Flow Fact\Lookup 5.Outputs[Lookup No Match Output]" />
             <path
               refId="Package\Data Flow Fact.Paths[Lookup No Match Output4]"
               endId="Package\Data Flow Fact\OLE DB Destination 2.Inputs[OLE DB Destination Input]"
               name="Lookup No Match Output"
               startId="Package\Data Flow Fact\Lookup 4.Outputs[Lookup No Match Output]" />
             <path
-              refId="Package\Data Flow Fact.Paths[Lookup No Match Output5]"
-              endId="Package\Data Flow Fact\OLE DB Command.Inputs[OLE DB Command Input]"
+              refId="Package\Data Flow Fact.Paths[Lookup No Match Output6]"
+              endId="Package\Data Flow Fact\OLE DB Destination 3.Inputs[OLE DB Destination Input]"
               name="Lookup No Match Output"
-              startId="Package\Data Flow Fact\Lookup 5.Outputs[Lookup No Match Output]" />
+              startId="Package\Data Flow Fact\Lookup 6.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Data Flow Fact.Paths[Lookup No Match Output2]"
+              endId="Package\Data Flow Fact\Sort 2.Inputs[Sort Input]"
+              name="Lookup No Match Output"
+              startId="Package\Data Flow Fact\Lookup 2.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Data Flow Fact.Paths[Lookup No Match Output1]"
+              endId="Package\Data Flow Fact\Sort 1.Inputs[Sort Input]"
+              name="Lookup No Match Output"
+              startId="Package\Data Flow Fact\Lookup 1.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\Data Flow Fact.Paths[Lookup No Match Output3]"
+              endId="Package\Data Flow Fact\Sort 3.Inputs[Sort Input]"
+              name="Lookup No Match Output"
+              startId="Package\Data Flow Fact\Lookup 3.Outputs[Lookup No Match Output]" />
             <path
               refId="Package\Data Flow Fact.Paths[OLE DB Source Output]"
               endId="Package\Data Flow Fact\Lookup.Inputs[Lookup Input]"
@@ -14870,10 +15419,10 @@ WHERE IdDietaAlimento = ?</property>
               name="OLE DB Source Output"
               startId="Package\Data Flow Fact\Fuente Ventas.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Data Flow Fact.Paths[OLE DB Source Output2]"
-              endId="Package\Data Flow Fact\Lookup 2.Inputs[Lookup Input]"
+              refId="Package\Data Flow Fact.Paths[OLE DB Source Output6]"
+              endId="Package\Data Flow Fact\Lookup 6.Inputs[Lookup Input]"
               name="OLE DB Source Output"
-              startId="Package\Data Flow Fact\Fuente Detalle Venta.Outputs[OLE DB Source Output]" />
+              startId="Package\Data Flow Fact\OLE DB Source.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\Data Flow Fact.Paths[OLE DB Source Output3]"
               endId="Package\Data Flow Fact\Lookup 3.Inputs[Lookup Input]"
@@ -14889,6 +15438,11 @@ WHERE IdDietaAlimento = ?</property>
               endId="Package\Data Flow Fact\Lookup 5.Inputs[Lookup Input]"
               name="OLE DB Source Output"
               startId="Package\Data Flow Fact\Fuente Fact_DietaAlimento (Actualizar).Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Data Flow Fact.Paths[OLE DB Source Output2]"
+              endId="Package\Data Flow Fact\Lookup 2.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Fact\Fuente Detalle Venta.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\Data Flow Fact.Paths[Sort Output]"
               endId="Package\Data Flow Fact\Fact_Tarea.Inputs[OLE DB Destination Input]"
@@ -15327,7 +15881,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output6]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output]"
           TopLeft="3764.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15349,7 +15903,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output5]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output2]"
           TopLeft="457.833333333333,561.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15371,7 +15925,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output4]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output1]"
           TopLeft="2438.83333333333,356.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15393,7 +15947,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output3]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output6]"
           TopLeft="3384.83333333333,356.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15427,7 +15981,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output2]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output3]"
           TopLeft="82.833333333333,253.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15461,7 +16015,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output1]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output4]"
           TopLeft="5438.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15483,7 +16037,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Derived Column Output]"
+          Id="Package\Data Flow Dim.Paths[Derived Column Output5]"
           TopLeft="2823.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15505,7 +16059,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output8]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output1]"
           TopLeft="2802.76666666667,253.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15541,7 +16095,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output7]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output2]"
           TopLeft="885.166666666666,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15577,7 +16131,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output6]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output3]"
           TopLeft="3743.76666666667,253.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15613,7 +16167,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output5]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output4]"
           TopLeft="4892.16666666667,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15649,7 +16203,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output4]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output9]"
           TopLeft="5386.16666666667,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15685,7 +16239,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output3]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output6]"
           TopLeft="3241.16666666667,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15721,7 +16275,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output2]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output7]"
           TopLeft="1593.16666666667,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15757,7 +16311,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output1]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output8]"
           TopLeft="2301.16666666667,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15917,7 +16471,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output9]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output]"
           TopLeft="4222.83333333333,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15939,7 +16493,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output8]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output1]"
           TopLeft="3293.83333333333,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15961,7 +16515,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output7]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output3]"
           TopLeft="2823.83333333333,150.833333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -15983,7 +16537,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output6]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output2]"
           TopLeft="3764.83333333333,150.833333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16005,7 +16559,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output5]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output9]"
           TopLeft="1645.83333333333,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16027,7 +16581,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output4]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output8]"
           TopLeft="937.833333333333,561.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16049,7 +16603,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output3]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output4]"
           TopLeft="5438.83333333333,458.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16071,7 +16625,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output2]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output5]"
           TopLeft="457.833333333333,48.1666666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16093,7 +16647,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output1]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output6]"
           TopLeft="4944.83333333333,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16115,7 +16669,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Source Output]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Source Output7]"
           TopLeft="2353.83333333333,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16137,7 +16691,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Command Output2]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Command Output]"
           TopLeft="2438.83333333333,458.833333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16205,7 +16759,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[OLE DB Command Output]"
+          Id="Package\Data Flow Dim.Paths[OLE DB Command Output2]"
           TopLeft="313.833333333333,356.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16239,7 +16793,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output8]"
+          Id="Package\Data Flow Dim.Paths[New Output1]"
           TopLeft="477.344444444444,150.833333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16263,7 +16817,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output7]"
+          Id="Package\Data Flow Dim.Paths[New Output2]"
           TopLeft="2844.58888888889,253.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16287,7 +16841,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output6]"
+          Id="Package\Data Flow Dim.Paths[New Output3]"
           TopLeft="937.833333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16311,7 +16865,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output5]"
+          Id="Package\Data Flow Dim.Paths[New Output7]"
           TopLeft="2353.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16335,7 +16889,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output4]"
+          Id="Package\Data Flow Dim.Paths[New Output5]"
           TopLeft="1645.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16359,7 +16913,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output3]"
+          Id="Package\Data Flow Dim.Paths[New Output4]"
           TopLeft="3785.58888888889,253.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16383,7 +16937,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output2]"
+          Id="Package\Data Flow Dim.Paths[New Output9]"
           TopLeft="5438.83333333333,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16407,7 +16961,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output1]"
+          Id="Package\Data Flow Dim.Paths[New Output6]"
           TopLeft="3293.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16431,7 +16985,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output]"
+          Id="Package\Data Flow Dim.Paths[New Output8]"
           TopLeft="4944.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16455,7 +17009,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output8]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output2]"
           TopLeft="3828.03333333333,253.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16491,7 +17045,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output7]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output]"
           TopLeft="990.5,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16527,7 +17081,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output6]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output3]"
           TopLeft="3346.5,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16563,7 +17117,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output5]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output9]"
           TopLeft="2887.03333333333,253.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16599,7 +17153,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output4]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output5]"
           TopLeft="5491.5,561.499999999999">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16635,7 +17189,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output3]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output6]"
           TopLeft="4997.5,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16671,7 +17225,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output2]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output7]"
           TopLeft="1698.5,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16707,7 +17261,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output1]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output8]"
           TopLeft="518.233333333333,150.833333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16743,7 +17297,7 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output4]"
           TopLeft="2406.5,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16783,7 +17337,7 @@ WHERE IdDietaAlimento = ?</property>
           Id="Package\Data Flow Dim\Insert Destination"
           TopLeft="3907.83333333333,724.166666666666" />
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[New Output9]"
+          Id="Package\Data Flow Dim.Paths[New Output]"
           TopLeft="4170.16666666667,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16823,7 +17377,7 @@ WHERE IdDietaAlimento = ?</property>
           Id="Package\Data Flow Dim\OLE DB Command 11"
           TopLeft="4132.16666666667,724.166666666666" />
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output9]"
+          Id="Package\Data Flow Dim.Paths[Inferred Member Updates Output1]"
           TopLeft="4222.83333333333,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16851,7 +17405,7 @@ WHERE IdDietaAlimento = ?</property>
           Id="Package\Data Flow Dim\OLE DB Command 12"
           TopLeft="4374.16666666667,724.166666666666" />
         <EdgeLayout
-          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output9]"
+          Id="Package\Data Flow Dim.Paths[Changing Attribute Updates Output5]"
           TopLeft="4275.5,664.166666666666">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -16903,6 +17457,14 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente Empleado">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
     design-time-name="Package\Data Flow Dim\Fuente Habitacion">
     <Properties>
       <Property>
@@ -16911,10 +17473,168 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente Empleado">
+    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension">
     <Properties>
       <Property>
-        <Name>DataSourceViewID</Name>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_Empleado]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[Correo]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Correo&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[IdEmpleado]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;IdEmpleado&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[Puesto]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Puesto&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[Salario]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Salario&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Derived Column&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 2&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn&gt;Actual&lt;/CurrentIndicatorColumn&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent&gt;1&lt;/ValueCurrent&gt;
+  &lt;ValueExpired&gt;0&lt;/ValueExpired&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 9">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_EstadoTarea]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente EstadoTarea.Outputs[OLE DB Source Output].Columns[IdEstadoTarea]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;IdEstadoTarea&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente EstadoTarea.Outputs[OLE DB Source Output].Columns[Nombre]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Nombre&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 5&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 21&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 22&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 6">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_Entrada]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[descuento]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;descuento&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[fechaVencimiento]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;fechaVencimiento&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[IdEntrada]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;IdEntrada&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[NombreEnt]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;NombreEnt&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[Precio]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Precio&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 2&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 15&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 16&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -16997,6 +17717,87 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente Visitante">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente Dieta">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente EstadoTarea">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 7">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_MetodoPago]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente MetodoPago.Outputs[OLE DB Source Output].Columns[IdMetodoPago]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;IdMetodoPago&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente MetodoPago.Outputs[OLE DB Source Output].Columns[Metodopago]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Nombre&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 3&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 17&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 18&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Insert Destination 2">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
     design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 4">
     <Properties>
       <Property>
@@ -17047,181 +17848,6 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 6">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[Dim_Entrada]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[descuento]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;descuento&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[fechaVencimiento]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;fechaVencimiento&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[IdEntrada]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;IdEntrada&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[NombreEnt]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;NombreEnt&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Entrada.Outputs[OLE DB Source Output].Columns[Precio]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Precio&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 2&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 15&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 16&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente Visitante">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[Dim_Empleado]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[Correo]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Correo&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[IdEmpleado]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;IdEmpleado&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[Puesto]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Puesto&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente Empleado.Outputs[OLE DB Source Output].Columns[Salario]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Salario&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;HistoricalAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Derived Column&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Union All&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Derived Column 1&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 1&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 2&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn&gt;Actual&lt;/CurrentIndicatorColumn&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent&gt;1&lt;/ValueCurrent&gt;
-  &lt;ValueExpired&gt;0&lt;/ValueExpired&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente Dieta">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente EstadoTarea">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Insert Destination 2">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente TipoTarea">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente Alimentos">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 5">
     <Properties>
       <Property>
@@ -17262,6 +17888,90 @@ WHERE IdDietaAlimento = ?</property>
   &lt;DateVariable /&gt;
   &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
 &lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente TipoTarea">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente Alimentos">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente Entrada">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 8">
+    <Properties>
+      <Property>
+        <Name>SCDMetadata</Name>
+        <Value
+          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
+  &lt;TableName&gt;[dbo].[Dim_TipoTarea]&lt;/TableName&gt;
+  &lt;InputToColumnsCollection&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente TipoTarea.Outputs[OLE DB Source Output].Columns[IdTipoTarea]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;IdTipoTarea&lt;/ColumnName&gt;
+      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
+      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+    &lt;InputColumnToDBColumn&gt;
+      &lt;IdentificationString&gt;Fuente TipoTarea.Outputs[OLE DB Source Output].Columns[NombreTT]&lt;/IdentificationString&gt;
+      &lt;ColumnName&gt;Nombre&lt;/ColumnName&gt;
+      &lt;KeyType&gt;None&lt;/KeyType&gt;
+      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
+    &lt;/InputColumnToDBColumn&gt;
+  &lt;/InputToColumnsCollection&gt;
+  &lt;GeneratedComponentsIdentificationStrings&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 4&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 19&lt;/anyType&gt;
+    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 20&lt;/anyType&gt;
+  &lt;/GeneratedComponentsIdentificationStrings&gt;
+  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
+  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
+  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
+  &lt;CurrentIndicatorColumn /&gt;
+  &lt;InferredIndicatorColumn /&gt;
+  &lt;ValueCurrent /&gt;
+  &lt;ValueExpired /&gt;
+  &lt;StartDateColumn /&gt;
+  &lt;EndDateColumn /&gt;
+  &lt;DateVariable /&gt;
+  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
+&lt;/SCDWizardMetadata&gt;</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente Animal">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Dim\Fuente MetodoPago">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -17338,158 +18048,15 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 8">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[Dim_TipoTarea]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente TipoTarea.Outputs[OLE DB Source Output].Columns[IdTipoTarea]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;IdTipoTarea&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente TipoTarea.Outputs[OLE DB Source Output].Columns[NombreTT]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Nombre&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 4&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 19&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 20&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 7">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
-        <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[Dim_MetodoPago]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente MetodoPago.Outputs[OLE DB Source Output].Columns[IdMetodoPago]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;IdMetodoPago&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente MetodoPago.Outputs[OLE DB Source Output].Columns[Metodopago]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Nombre&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 3&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 17&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 18&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente Entrada">
+    design-time-name="Package\Data Flow Dim\Insert Dim_Empleado">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente Animal">
-    <Properties>
       <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Fuente MetodoPago">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Slowly Changing Dimension 9">
-    <Properties>
-      <Property>
-        <Name>SCDMetadata</Name>
+        <Name>TableInfoObjectType</Name>
         <Value
-          type="q2:string">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SCDWizardMetadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
-  &lt;ConnectionID&gt;{9EA13759-49B2-494A-BCB2-7D1D91F71EE5}&lt;/ConnectionID&gt;
-  &lt;TableName&gt;[dbo].[Dim_EstadoTarea]&lt;/TableName&gt;
-  &lt;InputToColumnsCollection&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente EstadoTarea.Outputs[OLE DB Source Output].Columns[IdEstadoTarea]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;IdEstadoTarea&lt;/ColumnName&gt;
-      &lt;KeyType&gt;BusinessKey&lt;/KeyType&gt;
-      &lt;ChangeType&gt;None&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-    &lt;InputColumnToDBColumn&gt;
-      &lt;IdentificationString&gt;Fuente EstadoTarea.Outputs[OLE DB Source Output].Columns[Nombre]&lt;/IdentificationString&gt;
-      &lt;ColumnName&gt;Nombre&lt;/ColumnName&gt;
-      &lt;KeyType&gt;None&lt;/KeyType&gt;
-      &lt;ChangeType&gt;ChangingAttribute&lt;/ChangeType&gt;
-    &lt;/InputColumnToDBColumn&gt;
-  &lt;/InputToColumnsCollection&gt;
-  &lt;GeneratedComponentsIdentificationStrings&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;Insert Destination 5&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 21&lt;/anyType&gt;
-    &lt;anyType xsi:type="xsd:string"&gt;OLE DB Command 22&lt;/anyType&gt;
-  &lt;/GeneratedComponentsIdentificationStrings&gt;
-  &lt;FailFixedAttribute&gt;false&lt;/FailFixedAttribute&gt;
-  &lt;FailChangeAttribute&gt;false&lt;/FailChangeAttribute&gt;
-  &lt;UseStartEndDate&gt;false&lt;/UseStartEndDate&gt;
-  &lt;CurrentIndicatorColumn /&gt;
-  &lt;InferredIndicatorColumn /&gt;
-  &lt;ValueCurrent /&gt;
-  &lt;ValueExpired /&gt;
-  &lt;StartDateColumn /&gt;
-  &lt;EndDateColumn /&gt;
-  &lt;DateVariable /&gt;
-  &lt;EnableInferredSupport&gt;true&lt;/EnableInferredSupport&gt;
-&lt;/SCDWizardMetadata&gt;</Value>
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -17543,19 +18110,6 @@ WHERE IdDietaAlimento = ?</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Dim\Insert Dim_Empleado">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Data Flow Fact">
     <LayoutInfo>
@@ -17566,6 +18120,38 @@ WHERE IdDietaAlimento = ?</property>
           Id="Package\Data Flow Fact\Sort"
           TopLeft="210.99999371171,345.999989688397" />
         <NodeLayout
+          Size="257.333333333334,42.6666666666667"
+          Id="Package\Data Flow Fact\Fuente DietaAlimento(Cargar nuevos)"
+          TopLeft="1528.83328882853,67.1666657229265" />
+        <NodeLayout
+          Size="178.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Fuente Detalle Venta"
+          TopLeft="837.374964153395,78.3999979543687" />
+        <NodeLayout
+          Size="196.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Fuente Calificacion Visita"
+          TopLeft="1151.1249568332,65.2500057339666" />
+        <NodeLayout
+          Size="108,42.6666666666667"
+          Id="Package\Data Flow Fact\Sort 3"
+          TopLeft="1186.24994697049,344.499983572961" />
+        <NodeLayout
+          Size="108,42.6666666666667"
+          Id="Package\Data Flow Fact\Sort 2"
+          TopLeft="859.999961555005,381.549981806279" />
+        <NodeLayout
+          Size="122.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Lookup 4"
+          TopLeft="1589.99995261431,174.999994784594" />
+        <NodeLayout
+          Size="122.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Lookup 1"
+          TopLeft="485.624978290872,201.499990391732" />
+        <NodeLayout
+          Size="262.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Fuente Fact_DietaAlimento (Actualizar)"
+          TopLeft="1897.4999434501,58.3333315948648" />
+        <NodeLayout
           Size="113.333333333334,42.6666666666667"
           Id="Package\Data Flow Fact\Lookup"
           TopLeft="200.999994009733,223.99999332428" />
@@ -17574,9 +18160,13 @@ WHERE IdDietaAlimento = ?</property>
           Id="Package\Data Flow Fact\Fuente HistorialEstadoTarea"
           TopLeft="151.499995648861,72.4999980032445" />
         <NodeLayout
-          Size="178.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Fuente Detalle Venta"
-          TopLeft="837.374964153395,78.3999979543687" />
+          Size="172,42.6666666666667"
+          Id="Package\Data Flow Fact\OLE DB Destination"
+          TopLeft="820.499966248871,501.649979202748" />
+        <NodeLayout
+          Size="122.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Lookup 5"
+          TopLeft="1964.99994143844,192.499994263053" />
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
           Id="Package\Data Flow Fact\Lookup 2"
@@ -17586,38 +18176,6 @@ WHERE IdDietaAlimento = ?</property>
           Id="Package\Data Flow Fact\Fuente Ventas"
           TopLeft="469.87497924082,73.0999967765809" />
         <NodeLayout
-          Size="108,42.6666666666667"
-          Id="Package\Data Flow Fact\Sort 3"
-          TopLeft="1186.24994697049,344.499983572961" />
-        <NodeLayout
-          Size="108,42.6666666666667"
-          Id="Package\Data Flow Fact\Sort 1"
-          TopLeft="484.999978318811,334.749984037877" />
-        <NodeLayout
-          Size="122.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Lookup 3"
-          TopLeft="1182.49994713813,179.399991445542" />
-        <NodeLayout
-          Size="172,42.6666666666667"
-          Id="Package\Data Flow Fact\OLE DB Destination"
-          TopLeft="820.499966248871,501.649979202748" />
-        <NodeLayout
-          Size="108,42.6666666666667"
-          Id="Package\Data Flow Fact\Sort 2"
-          TopLeft="859.999961555005,381.549981806279" />
-        <NodeLayout
-          Size="196.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Fuente Calificacion Visita"
-          TopLeft="1151.1249568332,65.2500057339666" />
-        <NodeLayout
-          Size="122.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Lookup 1"
-          TopLeft="485.624978290872,201.499990391732" />
-        <NodeLayout
-          Size="132,42.6666666666667"
-          Id="Package\Data Flow Fact\Fact_Tarea"
-          TopLeft="188.12499521859,489.049986866713" />
-        <NodeLayout
           Size="181.333333333334,42.6666666666667"
           Id="Package\Data Flow Fact\OLE DB Destination 1"
           TopLeft="1155.62494833954,512.199975576402" />
@@ -17625,28 +18183,26 @@ WHERE IdDietaAlimento = ?</property>
           Size="132,42.6666666666667"
           Id="Package\Data Flow Fact\Fact_Venta"
           TopLeft="476.124980302528,468.39997935772" />
-        <EdgeLayout
-          Id="Package\Data Flow Fact.Paths[Sort Output3]"
-          TopLeft="1243.27078098835,387.166650239627">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,125.033325336774"
-              Start="0,0"
-              End="0,117.533325336774">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,117.533325336774" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="181.333333333334,42.6666666666667"
+          Id="Package\Data Flow Fact\OLE DB Destination 2"
+          TopLeft="1564.66662198802,374.666657452782" />
+        <NodeLayout
+          Size="108,42.6666666666667"
+          Id="Package\Data Flow Fact\Sort 1"
+          TopLeft="484.999978318811,334.749984037877" />
+        <NodeLayout
+          Size="132,42.6666666666667"
+          Id="Package\Data Flow Fact\Fact_Tarea"
+          TopLeft="188.12499521859,489.049986866713" />
+        <NodeLayout
+          Size="166.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\OLE DB Command"
+          TopLeft="1939.9999421835,328.333323548238" />
+        <NodeLayout
+          Size="122.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\Lookup 3"
+          TopLeft="1182.49994713813,179.399991445542" />
         <EdgeLayout
           Id="Package\Data Flow Fact.Paths[Sort Output2]"
           TopLeft="910.249963901938,424.216648472946">
@@ -17705,6 +18261,50 @@ WHERE IdDietaAlimento = ?</property>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,92.883330511649" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Fact.Paths[OLE DB Source Output5]"
+          TopLeft="2027.5832757776,100.999998261531">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,91.4999960015217"
+              Start="0,0"
+              End="0,83.9999960015217">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,83.9999960015217" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Fact.Paths[OLE DB Source Output4]"
+          TopLeft="1654.41662072142,109.833332389593">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,65.1666623950006"
+              Start="0,0"
+              End="0,57.6666623950006">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.6666623950006" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -17811,6 +18411,54 @@ WHERE IdDietaAlimento = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Fact.Paths[Lookup No Match Output5]"
+          TopLeft="2024.8332751443,235.16666092972">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,93.1666626185179"
+              Start="0,0"
+              End="0,85.6666626185179">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,85.6666626185179" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,37.028643809259,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Fact.Paths[Lookup No Match Output4]"
+          TopLeft="1653.33328730116,217.66666145126">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,156.999996001522"
+              Start="0,0"
+              End="0,149.499996001522">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,149.499996001522" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,68.9453105007609,111.6127734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -17921,125 +18569,172 @@ WHERE IdDietaAlimento = ?</property>
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Fact.Paths[Sort Output3]"
+          TopLeft="1243.27078098835,387.166650239627">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,125.033325336774"
+              Start="0,0"
+              End="0,117.533325336774">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,117.533325336774" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <NodeLayout
-          Size="257.333333333334,42.6666666666667"
-          Id="Package\Data Flow Fact\Fuente DietaAlimento(Cargar nuevos)"
-          TopLeft="1528.83328882853,67.1666657229265" />
+          Size="150.666666666667,42.6666666666667"
+          Id="Package\Data Flow Fact\OLE DB Source"
+          TopLeft="168.291661386068,667.849968416692" />
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Lookup 4"
-          TopLeft="1589.99995261431,174.999994784594" />
+          Id="Package\Data Flow Fact\Lookup 6"
+          TopLeft="176.666660855214,794.949962093831" />
+        <EdgeLayout
+          Id="Package\Data Flow Fact.Paths[OLE DB Source Output6]"
+          TopLeft="240.812494453974,710.516635083358">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,84.4333270104729"
+              Start="0,0"
+              End="0,76.9333270104729">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,76.9333270104729" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <NodeLayout
           Size="181.333333333334,42.6666666666667"
-          Id="Package\Data Flow Fact\OLE DB Destination 2"
-          TopLeft="1564.66662198802,374.666657452782" />
+          Id="Package\Data Flow Fact\OLE DB Destination 3"
+          TopLeft="146.261749816306,947.833297999701" />
         <EdgeLayout
-          Id="Package\Data Flow Fact.Paths[Lookup No Match Output4]"
-          TopLeft="1653.33328730116,217.66666145126">
+          Id="Package\Data Flow Fact.Paths[Lookup No Match Output6]"
+          TopLeft="237.46420533576,837.616628760498">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,156.999996001522"
+              EndConnector="0,110.216669239203"
               Start="0,0"
-              End="0,149.499996001522">
+              End="0,102.716669239203">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,149.499996001522" />
+                    End="0,102.716669239203" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-55.80638671875,68.9453105007609,111.6127734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Data Flow Fact.Paths[OLE DB Source Output4]"
-          TopLeft="1654.41662072142,109.833332389593">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,65.1666623950006"
-              Start="0,0"
-              End="0,57.6666623950006">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,57.6666623950006" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="262.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Fuente Fact_DietaAlimento (Actualizar)"
-          TopLeft="1897.4999434501,58.3333315948648" />
-        <NodeLayout
-          Size="122.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\Lookup 5"
-          TopLeft="1964.99994143844,192.499994263053" />
-        <EdgeLayout
-          Id="Package\Data Flow Fact.Paths[OLE DB Source Output5]"
-          TopLeft="2027.5832757776,100.999998261531">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,91.4999960015217"
-              Start="0,0"
-              End="0,83.9999960015217">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,83.9999960015217" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="166.666666666667,42.6666666666667"
-          Id="Package\Data Flow Fact\OLE DB Command"
-          TopLeft="1939.9999421835,328.333323548238" />
-        <EdgeLayout
-          Id="Package\Data Flow Fact.Paths[Lookup No Match Output5]"
-          TopLeft="2024.8332751443,235.16666092972">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,93.1666626185179"
-              Start="0,0"
-              End="0,85.6666626185179">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,85.6666626185179" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-55.80638671875,37.028643809259,111.6127734375,11.609375"
+              BoundingBox="-55.80638671875,45.5536471196016,111.6127734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Fuente DietaAlimento(Cargar nuevos)">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Fuente Detalle Venta">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Fuente Calificacion Visita">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Lookup 4">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Fact_DietaAlimentos]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Lookup 1">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Fact_Venta]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Fuente Fact_DietaAlimento (Actualizar)">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Data Flow Fact\Lookup">
     <Properties>
@@ -18072,8 +18767,36 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Fuente Detalle Venta">
+    design-time-name="Package\Data Flow Fact\OLE DB Destination">
     <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Lookup 5">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DietaAlimentos]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>
@@ -18111,86 +18834,6 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Lookup 3">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Fact_CalificacionVisita]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Fuente Calificacion Visita">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Lookup 1">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:string">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Fact_Venta]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:string">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Fact_Tarea">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Data Flow Fact\OLE DB Destination 1">
     <Properties>
       <Property>
@@ -18217,37 +18860,6 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Fuente DietaAlimento(Cargar nuevos)">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Lookup 4">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[Fact_DietaAlimentos]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Data Flow Fact\OLE DB Destination 2">
     <Properties>
       <Property>
@@ -18261,7 +18873,7 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Fuente Fact_DietaAlimento (Actualizar)">
+    design-time-name="Package\Data Flow Fact\Fact_Tarea">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -18274,7 +18886,43 @@ WHERE IdDietaAlimento = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Fact\Lookup 5">
+    design-time-name="Package\Data Flow Fact\Lookup 3">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Fact_CalificacionVisita]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\Lookup 6">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
@@ -18284,7 +18932,7 @@ WHERE IdDietaAlimento = ?</property>
       <Property>
         <Name>UsedTableName</Name>
         <Value
-          type="q3:string">[dbo].[DietaAlimentos]</Value>
+          type="q3:string">[dbo].[Fact_HistorialMovimientos]</Value>
       </Property>
       <Property>
         <Name>TableInfoObjectType</Name>
@@ -18293,6 +18941,19 @@ WHERE IdDietaAlimento = ?</property>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Fact\OLE DB Destination 3">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

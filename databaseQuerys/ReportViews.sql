@@ -452,3 +452,54 @@ GO
 
 
 --select * from Vw_PromedioCantidadAlimentosPorDieta order by PromedioCantidad desc
+
+
+
+
+-----reportes historial movimientos
+DROP VIEW IF EXISTS Vw_HistorialMovimientosPorAnimal;
+GO
+CREATE VIEW Vw_HistorialMovimientosPorAnimal AS
+SELECT 
+    A.Nombre AS NombreAnimal, 
+    CONVERT(VARCHAR(20),H.FechaMovimiento,103)AS 'Fecha', 
+    HA.Nombre AS HabitacionAnterior, 
+    HC.Nombre AS HabitacionActual, 
+    H.Motivo
+FROM 
+    ZooMa_Data_Warehouse.dbo.Fact_HistorialMovimientos H
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Animal A ON H.IdAnimal = A.IdAnimales
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Habitacion HA ON H.IdHabitacionAnterior = HA.IdHabitacion
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Habitacion HC ON H.IdHabitacionActual = HC.IdHabitacion;
+GO
+
+
+
+
+-- select * from Vw_HistorialMovimientosPorAnimal ORDER BY Fecha DESC
+
+
+
+
+
+DROP VIEW IF EXISTS Vw_AnimalesConMasMovimientos;
+GO
+CREATE VIEW Vw_AnimalesConMasMovimientos AS
+SELECT 
+    A.Nombre AS NombreAnimal, 
+    COUNT(*) AS TotalMovimientos
+FROM 
+    ZooMa_Data_Warehouse.dbo.Fact_HistorialMovimientos H
+INNER JOIN 
+    ZooMa_Data_Warehouse.dbo.Dim_Animal A ON H.IdAnimal = A.IdAnimales
+GROUP BY 
+    A.Nombre
+
+GO
+
+
+-- select *  from Vw_AnimalesConMasMovimientos  ORDER BY 
+--     TotalMovimientos DESC;
