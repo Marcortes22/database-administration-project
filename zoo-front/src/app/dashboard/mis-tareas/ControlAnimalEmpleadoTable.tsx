@@ -4,6 +4,7 @@
 import React from 'react';
 import { useControlAnimalTareasEmpleado } from '@/Hooks/useControlAnimalTareaEmpleado';
 import { ControlAnimalTareaEmpleado } from '@/Types/next-auth-types/ControlAnimalTareaEmpleado';
+import { useCambiarEstadoTarea } from '@/Hooks/useCambiarEstado';
 
 interface ControlAnimalEmpleadoTableProps {
   data: ControlAnimalTareaEmpleado[];
@@ -13,6 +14,7 @@ export default function ControlAnimalEmpleadoTable({ data }: ControlAnimalEmplea
 
   
   const { tareas, loading, error } = useControlAnimalTareasEmpleado();
+  const { cambiarEstadoTarea, loading: loadingdata } = useCambiarEstadoTarea();
 
   if (loading) return <p className="text-center">Cargando tareas de mantenimiento habitacion...</p>;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
@@ -28,6 +30,7 @@ export default function ControlAnimalEmpleadoTable({ data }: ControlAnimalEmplea
             <th className="px-6 py-3 text-center">Empleado</th>
             <th className="px-6 py-3 text-center">Estado</th>
             <th className="px-6 py-3 text-center">Habitación</th>
+            <th className="px-6 py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -38,6 +41,17 @@ export default function ControlAnimalEmpleadoTable({ data }: ControlAnimalEmplea
               <td className="px-6 py-4 text-center">{tarea.nombreEmpleado}</td>
               <td className="px-6 py-4 text-center">{tarea.estado}</td>
               <td className="px-6 py-4 text-center">{tarea.nombreHab}</td>
+              <td className="px-6 py-4 text-center">
+            <button
+              onClick={() => cambiarEstadoTarea(tarea.idTareas)}
+              disabled={loadingdata}
+              className={`px-4 py-2 rounded-lg text-white ${
+                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
+              } transition duration-300`}
+            >
+              {loadingdata ? 'Procesando...' : 'Marcar como lista'}
+            </button>
+          </td>
             </tr>
           ))}
         </tbody>
