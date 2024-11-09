@@ -31,11 +31,13 @@ namespace Services.DietaService
 
                 DataTable alimentosTable = new DataTable();
                 alimentosTable.Columns.Add("IdAlimento", typeof(int)); //
+                alimentosTable.Columns.Add("Cantidad", typeof(Decimal)); //
 
 
                 foreach (var alimento in dietaCreateDto.Alimentos)
                 {
-                    alimentosTable.Rows.Add(alimento.IdAlimento);
+                    alimentosTable.Rows.Add(alimento.IdAlimento, alimento.Cantidad);
+             
                 }
 
                 var AlimentosTableType = new SqlParameter("@Alimentos", alimentosTable);
