@@ -8,7 +8,6 @@ import { useEspecies } from '@/Hooks/useEspecie';
 import { useCustomRouter } from '@/Hooks/Router/useRouter';
 import { FaPlus } from 'react-icons/fa';
 import ModalRegistrarDieta from '@/Components/ModalRegistrarDieta';
-import { useAlimentos } from '@/Hooks/useAlimentos';
 
 export default function FormularioCrearAnimal() {
   const { especies } = useEspecies();

@@ -3,45 +3,55 @@ import { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRegistrarDieta } from '@/Hooks/useRegistrarDieta';
 import { useAlimentos } from '@/Hooks/useAlimentos';
+import toast from 'react-hot-toast';
 
 interface ModalRegistrarDietaProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalRegistrarDieta({
-  isOpen,
-  onClose,
-}: ModalRegistrarDietaProps) {
+export default function ModalRegistrarDieta({ isOpen, onClose }: ModalRegistrarDietaProps) {
   const { alimentos, loading: loadingAlimentos } = useAlimentos();
   const { registrarDieta, loading: loadingDieta } = useRegistrarDieta();
 
   const [dieta, setDieta] = useState({
     nombreDiet: '',
-    alimentos: [] as { idAlimento: number }[],
+    alimentos: [] as { idAlimento: number; cantidad: number }[],
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDieta({ ...dieta, [name]: value });
   };
 
   const handleAlimentoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = Number(e.target.value);
-    if (selectedId && !dieta.alimentos.find(a => a.idAlimento === selectedId)) {
+    if (selectedId && !dieta.alimentos.find((a) => a.idAlimento === selectedId)) {
       setDieta((prevState) => ({
         ...prevState,
-        alimentos: [...prevState.alimentos, { idAlimento: selectedId }],
+        alimentos: [...prevState.alimentos, { idAlimento: selectedId, cantidad: 0 }],
       }));
     }
   };
 
+  const handleCantidadChange = (idAlimento: number, cantidad: number) => {
+    const updatedAlimentos = dieta.alimentos.map((alimento) =>
+      alimento.idAlimento === idAlimento ? { ...alimento, cantidad } : alimento
+    );
+    setDieta({ ...dieta, alimentos: updatedAlimentos });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!dieta.nombreDiet || dieta.alimentos.length === 0) {
+      toast.error('Por favor, completa todos los campos.');
+      return;
+    }
+
     await registrarDieta(dieta);
-    onClose(); // Cerrar modal después de la operación
+    toast.success('Dieta registrada correctamente');
+    onClose();
   };
 
   const handleRemoveAlimento = (id: number) => {
@@ -81,18 +91,13 @@ export default function ModalRegistrarDieta({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-lg p-6 bg-white rounded-lg shadow-xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-2xl font-semibold leading-6 text-gray-900"
-                >
+                <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900">
                   Registrar Nueva Dieta
                 </Dialog.Title>
 
                 <form onSubmit={handleSubmit} className="space-y-4 mt-4">
                   <div>
-                    <label className="block text-gray-700 font-medium">
-                      Nombre de la Dieta
-                    </label>
+                    <label className="block text-gray-700 font-medium">Nombre de la Dieta</label>
                     <input
                       type="text"
                       name="nombreDiet"
@@ -104,9 +109,7 @@ export default function ModalRegistrarDieta({
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 font-medium">
-                      Seleccionar Alimentos
-                    </label>
+                    <label className="block text-gray-700 font-medium">Seleccionar Alimentos</label>
                     <select
                       onChange={handleAlimentoChange}
                       className="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -116,10 +119,7 @@ export default function ModalRegistrarDieta({
                         <option>Cargando alimentos...</option>
                       ) : (
                         alimentos.map((alimento) => (
-                          <option
-                            key={alimento.idAlimentos}
-                            value={alimento.idAlimentos}
-                          >
+                          <option key={alimento.idAlimentos} value={alimento.idAlimentos}>
                             {alimento.nombre}
                           </option>
                         ))
@@ -127,15 +127,30 @@ export default function ModalRegistrarDieta({
                     </select>
                   </div>
 
-                  <div className="mt-2">
-                    <h4 className="text-gray-700 font-medium">Alimentos Seleccionados</h4>
-                    <ul className="space-y-1">
+                  <div className="mt-4">
+                    <h4 className="text-gray-700 font-medium mb-2">Alimentos Seleccionados</h4>
+                    <div className="flex justify-between text-gray-600 font-medium mb-2">
+                      <span>Alimento</span>
+                      <span>Cantidad</span>
+                    </div>
+                    <ul className="space-y-2">
                       {dieta.alimentos.map((alimento) => (
                         <li
                           key={alimento.idAlimento}
                           className="flex justify-between items-center bg-gray-100 px-3 py-2 rounded-lg"
                         >
-                          <span>{obtenerAlimento(alimento.idAlimento)}</span>
+                          <span className="flex-1">{obtenerAlimento(alimento.idAlimento)}</span>
+                          <input
+                            type="number"
+                            value={alimento.cantidad}
+                            onChange={(e) =>
+                              handleCantidadChange(alimento.idAlimento, Number(e.target.value))
+                            }
+                            placeholder="Cantidad"
+                            className="w-20 px-2 py-1 border rounded-lg mx-4"
+                            min={0}
+                            required
+                          />
                           <button
                             type="button"
                             onClick={() => handleRemoveAlimento(alimento.idAlimento)}
@@ -148,6 +163,7 @@ export default function ModalRegistrarDieta({
                     </ul>
                   </div>
 
+
                   <div className="flex justify-end space-x-4 mt-6">
                     <button
                       type="button"
@@ -159,11 +175,8 @@ export default function ModalRegistrarDieta({
                     <button
                       type="submit"
                       disabled={loadingDieta}
-                      className={`px-4 py-2 rounded-lg text-white ${
-                        loadingDieta
-                          ? 'bg-gray-400 cursor-not-allowed'
-                          : 'bg-blue-500 hover:bg-blue-600'
-                      } transition duration-300`}
+                      className={`px-4 py-2 rounded-lg text-white ${loadingDieta ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                        } transition duration-300`}
                     >
                       {loadingDieta ? 'Guardando...' : 'Registrar Dieta'}
                     </button>
