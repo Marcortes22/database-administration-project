@@ -248,7 +248,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
         END 
 
         INSERT INTO Tareas(IdEmpleado, IdTipoTarea, IdEstadoTarea)
-        VALUES (@IdEmpleado, 1,1);  
+        VALUES (@IdEmpleado, 2,1);  
 
         SET @IdTarea = SCOPE_IDENTITY();
 
@@ -257,7 +257,7 @@ EXEC sp_set_session_context @key = N'CedulaUsuario', @value = @Cedula;
 
 
         INSERT INTO HistorialEstadoTarea (IdTarea, IdEstadoTarea, IdTipoTarea, IdEmpleado)
-        VALUES (@IdTarea, 1,1,@IdEmpleado)
+        VALUES (@IdTarea, 2,1,@IdEmpleado)
 
 		COMMIT TRANSACTION
         
@@ -282,6 +282,7 @@ CREATE PROCEDURE SP_ACTUALIZAR_ESTADO_TAREA(
     @IdEstadoTarea INT,
 	@IdTarea INT,
 	@Cedula VARCHAR(25)
+    
 )
 AS
 BEGIN

@@ -56,7 +56,7 @@ BEGIN
 END
 GO
 
-USE KOALASA
+USE ZooMa
 GO
 CREATE USER ZooMAADMIN FOR LOGIN ZooMAADMIN
 CREATE USER empleado FOR LOGIN empleado
@@ -70,7 +70,7 @@ CREATE ROLE Administrador
 CREATE ROLE Empleado
 GO
 
-USE KOALASA
+USE ZooMa
 GO
 EXEC sp_addrolemember 'db_owner', 'ZooMAADMIN'
 EXEC sp_addrolemember 'db_owner', 'FaADMIN'
