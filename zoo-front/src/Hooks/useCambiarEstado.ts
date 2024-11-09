@@ -1,5 +1,4 @@
-'use client';
-
+// Hooks/useCambiarEstadoTarea.ts
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
@@ -9,7 +8,9 @@ export const useCambiarEstadoTarea = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
 
-  const cambiarEstadoTarea = async (payload: CambiarEstadoPayload) => {
+  const cambiarEstadoTarea = async (idTarea: number) => {
+    const payload: CambiarEstadoPayload = { idTarea, idEstadoTarea: 3 }; // Estado 3 = Completada
+
     if (!session?.user?.access_token) {
       toast.error('No se encontró el token de autenticación');
       return;
@@ -17,7 +18,6 @@ export const useCambiarEstadoTarea = () => {
 
     try {
       setLoading(true);
-
       const response = await fetch(`http://localhost:5153/api/Tareas/caambiarEstado-`, {
         method: 'PUT',
         headers: {
