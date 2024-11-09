@@ -23,7 +23,17 @@ export function useVentasSinCalificacion() {
             Authorization: `Bearer ${session.user.access_token}`,
           },
         });
-        setVentasSinCalificacion(response.data.data);
+         // Formatear la fecha y hora
+         const formattedData = response.data.data.map((venta: VentaEntradaSinCalificacion) => {
+          const fecha = new Date(venta.fechaventa);
+          return {
+            ...venta,
+            fecha: fecha.toLocaleDateString(), // Fecha formateada
+            hora: fecha.toLocaleTimeString(),   // Hora formateada
+          };
+        });
+
+        setVentasSinCalificacion(formattedData);
       } catch (error) {
         setError('Error al cargar las ventas sin calificación.');
       } finally {

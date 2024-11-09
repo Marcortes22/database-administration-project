@@ -48,7 +48,7 @@ export default function FormularioCalificacionVisita() {
             required
             className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
-            <option value="" disabled>
+            <option value="">
               Seleccione una entrada
             </option>
             {loadingVentas ? (
@@ -58,8 +58,9 @@ export default function FormularioCalificacionVisita() {
             ) : (
               ventasSinCalificacion.map((venta) => (
                 <option key={venta.idVentaEntrada} value={venta.idVentaEntrada}>
-                  {venta.nombre} - {new Date(venta.fechaventa).toLocaleDateString()}
-                </option>
+  {venta.nombre} - {venta.fecha} {venta.hora}
+</option>
+
               ))
             )}
           </select>
