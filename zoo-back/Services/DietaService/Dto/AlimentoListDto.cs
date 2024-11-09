@@ -9,6 +9,9 @@ namespace Services.DietaService.Dto
     public class AlimentoListDto
     {
         public int IdAlimento { get; set; }
-        
-    }
+
+        public float Cantidad  { get; set; }
+
+
+}
 }
